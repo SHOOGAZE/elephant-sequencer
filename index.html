@@ -775,7 +775,7 @@ body.fs.fsmix #s-mix .mastplate{width:164px}
 .mastenc .mtl{font:700 9.5px var(--font-ui);letter-spacing:.14em;color:var(--dim);margin:0 0 8px 4px}
 .mastenc .mkg{grid-template-columns:repeat(4,1fr);gap:12px 6px}
 @media (orientation:landscape) and (max-height:560px){.mastenc{display:none}}
-@media (orientation:portrait){#s-play .pads{--ps:max(52px,min(calc((100vw - 32px - 18px)/4),calc((100svh - 470px)/4)));min-height:0;flex:none;grid-template-columns:repeat(4,var(--ps));grid-auto-rows:var(--ps);gap:6px;justify-content:center;aspect-ratio:auto}#s-play .pad{min-height:0;aspect-ratio:1/1;width:var(--ps);height:var(--ps)}.mastenc{margin-top:8px;padding-top:6px}.mastenc .mkg{gap:6px}}
+@media (orientation:portrait){#s-play .pads{--ps:calc((100% - 18px)/4);min-height:0;flex:none;grid-template-columns:repeat(4,1fr);grid-auto-rows:auto;gap:6px;aspect-ratio:auto;width:100%}#s-play .pad{min-height:0;aspect-ratio:1/1;width:100%;height:auto}.mastenc{margin-top:8px;padding-top:6px}.mastenc .mkg{gap:6px}}
 /* where can this source go: valid knobs glow in the source colour, the rest dim */
 body.modcand .knob[data-dest]:not(.cand){opacity:.3;transition:opacity .15s}
 .knob.cand .ksvg{filter:drop-shadow(0 0 6px var(--cg,#fff))}
