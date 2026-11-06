@@ -873,16 +873,17 @@ body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
   body.fs #s-play .fsenc{flex:1;min-width:210px}
   body.fs #s-play .pad{border-radius:6px}
   /* SEQ: track keys, bar and 2 x 8 squares on the left, encoders on the right */
-  body.fsseq:not(.fspanel) #s-seq .seqtop{--encw:clamp(206px,29vw,252px);--sq:min(calc((100cqw - var(--encw) - 12px - 35px)/8),calc((100cqh - 136px)/2));container-type:size;display:grid;grid-template-columns:auto minmax(0,1fr) auto var(--encw);grid-template-rows:auto auto auto minmax(0,1fr);gap:8px 12px;align-items:center;align-content:start;padding:0;background:none;border:0;box-shadow:none;height:100%;max-height:100%}
-  body.fsseq:not(.fspanel) #s-seq .tkeys{grid-column:1/4;grid-row:1;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:0}
-  body.fsseq:not(.fspanel) #s-seq .tk{min-height:40px}
-  body.fsseq:not(.fspanel) #s-seq .thead{grid-column:1;grid-row:2;height:32px;margin:0}
-  body.fsseq:not(.fspanel) #s-seq .pager{grid-column:2;grid-row:2;height:32px;margin:0;justify-content:center}
-  body.fsseq:not(.fspanel) #s-seq .lenk{grid-column:3;grid-row:2;height:32px;margin:0}
+  body.fsseq:not(.fspanel) #s-seq .seqtop{--encw:clamp(206px,29vw,252px);--sq:min(calc((100cqw - var(--encw) - 12px - 35px)/8),calc((100cqh - 62px)/4));position:relative;container-type:size;display:grid;grid-template-columns:auto minmax(0,1fr) auto var(--encw);grid-template-rows:auto minmax(0,1fr);gap:8px 12px;align-items:center;align-content:start;padding:0;background:none;border:0;box-shadow:none;height:100%;max-height:100%}
+  body.fsseq:not(.fspanel) #s-seq .tkeys{display:none;position:absolute;left:0;top:42px;width:min(420px,calc(100cqw - var(--encw) - 12px));z-index:6;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:0;padding:8px;background:#0d0d0dF2;border:1px solid #2a2a2a;border-radius:6px;box-shadow:0 8px 24px #000a}
+body.fsseq:not(.fspanel) #s-seq .tkeys.open{display:grid}
+  body.fsseq:not(.fspanel) #s-seq .tk{min-height:38px}
+  body.fsseq:not(.fspanel) #s-seq .thead{grid-column:1;grid-row:1;height:32px;margin:0}
+  body.fsseq:not(.fspanel) #s-seq .pager{grid-column:2;grid-row:1;height:32px;margin:0;justify-content:center}
+  body.fsseq:not(.fspanel) #s-seq .lenk{grid-column:3;grid-row:1;height:32px;margin:0}
   body.fsseq:not(.fspanel) #s-seq .seqtop .chip.xs{min-height:30px;padding:0 8px}
-  body.fsseq:not(.fspanel) #s-seq .gview.trigs{grid-column:1/4;grid-row:3/5;margin:0;align-self:start;justify-self:start;grid-template-columns:repeat(8,var(--sq));grid-auto-rows:var(--sq);gap:5px}
+  body.fsseq:not(.fspanel) #s-seq .gview.trigs{grid-column:1/4;grid-row:2;margin:0;align-self:start;justify-self:start;grid-template-columns:repeat(8,var(--sq));grid-auto-rows:var(--sq);gap:5px}
   body.fsseq:not(.fspanel) #s-seq .trigs .gc{aspect-ratio:1/1;min-height:0;width:var(--sq);height:var(--sq);padding:3px}
-  body.fsseq:not(.fspanel) #s-seq .fsenc{grid-column:4;grid-row:1/5;align-self:stretch;height:100%}
+  body.fsseq:not(.fspanel) #s-seq .fsenc{grid-column:4;grid-row:1/3;align-self:stretch;height:100%}
   body.fsseq.fspanel .fsenc{display:none}
   /* the drop-down panel: tabs down the left, content in columns */
   body.fsseq #s-seq .seqpanel{top:4px;left:calc(max(6px,env(safe-area-inset-left,0px)) + 56px);right:max(6px,env(safe-area-inset-right,0px));max-height:calc(100vh - var(--trh) - 16px);display:grid;grid-template-columns:86px minmax(0,1fr);gap:0 14px;align-items:start;padding:10px 12px}
@@ -970,8 +971,8 @@ body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
   body.fs.fsopen[data-fst=play] .top, body.fs.fsopen[data-fst=seq] .top{left:calc(max(6px,env(safe-area-inset-left,0px)) + 58px);top:0;bottom:0;padding:8px 10px 60px;width:min(300px,42vw)}
   body.fs.fsopen[data-fst=play] .nav, body.fs.fsopen[data-fst=seq] .nav{left:calc(max(6px,env(safe-area-inset-left,0px)) + 58px);padding-left:6px;width:min(300px,42vw)}
 }
-@media (orientation:landscape) and (min-width:561px) and (max-aspect-ratio:3/2){
-  body.fsseq:not(.fspanel) #s-seq .seqtop{--sh:min(calc((100cqh - 136px)/2),calc(var(--sq)*2.4))}
+@media (orientation:landscape) and (min-width:561px){
+  body.fsseq:not(.fspanel) #s-seq .seqtop{--sh:min(calc((100cqh - 62px)/4),calc(var(--sq)*1.6))}
   body.fsseq:not(.fspanel) #s-seq .gview.trigs{justify-self:stretch;align-self:stretch;grid-template-columns:repeat(8,minmax(0,1fr));grid-auto-rows:var(--sh)}
   body.fsseq:not(.fspanel) #s-seq .trigs .gc{width:auto;height:auto;aspect-ratio:auto}
 }
@@ -1029,6 +1030,12 @@ body.fsseq:not(.fspanel) #s-seq .lenk{justify-self:end}
   body.fsseq:not(.fspanel) #s-seq .thead .chip.xs, body.fsseq:not(.fspanel) #s-seq .lenk .chip.xs{padding-left:8px;padding-right:8px}
 }
 }
+
+.tkbtn{display:none}
+@media (orientation:landscape) and (min-width:561px){body.fsseq:not(.fspanel) #s-seq .tkbtn{display:inline-flex;align-items:center;justify-content:center}}
+body.fsseq:not(.fspanel) #s-seq .thead small{display:none}
+body.fsseq:not(.fspanel) #s-seq .thead span{max-width:90px}
+body.fsseq:not(.fspanel) #s-seq .pager.solo{display:none}
 
 </style>
 </head><body><div id="app"></div>
@@ -2437,23 +2444,25 @@ function closeStepPop(hd){const lk=!!SFN[hd.fi].lock;if(hd.box)hd.box.remove();h
    Tap a trig to switch it. Tap a lit trig to select it. Hold a trig for the quick editor. VEL draws velocities. */
 function seqGrid(){
   const Pj=P(),pats=curPat(),t=trk(),row=pats[U.tr],ti=U.tr,sty=tcStyle(ti);
-  const npg=Math.max(1,Math.ceil(t.len/16));U.gOff=Math.min(U.gOff||0,npg-1);
-  GR.growRow(row,npg*16);const o=U.gOff*16;
-  const keys=h('div',{class:'tkeys'},Pj.tracks.map((tr,k)=>{
-    const b=h('button',{class:'tk'+(k===ti?' sel':'')+(tr.mute?' mute':'')+(tr.solo?' solo':''),text:String(k+1),'aria-label':'Track '+(k+1)+' '+trackLabel(k)+'. Hold for mute and solo',onclick:()=>{if(b._lp){b._lp=false;return}U.tr=k;U.step=-1;vib(6);R.seq()}});
+  const W=isLand()?32:16;/* sideways: 32 big trigs at once, the dim ones past the length extend it when tapped */
+  const npg=Math.max(1,Math.ceil(t.len/W));U.gOff=Math.min(U.gOff||0,npg-1);
+  const o=U.gOff*W;GR.growRow(row,o+W);
+  const keys=h('div',{class:'tkeys'+(U.tkOpen?' open':'')},Pj.tracks.map((tr,k)=>{
+    const b=h('button',{class:'tk'+(k===ti?' sel':'')+(tr.mute?' mute':'')+(tr.solo?' solo':''),text:String(k+1),'aria-label':'Track '+(k+1)+' '+trackLabel(k)+'. Hold for mute and solo',onclick:()=>{if(b._lp){b._lp=false;return}U.tr=k;U.step=-1;U.tkOpen=false;vib(6);R.seq()}});
     b.addEventListener('pointerdown',e=>{b._lp=false;startLP(e,()=>{b._lp=true;vib(18);openPadMenu(k,b)})});return b}));
   const head=h('div',{class:'thead'},h('b',{text:'T'+(ti+1)}),h('span',{text:trackLabel(ti)}),h('small',{text:'PAT '+PATL[Pj.pat]}),h('span',{class:'kspacer'}),
+    h('button',{class:'chip xs tkbtn'+(U.tkOpen?' on':''),text:'TRACK','aria-label':'Choose a track',onclick:()=>{U.tkOpen=!U.tkOpen;vib(6);R.seq()}}),
     h('button',{class:'chip xs',text:'SOUND',onclick:()=>openSndSheet(ti)}),h('button',{class:'chip xs',text:'PATTERN',onclick:openPatSheet}));
   const quiet=t.mute||(Pj.tracks.some(x=>x.solo)&&!t.solo);
-  const g=h('div',{class:'gview trigs',style:'--c:16'});
-  for(let k=0;k<16;k++){
+  const g=h('div',{class:'gview trigs',style:'--c:'+W});
+  for(let k=0;k<W;k++){
     const i=o+k,st=row[i]||GR.newStep();
     const nl=st.on&&st.note?noteLabel(ti,st.note):'',alt=st.on&&((st.cond|0)>0||(st.micro|0)!==0||(st.len||1)>1||(st.rtg|0)>1);
     const b=h('button',{class:'gc'+(k%4===0?' beat':'')+(st.on?' on':'')+(st.lock?' lk':'')+(alt?' alt':'')+(i===U.step?' sel':'')+(i>=t.len?' out':'')+(quiet?' mt':''),style:sty+';--v:'+(st.vel==null?.8:st.vel).toFixed(2),'data-t':ti,'data-i':i,'aria-label':'Step '+(i+1)+(st.on?', velocity '+Math.round((st.vel==null?.8:st.vel)*127):'')},h('i',{text:String(i+1)}),nl?h('small',{text:nl}):null);
     let hold=null,vd=null;
     const vset=v=>{st.vel=clamp(v,.04,1);st.on=1;b.classList.add('on');b.style.setProperty('--v',st.vel.toFixed(2));oled('VEL '+Math.round(st.vel*127),'T'+(ti+1)+' STEP '+(i+1))};
     b.addEventListener('pointerdown',e=>{
-      e.preventDefault();vib(7);ensureAudio();if(i>=t.len)return;
+      e.preventDefault();vib(7);ensureAudio();if(i>=t.len){if(W>16&&i<64){t.len=Math.min(64,Math.ceil((i+1)/16)*16);const s2=row[i];s2.on=1;U.step=i;playNow(ti,s2.note,s2.vel,s2.len);dirty();histCommit();R.seq()}return}
       if(U.gVel){const rc=b.getBoundingClientRect();U.step=i;vset(1-(e.clientY-rc.top)/rc.height);vd={y:e.clientY,v:st.vel};try{b.setPointerCapture(e.pointerId)}catch(x){}return}
       hold={x:e.clientX,y:e.clientY,moved:false,pop:null};try{b.setPointerCapture(e.pointerId)}catch(x){}
       const hd=hold;hd.timer=setTimeout(()=>{if(hold!==hd||hd.moved)return;U.step=i;U.seqTab='step';if(!st.on)st.on=1;b.classList.add('on');vib(16);hd.pop=openStepPop(st,b,hd)},260);
@@ -2471,7 +2480,7 @@ function seqGrid(){
     b.addEventListener('pointercancel',()=>{vd=null;if(hold){clearTimeout(hold.timer);if(hold.pop)closeStepPop(hold);hold=null}});
     g.append(b);
   }
-  const pages=h('div',{class:'row nw pager'},h('span',{class:'plbl',text:'PAGE'}),...Array.from({length:npg},(_,k)=>h('button',{class:'chip xs grow'+(k===U.gOff?' on':''),text:String(k+1),'aria-label':'Steps '+(k*16+1)+' to '+(k*16+16),onclick:()=>{U.gOff=k;U.gFollow=false;R.seq()}})),
+  const pages=h('div',{class:'row nw pager'+(W>16&&npg<2?' solo':'')},h('span',{class:'plbl',text:'PAGE'}),...Array.from({length:npg},(_,k)=>h('button',{class:'chip xs grow'+(k===U.gOff?' on':''),text:W>16?(k*2+1)+'-'+(k*2+2):String(k+1),'aria-label':'Steps '+(k*W+1)+' to '+(k*W+W),onclick:()=>{U.gOff=k;U.gFollow=false;R.seq()}})),
     npg>1?h('button',{class:'chip xs'+(U.gFollow?' on':''),text:'FOLLOW','aria-label':'Follow the playhead',onclick:()=>{U.gFollow=!U.gFollow;R.seq()}}):null);
   const lenRow=h('div',{class:'row nw lenk',style:'gap:4px'},
     h('span',{class:'note lbl',text:'LENGTH'}),
@@ -2491,8 +2500,7 @@ function seqGrid(){
       (cs.micro|0)!==0?h('span',{text:'MICRO '+(cs.micro>0?'+':'')+cs.micro}):null,
       nlk?h('span',{text:nlk+' P-LOCK'+(nlk>1?'S':'')}):null]
     :[h('b',{text:'T'+(ti+1)+' '+trackLabel(ti)}),h('span',{text:'tap a lit trig to see its settings'})]);
-  return h('div',{class:'plate seqtop'},keys,head,g,pages,lenRow);
-}
+  return h('div',{class:'plate seqtop'},keys,head,g,pages,lenRow);}
 R.seq=function(){
   killStepPops();const root=$('#s-seq');root.replaceChildren();const t=trk(),pat=curPat()[U.tr];
   GR.growRow(pat,Math.ceil(t.len/16)*16);

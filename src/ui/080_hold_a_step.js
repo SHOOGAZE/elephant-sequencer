@@ -48,23 +48,25 @@ function closeStepPop(hd){const lk=!!SFN[hd.fi].lock;if(hd.box)hd.box.remove();h
    Tap a trig to switch it. Tap a lit trig to select it. Hold a trig for the quick editor. VEL draws velocities. */
 function seqGrid(){
   const Pj=P(),pats=curPat(),t=trk(),row=pats[U.tr],ti=U.tr,sty=tcStyle(ti);
-  const npg=Math.max(1,Math.ceil(t.len/16));U.gOff=Math.min(U.gOff||0,npg-1);
-  GR.growRow(row,npg*16);const o=U.gOff*16;
-  const keys=h('div',{class:'tkeys'},Pj.tracks.map((tr,k)=>{
-    const b=h('button',{class:'tk'+(k===ti?' sel':'')+(tr.mute?' mute':'')+(tr.solo?' solo':''),text:String(k+1),'aria-label':'Track '+(k+1)+' '+trackLabel(k)+'. Hold for mute and solo',onclick:()=>{if(b._lp){b._lp=false;return}U.tr=k;U.step=-1;vib(6);R.seq()}});
+  const W=isLand()?32:16;/* sideways: 32 big trigs at once, the dim ones past the length extend it when tapped */
+  const npg=Math.max(1,Math.ceil(t.len/W));U.gOff=Math.min(U.gOff||0,npg-1);
+  const o=U.gOff*W;GR.growRow(row,o+W);
+  const keys=h('div',{class:'tkeys'+(U.tkOpen?' open':'')},Pj.tracks.map((tr,k)=>{
+    const b=h('button',{class:'tk'+(k===ti?' sel':'')+(tr.mute?' mute':'')+(tr.solo?' solo':''),text:String(k+1),'aria-label':'Track '+(k+1)+' '+trackLabel(k)+'. Hold for mute and solo',onclick:()=>{if(b._lp){b._lp=false;return}U.tr=k;U.step=-1;U.tkOpen=false;vib(6);R.seq()}});
     b.addEventListener('pointerdown',e=>{b._lp=false;startLP(e,()=>{b._lp=true;vib(18);openPadMenu(k,b)})});return b}));
   const head=h('div',{class:'thead'},h('b',{text:'T'+(ti+1)}),h('span',{text:trackLabel(ti)}),h('small',{text:'PAT '+PATL[Pj.pat]}),h('span',{class:'kspacer'}),
+    h('button',{class:'chip xs tkbtn'+(U.tkOpen?' on':''),text:'TRACK','aria-label':'Choose a track',onclick:()=>{U.tkOpen=!U.tkOpen;vib(6);R.seq()}}),
     h('button',{class:'chip xs',text:'SOUND',onclick:()=>openSndSheet(ti)}),h('button',{class:'chip xs',text:'PATTERN',onclick:openPatSheet}));
   const quiet=t.mute||(Pj.tracks.some(x=>x.solo)&&!t.solo);
-  const g=h('div',{class:'gview trigs',style:'--c:16'});
-  for(let k=0;k<16;k++){
+  const g=h('div',{class:'gview trigs',style:'--c:'+W});
+  for(let k=0;k<W;k++){
     const i=o+k,st=row[i]||GR.newStep();
     const nl=st.on&&st.note?noteLabel(ti,st.note):'',alt=st.on&&((st.cond|0)>0||(st.micro|0)!==0||(st.len||1)>1||(st.rtg|0)>1);
     const b=h('button',{class:'gc'+(k%4===0?' beat':'')+(st.on?' on':'')+(st.lock?' lk':'')+(alt?' alt':'')+(i===U.step?' sel':'')+(i>=t.len?' out':'')+(quiet?' mt':''),style:sty+';--v:'+(st.vel==null?.8:st.vel).toFixed(2),'data-t':ti,'data-i':i,'aria-label':'Step '+(i+1)+(st.on?', velocity '+Math.round((st.vel==null?.8:st.vel)*127):'')},h('i',{text:String(i+1)}),nl?h('small',{text:nl}):null);
     let hold=null,vd=null;
     const vset=v=>{st.vel=clamp(v,.04,1);st.on=1;b.classList.add('on');b.style.setProperty('--v',st.vel.toFixed(2));oled('VEL '+Math.round(st.vel*127),'T'+(ti+1)+' STEP '+(i+1))};
     b.addEventListener('pointerdown',e=>{
-      e.preventDefault();vib(7);ensureAudio();if(i>=t.len)return;
+      e.preventDefault();vib(7);ensureAudio();if(i>=t.len){if(W>16&&i<64){t.len=Math.min(64,Math.ceil((i+1)/16)*16);const s2=row[i];s2.on=1;U.step=i;playNow(ti,s2.note,s2.vel,s2.len);dirty();histCommit();R.seq()}return}
       if(U.gVel){const rc=b.getBoundingClientRect();U.step=i;vset(1-(e.clientY-rc.top)/rc.height);vd={y:e.clientY,v:st.vel};try{b.setPointerCapture(e.pointerId)}catch(x){}return}
       hold={x:e.clientX,y:e.clientY,moved:false,pop:null};try{b.setPointerCapture(e.pointerId)}catch(x){}
       const hd=hold;hd.timer=setTimeout(()=>{if(hold!==hd||hd.moved)return;U.step=i;U.seqTab='step';if(!st.on)st.on=1;b.classList.add('on');vib(16);hd.pop=openStepPop(st,b,hd)},260);
@@ -82,7 +84,7 @@ function seqGrid(){
     b.addEventListener('pointercancel',()=>{vd=null;if(hold){clearTimeout(hold.timer);if(hold.pop)closeStepPop(hold);hold=null}});
     g.append(b);
   }
-  const pages=h('div',{class:'row nw pager'},h('span',{class:'plbl',text:'PAGE'}),...Array.from({length:npg},(_,k)=>h('button',{class:'chip xs grow'+(k===U.gOff?' on':''),text:String(k+1),'aria-label':'Steps '+(k*16+1)+' to '+(k*16+16),onclick:()=>{U.gOff=k;U.gFollow=false;R.seq()}})),
+  const pages=h('div',{class:'row nw pager'+(W>16&&npg<2?' solo':'')},h('span',{class:'plbl',text:'PAGE'}),...Array.from({length:npg},(_,k)=>h('button',{class:'chip xs grow'+(k===U.gOff?' on':''),text:W>16?(k*2+1)+'-'+(k*2+2):String(k+1),'aria-label':'Steps '+(k*W+1)+' to '+(k*W+W),onclick:()=>{U.gOff=k;U.gFollow=false;R.seq()}})),
     npg>1?h('button',{class:'chip xs'+(U.gFollow?' on':''),text:'FOLLOW','aria-label':'Follow the playhead',onclick:()=>{U.gFollow=!U.gFollow;R.seq()}}):null);
   const lenRow=h('div',{class:'row nw lenk',style:'gap:4px'},
     h('span',{class:'note lbl',text:'LENGTH'}),
@@ -102,8 +104,7 @@ function seqGrid(){
       (cs.micro|0)!==0?h('span',{text:'MICRO '+(cs.micro>0?'+':'')+cs.micro}):null,
       nlk?h('span',{text:nlk+' P-LOCK'+(nlk>1?'S':'')}):null]
     :[h('b',{text:'T'+(ti+1)+' '+trackLabel(ti)}),h('span',{text:'tap a lit trig to see its settings'})]);
-  return h('div',{class:'plate seqtop'},keys,head,g,pages,lenRow);
-}
+  return h('div',{class:'plate seqtop'},keys,head,g,pages,lenRow);}
 R.seq=function(){
   killStepPops();const root=$('#s-seq');root.replaceChildren();const t=trk(),pat=curPat()[U.tr];
   GR.growRow(pat,Math.ceil(t.len/16)*16);

@@ -27,12 +27,13 @@ ns=r.ev("[1,2,4,8,16][dval(GRUI.trk().params[6],5)]") if False else None
 r.pg.mouse.click(bb['x']+bb['width']*.9,y);r.pg.wait_for_timeout(100)
 check('tapping a slice selects it',r.ev("GRUI.trk().params[7]")>.6,r.ev("GRUI.trk().params[7]"))
 r.close()
-# fullscreen landscape: MIX faders fill the height, SEQ trigs are square
+# fullscreen landscape: MIX faders fill the height, SEQ trigs are big
 r=Run(874,402,touch=True);r.ev("GR.loadPreset(0);GRUI.renderTab()");r.go('mix')
 H=r.ev("document.querySelector('#s-mix .fader').getBoundingClientRect().height")
 check('fullscreen MIX faders are tall',H>150,H)
 r.go('seq');g=r.ev("(()=>{const a=document.querySelector('#s-seq .trigs .gc').getBoundingClientRect();return [a.width,a.height]})()")
-check('fullscreen SEQ trigs are square',abs(g[0]-g[1])<1.5 and g[0]>50,g)
+n=r.ev("document.querySelectorAll('#s-seq .trigs .gc').length")
+check('fullscreen SEQ shows 32 big trigs',n==32 and g[0]>50 and g[1]>50,[n]+g)
 ph=r.ev("document.querySelector('#s-seq .pager .chip').getBoundingClientRect().width")
 check('PAGE button is small',ph<80,ph)
 r.close();done()
