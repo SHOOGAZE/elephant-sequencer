@@ -29,10 +29,6 @@ Phone held sideways (the main way to play), a phone upright, and a tablet. Shots
 <img src="screenshots/11-fx-portrait.png" width="19%" alt="FX, portrait">
 </p>
 
-![Sequencer on a tablet](screenshots/06-sequencer-tablet.png)
-
-*Tablet in landscape: the same layout scaled up, the steps fill the height.*
-
 The screenshots are made with Chromium at 2x (`python3 tools/shots.py`), without the web fonts, so the real app looks slightly different on a device that loads Hanken Grotesk and DM Mono.
 
 ## Features
