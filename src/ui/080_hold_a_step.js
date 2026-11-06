@@ -110,10 +110,18 @@ R.seq=function(){
   if(U.step>=t.len)U.step=-1;
   const tabs=['step','snd','gen','edit'],tn=['TRIG','SOUND','GEN','EDIT'];if(!tabs.includes(U.seqTab))U.seqTab='step';
   const tl=seqTools(pat);
-  const body=h('div',{class:'sbody'},U.seqTab==='step'?seqEditor(pat):U.seqTab==='snd'?seqSound(pat,t):U.seqTab==='gen'?h('div',{},tl.gen,h('div',{class:'tgrp'},euclRow(pat,t))):h('div',{},tl.edit));
+  const body=h('div',{class:'sbody'},U.seqTab==='step'?seqEditor(pat):U.seqTab==='snd'?seqSound(pat,t):U.seqTab==='gen'?h('div',{class:'tgen'},tl.gen,h('div',{class:'tgrp'},euclRow(pat,t))):h('div',{class:'tedit'},tl.edit));
   const panel=h('div',{class:'plate seqpanel'},h('div',{class:'row nw stabs',style:'gap:4px'},chipRow(tn,i=>U.seqTab===tabs[i],i=>{U.seqTab=tabs[i];R.seq()},'grow')),body);
-  root.append(seqGrid(),panel);
+  const sg=seqGrid();if(isLandPhone())sg.append(fsEnc(pat,t));
+  root.append(sg,panel);
 };
+/* phone held sideways: the sound knobs of the current track in a column at the right, always in reach (p-lock aware on SEQ) */
+function fsEncParts(t,st){
+  const PG=pagesFor(t.engine);if(U.page>=PG.length)U.page=0;const pn=U.page,defs=pageDefs(t.engine,pn);
+  return [h('div',{class:'fspg'},PG.map((n,i)=>h('button',{class:'chip xs'+(U.page===i?' on':''),text:n,onclick:()=>{U.page=i;if(U.tab==='play'){if(U.fsEncRefresh)U.fsEncRefresh()}else R.seq()}}))),
+    h('div',{class:'fsk'+(st&&st.lock?' lk':'')},(pn===2?[0,3,4,7]:defs.map((d,i)=>i)).map(i=>paramKnob(pn*8+i)))];
+}
+function fsEnc(pat,t){return h('div',{class:'fsenc'},...fsEncParts(t,U.step>=0?pat[U.step]:null))}
 function euclRow(pat,t){
   const run=()=>{const n=t.len,k=U.eucK;pat.forEach((s,i)=>{if(i>=n)return;const pos=((i-U.eucR)%n+n)%n;s.on=Math.floor(pos*k/n)!==Math.floor((pos-1)*k/n)?1:0;if(s.on&&s.vel<.3)s.vel=.8});U.step=-1;dirty();histCommit();vib(6);R.seq()};
   const b=(txt,fn)=>h('button',{class:'chip xs',text:txt,onclick:fn});
@@ -124,7 +132,7 @@ function euclRow(pat,t){
     h('span',{class:'note lbl',text:'ROT'}),b('<',()=>{U.eucR=(U.eucR+t.len-1)%t.len;run()}),v(String(U.eucR)),b('>',()=>{U.eucR=(U.eucR+1)%t.len;run()}));
 }
 function seqEditor(pat){
-  const box=h('div',{class:pat[U.step]?'':'shint'}),st=pat[U.step];
+  const box=h('div',{class:pat[U.step]?'tstep':'shint'}),st=pat[U.step];
   if(!st){box.append(h('h3',{text:'STEP'}),h('div',{class:'note',text:'Tap a step to switch it on, tap a lit step to select it. VEL: drag a step up or down to set its velocity. Hold any step to open its P-locks.'}));return box}
   const nl=v=>noteLabel(U.tr,Math.round(v*48-24))||'0';
   const nLocks=st.lock?Object.keys(st.lock).length:0;
@@ -175,7 +183,7 @@ function seqTools(pat){
       chipRow(QNAME,i=>(Pj.quant.grid===i),i=>{Pj.quant.grid=i;dirty();R.seq()})),
     h('div',{class:'row nw',style:'margin-top:10px'},
       h('div',{class:'kgrid',style:'grid-template-columns:90px'},Knob({label:'DEPTH',small:true,get:()=>Pj.quant.depth,set:v=>{Pj.quant.depth=Math.round(v*20)/20;dirty()},fmt:v=>v<=0?'OFF':Math.round(v*100)+'%',reset:()=>{Pj.quant.depth=1}})),
-      h('div',{class:'grow'},h('div',{class:'note',text:'Q '+qtxt(Pj.quant)+'. Applies to live REC and keys. Depth 100% snaps to the grid, lower values keep part of your feel, OFF records raw timing.'}),
+      h('div',{class:'grow'},h('div',{class:'note',text:'Q '+qtxt(Pj.quant)+'. '+T('Applies to live REC and keys. Depth 100% snaps to the grid, lower values keep part of your feel, OFF records raw timing.')}),
         h('button',{class:'chip or on',text:'QUANTIZE TRACK',onclick:()=>{pat.forEach(s=>{if(!s.on)return;const p=s.micro/24,q=qpos(p,Pj.quant);s.micro=Math.max(-12,Math.min(12,Math.round(q*24)))});dirty();toast('T'+(U.tr+1)+' quantized '+qtxt(Pj.quant));R.seq()}})))));
   const k=[...box.children];return{gen:k[1],edit:[k[2],k[3]]};
 }
@@ -186,7 +194,7 @@ function seqSound(pat,t){
   const PG=pagesFor(t.engine);if(U.page>=PG.length)U.page=0;const pn=U.page,defs=pageDefs(t.engine,pn);
   const st=U.step>=0?pat[U.step]:null,n=st&&st.lock?Object.keys(st.lock).length:0;
   const info=h('div',{class:'lkinfo'});
-  if(st)info.append('STEP ',h('b',{text:String(U.step+1)}),'  P-LOCKS'+(n?' ('+n+')':'')+'. Turn a knob to lock it for this step.');
+  if(st)info.append(T('STEP '),h('b',{text:String(U.step+1)}),'  '+T('P-LOCKS')+(n?' ('+n+')':'')+'. '+T('Turn a knob to lock it for this step.'));
   else info.textContent=T('EDITING THE TRACK SOUND. Select a trig to lock values for that step only.');
   return h('div',{class:'seqsnd'},modTray(),
     h('div',{class:'row nw ptabs',style:'gap:4px'},chipRow(PG,i=>U.page===i,i=>{U.page=i;R.seq()},'grow')),info,

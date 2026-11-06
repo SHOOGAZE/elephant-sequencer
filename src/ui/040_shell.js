@@ -24,14 +24,15 @@ function buildShell(){
   const screens=h('div',{class:'screens'},TABS.map(t=>h('div',{class:'screen',id:'s-'+t[0]})));
 const nav=h('nav',{class:'nav'},TABS.filter(t=>t[0]!=='smpl'&&t[0]!=='sys').map(t=>{
   const b=h('button',{'data-tab':t[0],'aria-label':t[1],onclick:()=>go(t[0])});
-  b.textContent=t[1];
+  b.textContent=T(t[1]);
   return b;
 }));
   const fsMenu=h('button',{class:'fsb fsmenu','aria-label':'Menu',onclick:()=>fsToggle()},h('i'),h('i'),h('i'));
-  U.fsPlay=h('button',{class:'fsb fsplay','aria-label':'Play or stop',text:'\u25B6',onclick:playToggle});
+  U.fsRec=h('button',{class:'fsb fsrec','aria-label':'Record',onclick:()=>btnRec.click()});U.fsRec.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="6.5" fill="currentColor"/></svg>';
+  U.fsPlay=h('button',{class:'fsb fsplay','aria-label':'Play or stop',onclick:playToggle});U.fsPlay.innerHTML=FS_PLAY;
   U.fsPanelBtn=h('button',{class:'fsb fspanelbtn','aria-label':'Sound and step panel',onclick:()=>fsPanelToggle()});
   U.fsPanelBtn.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M4 12h16"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>';
-  app.append(top,screens,nav,h('div',{class:'fsstrip'},fsMenu,U.fsPlay,U.fsPanelBtn),h('div',{class:'fsscrim',onclick:()=>fsToggle(false)}),h('div',{class:'brand-l'},h('span',{text:'elephant'}),h('i'),h('small',{text:'16 PAD SAMPLER'})));
+  app.append(top,screens,nav,h('div',{class:'fsstrip'},fsMenu,U.fsPlay,U.fsRec,U.fsPanelBtn,U.fsInfo=h('span',{class:'fsinfo'})),h('div',{class:'fsscrim',onclick:()=>fsToggle(false)}),h('div',{class:'brand-l'},h('span',{text:'elephant'}),h('i'),h('small',{text:'16 PAD SAMPLER'})));
   if(!$('#toast'))document.body.append(h('div',{class:'toast',id:'toast',hidden:true}));
   U.fileEl=h('input',{type:'file',accept:'audio/*,.wav,.mp3,.m4a,.aif,.aiff,.flac,.ogg',multiple:true,style:'display:none',onchange:onFile});
   document.body.append(U.fileEl);
@@ -42,17 +43,19 @@ const nav=h('nav',{class:'nav'},TABS.filter(t=>t[0]!=='smpl'&&t[0]!=='sys').map(
   }});
   document.body.append(U.projEl);
 }
+const FS_PLAY='<svg viewBox="0 0 24 24" width="28" height="28"><path d="M8 4.8v14.4L19.6 12z" fill="currentColor"/></svg>',FS_STOP='<svg viewBox="0 0 24 24" width="28" height="28"><rect x="6.2" y="6.2" width="11.6" height="11.6" rx="1.4" fill="currentColor"/></svg>';
 function syncTransport(){
-  if(U.fsPlay){U.fsPlay.textContent=A.playing?'\u25A0':'\u25B6';U.fsPlay.classList.toggle('on',!!A.playing)}
+  if(U.fsPlay){const pl=!!A.playing;if(U.fsPlayS!==pl){U.fsPlayS=pl;U.fsPlay.innerHTML=pl?FS_STOP:FS_PLAY}U.fsPlay.classList.toggle('on',pl)}
+  if(U.fsRec)U.fsRec.classList.toggle('on',!!A.rec);
   if(btnPat)btnPat.textContent=patLabel();
-  btnPlay.textContent=A.playing?'STOP':'PLAY';btnPlay.classList.toggle('on',A.playing);
+  btnPlay.textContent=T(A.playing?'STOP':'PLAY');btnPlay.classList.toggle('on',A.playing);
   if(U.sndPlay&&U.sndPlay.isConnected){U.sndPlay.textContent=T(A.playing?'STOP':'PLAY');U.sndPlay.classList.toggle('on',A.playing)}
   btnRec.classList.toggle('on',A.rec);btnMet.classList.toggle('on',A.metro);
   const v=$('#bpmv');if(v)v.textContent=P().bpm;
 }
 /* a phone held sideways: SEQ and MIX take the whole screen; a MENU button opens the header and the tabs over it */
-function fsWant(){return isLandPhone()&&(U.tab==='seq'||U.tab==='mix')}
-function fsApply(){const on=fsWant();document.body.classList.toggle('fs',on);document.body.classList.toggle('fsmix',on&&U.tab==='mix');document.body.classList.toggle('fsseq',on&&U.tab==='seq');if(!(on&&U.tab==='seq'))document.body.classList.remove('fspanel');if(!on)document.body.classList.remove('fsopen')}
+function fsWant(){return isLandPhone()}
+function fsApply(){const on=fsWant();document.body.classList.toggle('fs',on);document.body.classList.toggle('fsmix',on&&U.tab==='mix');document.body.classList.toggle('fsseq',on&&U.tab==='seq');document.body.dataset.fst=on?U.tab:'';if(!(on&&U.tab==='seq'))document.body.classList.remove('fspanel');if(!on)document.body.classList.remove('fsopen')}
 function fsPanelToggle(){document.body.classList.toggle('fspanel');vib(6);if(U.fitPads)U.fitPads()}
 function fsToggle(v){const o=v==null?!document.body.classList.contains('fsopen'):v;document.body.classList.toggle('fsopen',o);vib(6)}
 function go(tab){killStepPops();{const cur=document.querySelector('.screen.on');if(cur){U.scr=U.scr||{};U.scr[cur.id]=cur.scrollTop}}

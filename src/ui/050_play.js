@@ -1,6 +1,6 @@
 /* ---------- PLAY ---------- */
 let btnPat,patSheet,mvol;
-function patLabel(){const Pj=P();return 'PAT '+PATL[Pj.pat]+(Pj.nextPat>=0?' > '+PATL[Pj.nextPat]:'')}
+function patLabel(){const Pj=P();return T('PAT ')+PATL[Pj.pat]+(Pj.nextPat>=0?' > '+PATL[Pj.nextPat]:'')}
 function pickPat(i){const Pj=P();vib(8);if(Pj.song){Pj.song=false;toast('Song off')}if(A.playing&&i!==Pj.pat)Pj.nextPat=i;else{Pj.pat=i;Pj.nextPat=-1}dirty();U.step=-1;syncTransport();renderTab();if(patSheet)renderPatSheet()}
 function closePatSheet(){if(patSheet){patSheet.remove();patSheet=null}}
 function openPatSheet(){if(patSheet){closePatSheet();return}patSheet=h('div',{class:'psheet',onpointerdown:e=>{if(e.target===patSheet)closePatSheet()}});document.body.append(patSheet);renderPatSheet()}
@@ -79,17 +79,21 @@ R.play=function(){
       if(e.isPrimary!==false)startLP(e,()=>{vib(18);openPadMenu(ti,pad)});
       if(!S.slots[t.slot]){clearTimeout(LPT);openSndSheet(ti);return}
       playNow(ti,0,vel,1);
-      if(changed)pads.querySelectorAll('.pad').forEach(p=>p.classList.toggle('sel',+p.dataset.t===ti));
+      if(changed){pads.querySelectorAll('.pad').forEach(p=>p.classList.toggle('sel',+p.dataset.t===ti));if(U.fsEncRefresh)U.fsEncRefresh()}
     });
     pads.append(pad);
   });
   if(!S.slots.length&&!isLandPhone())root.append(h('div',{class:'startrow'},h('span',{class:'mtl',text:'START FROM'}),GR.presets.map((p,i)=>h('button',{class:'chip grow',text:p.name,onclick:()=>startPreset(i)}))));
-  root.append(pads);
-  root.append(masterEnc());
-  const fitPads=()=>{if(!pads.isConnected||!isLandPhone())return;pads.style.height='';const top=pads.getBoundingClientRect().top;pads.style.height=Math.max(150,Math.round(innerHeight-top-12))+'px'};
+  U.fsEncRefresh=null;
+  if(isLandPhone()){
+    const box=h('div',{class:'fsenc'}),fill=()=>{const t=trk();box.replaceChildren(...fsEncParts(t,null),h('div',{class:'fsmaster'},masterEnc()))};
+    U.fsEncRefresh=fill;fill();
+    root.append(h('div',{class:'fsplay2'},h('div',{class:'fspadz'},pads),box));
+  }else{root.append(pads);root.append(masterEnc())}
+  const fitPads=()=>{if(!pads.isConnected||!isLandPhone()||pads.parentNode.classList.contains('fspadz'))return;pads.style.height='';const top=pads.getBoundingClientRect().top;pads.style.height=Math.max(150,Math.round(innerHeight-top-12))+'px'};
   U.fitPads=fitPads;fitPads();requestAnimationFrame(fitPads);
 };
 const isLand=()=>window.innerWidth>window.innerHeight&&window.innerWidth>560;
-const isLandPhone=()=>isLand()&&window.innerHeight<=560;
+const isLandPhone=()=>isLand();
 const isTabLand=()=>window.innerWidth>=900&&window.innerHeight>=600&&window.innerWidth>window.innerHeight;
 addEventListener('resize',()=>{if(U.tab==='play'&&U.fitPads)U.fitPads()});

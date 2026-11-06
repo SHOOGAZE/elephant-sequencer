@@ -49,11 +49,12 @@ function frame(){
   const Pj=P(),now=performance.now();
   const l1=$('#ol1'),l2=$('#ol2'),l3=$('#ol3');
   if(l1){
-    setT(l1,'T'+String(U.tr+1).padStart(2,'0')+' '+trackLabel(U.tr)+'  PAT '+PATL[Pj.pat]+(Pj.nextPat>=0?'>'+PATL[Pj.nextPat]:'')+'  '+(A.playing?'RUN '+String((pg<0?0:pg%GR.patLen(Pj))+1).padStart(2,'0'):'STOP'));
+    setT(l1,'T'+String(U.tr+1).padStart(2,'0')+' '+trackLabel(U.tr)+'  '+T('PAT ')+PATL[Pj.pat]+(Pj.nextPat>=0?'>'+PATL[Pj.nextPat]:'')+'  '+(A.playing?T('RUN ')+String((pg<0?0:pg%GR.patLen(Pj))+1).padStart(2,'0'):T('STOP')));
+    if(U.fsInfo&&document.body.classList.contains('fs')){const tb=(TABS.find(x=>x[0]===U.tab)||['',''])[1];setT(U.fsInfo,T(tb)+'  \u00B7  T'+String(U.tr+1).padStart(2,'0')+' '+trackLabel(U.tr)+'  \u00B7  '+T('PAT ')+PATL[Pj.pat]+'  \u00B7  '+Pj.bpm+' BPM')}
     const show=now-U.msgT<1600&&U.msg;
     const ol=l1.parentNode.parentNode;if(ol&&ol.classList&&ol._m!==!!show){ol._m=!!show;ol.classList.toggle('msg',!!show)}
-    setT(l2,show?U.msg:(Pj.name||'untitled'));
-    setT(l3,show?(U.msgL3||''):('BPM '+Pj.bpm+'  SWING '+Math.round(50+Pj.swing*50)+'%'+'  Q '+qtxt(Pj.quant||{grid:2,depth:1})+(A.rec?'  REC':'')+(Pj.morph.on?'  MORPH':'')));
+    setT(l2,show?U.msg:T(Pj.name||'untitled'));
+    setT(l3,show?(U.msgL3||''):('BPM '+Pj.bpm+'  '+T('SWING')+' '+Math.round(50+Pj.swing*50)+'%'+'  Q '+qtxt(Pj.quant||{grid:2,depth:1})+(A.rec?'  '+T('REC'):'')+(Pj.morph.on?'  MORPH':'')));
   }
   if(scope&&sc2){
     if(!U.scN||(U.scN=(U.scN+1)%30)===0||!U.scW){const r=scope.getBoundingClientRect(),d=window.devicePixelRatio||1;U.scD=d;U.scW=Math.max(10,Math.floor(r.width*d));U.scH=Math.max(10,Math.floor(r.height*d));U.scN=U.scN||1}

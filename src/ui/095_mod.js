@@ -23,8 +23,8 @@ function cableTo(from,x,y){const c=cableEl(),r=from.getBoundingClientRect(),x0=r
   c.querySelector('.glow').setAttribute('d',d);c.querySelector('.core').setAttribute('d',d);
   const e=c.querySelector('.end'),s=c.querySelector('.start');e.setAttribute('cx',x);e.setAttribute('cy',y);s.setAttribute('cx',x0);s.setAttribute('cy',y0)}
 function modHint(){const el=document.querySelector('.modhint');if(!el)return;
-  if(MST.sel==null)el.textContent='Drag a source onto a knob, or tap it and drag knobs to set the depth.';
-  else{el.replaceChildren(h('b',{text:MSRC[MST.sel].n}),' armed. Drag a ringed knob to set the depth, double tap to remove.')}}
+  if(MST.sel==null)el.textContent=T('Drag a source onto a knob, or tap it and drag knobs to set the depth.');
+  else{el.replaceChildren(h('b',{text:MSRC[MST.sel].n}),T(' armed. Drag a ringed knob to set the depth, double tap to remove.'))}}
 function selSrc(i){MST.sel=MST.sel===i?null:i;document.querySelectorAll('.msrc').forEach((b,k)=>b.classList.toggle('on',MST.sel===k));
   document.querySelectorAll('.knob[data-dest]').forEach(k=>k.classList.toggle('armed',MST.sel!=null&&validR(MST.sel,k.dataset.dest)));modHint();vib(6)}
 function modTray(){
@@ -33,14 +33,21 @@ function modTray(){
     const n=routesOf().filter(r=>r.s===i).length;
     const b=h('button',{class:'msrc'+(MST.sel===i?' on':'')+(n?' has':''),style:'--sg:'+s.g},h('i'),s.n,n?h('sup',{text:n}):null);
     let sx=0,sy=0,dr=null,ghost=null,moved=false;
-    b.addEventListener('pointerdown',e=>{e.preventDefault();try{b.setPointerCapture(e.pointerId)}catch(x){}sx=e.clientX;sy=e.clientY;moved=false;dr=true});
+    /* hover / press: light up every knob this source can drive, dim the rest */
+    const cand=on=>{document.body.classList.toggle('modcand',on);document.body.style.setProperty('--cg',s.g);
+      document.querySelectorAll('.knob[data-dest]').forEach(k=>k.classList.toggle('cand',on&&validR(i,k.dataset.dest)))
+      /* the page tabs that hold a valid destination glow too: pitch > SRC, cutoff > FLT, level / pan > MIX */
+      const pg={pitch:0,cut:1,level:3,pan:3},ok=new Set(Object.keys(pg).filter(d=>validR(i,d)).map(d=>pg[d]));
+      document.querySelectorAll('.ptabs .chip').forEach((c,n)=>c.classList.toggle('cand',on&&ok.has(n)&&n!==U.page))};
+    b.addEventListener('pointerenter',()=>cand(true));b.addEventListener('pointerleave',()=>{if(!dr)cand(false)});
+    b.addEventListener('pointerdown',e=>{cand(true);e.preventDefault();try{b.setPointerCapture(e.pointerId)}catch(x){}sx=e.clientX;sy=e.clientY;moved=false;dr=true});
     b.addEventListener('pointermove',e=>{if(!dr)return;
       if(!moved&&Math.hypot(e.clientX-sx,e.clientY-sy)>8){moved=true;ghost=h('div',{class:'mghost',text:s.n,style:'border-color:'+s.g});document.body.append(ghost);const cb=cableEl();cb.style.setProperty('--sc',s.g);cb.classList.remove('plug');cb.classList.add('show');cableTo(b,e.clientX,e.clientY);
         document.querySelectorAll('.knob[data-dest]').forEach(k=>k.classList.toggle('armed',validR(i,k.dataset.dest)))}
       if(ghost){ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';cableTo(b,e.clientX,e.clientY);
         const k=document.elementFromPoint(e.clientX,e.clientY),kn=k&&k.closest&&k.closest('.knob[data-dest]');
         document.querySelectorAll('.knob.drop').forEach(x=>{if(x!==kn)x.classList.remove('drop')});if(kn&&validR(i,kn.dataset.dest))kn.classList.add('drop')}});
-    const end=e=>{if(!dr)return;dr=null;
+    const end=e=>{if(!dr)return;dr=null;cand(false);
       if(ghost){const k=document.elementFromPoint(e.clientX,e.clientY),kn=k&&k.closest&&k.closest('.knob[data-dest]');ghost.remove();ghost=null;const cb=cableEl();
         if(kn){const kr=kn.getBoundingClientRect();cableTo(b,kr.left+kr.width/2,kr.top+kr.width/2-4)}cb.classList.add('plug');setTimeout(()=>cb.classList.remove('show'),380);
         document.querySelectorAll('.knob.drop').forEach(x=>x.classList.remove('drop'));
@@ -48,7 +55,7 @@ function modTray(){
           const nk=document.querySelector('.knob[data-dest="'+d+'"]');if(nk){nk.style.setProperty('--arm',s.g);nk.classList.add('zap');setTimeout(()=>nk.classList.remove('zap'),700)}return}
         selSrc(MST.sel===i?i:i);return}
       selSrc(i)};
-    b.addEventListener('pointerup',end);b.addEventListener('pointercancel',()=>{dr=null;if(ghost){ghost.remove();ghost=null}});
+    b.addEventListener('pointerup',end);b.addEventListener('pointercancel',()=>{dr=null;cand(false);if(ghost){ghost.remove();ghost=null}});
     tray.append(b)});
   const w=h('div',{class:'modwrap'},tray,h('div',{class:'modhint',text:'Drag a source onto a knob, or tap it and drag knobs to set the depth.'}));
   requestAnimationFrame(modHint);return w;

@@ -3,7 +3,7 @@ const SVGNS='http://www.w3.org/2000/svg';
 function karc(a0,a1,r){if(a1-a0<.6)return '';const p=a=>{const t=a*Math.PI/180;return[(32+r*Math.sin(t)).toFixed(2),(32-r*Math.cos(t)).toFixed(2)]},s=p(a0),e=p(a1);return 'M'+s[0]+' '+s[1]+'A'+r+' '+r+' 0 '+((a1-a0)>180?1:0)+' 1 '+e[0]+' '+e[1]}
 let vbEl=null,vbT=0;
 function vbShow(el,label,text){if(!vbEl){vbEl=h('div',{id:'vbubble'},h('i'),h('b'));document.body.append(vbEl)}
-  clearTimeout(vbT);const r=el.getBoundingClientRect();vbEl.firstChild.textContent=label;vbEl.lastChild.textContent=text;
+  clearTimeout(vbT);const r=el.getBoundingClientRect();vbEl.firstChild.textContent=T(label);vbEl.lastChild.textContent=T(text);
   vbEl.style.left=clamp(r.left+r.width/2,70,window.innerWidth-70)+'px';vbEl.style.top=Math.max(8,r.top-62)+'px';vbEl.classList.add('on')}
 function vbHide(){clearTimeout(vbT);vbT=setTimeout(()=>{vbEl&&vbEl.classList.remove('on')},450)}
 function Knob(o){
@@ -16,7 +16,7 @@ function Knob(o){
   const draw=()=>{const v=o.get(),a=-135+v*270,z=o.bi?-135+135:-135;
     val.setAttribute('d',a>=z?karc(z,a,24):karc(a,z,24));
     const t=a*Math.PI/180;ind.setAttribute('x2',(32+13*Math.sin(t)).toFixed(2));ind.setAttribute('y2',(32-13*Math.cos(t)).toFixed(2));
-    modRings(mg,o.dest,v,o.bi);vv.textContent=o.fmt(v);el.classList.toggle('locked',!!(o.locked&&o.locked()))};
+    modRings(mg,o.dest,v,o.bi);vv.textContent=T(o.fmt(v));el.classList.toggle('locked',!!(o.locked&&o.locked()))};
   let sy=0,sx=0,sv=0,drag=false,last=0,rt=false,ra=0;
   el.addEventListener('pointerdown',e=>{
     e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(x){}

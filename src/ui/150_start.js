@@ -50,7 +50,6 @@ document.addEventListener('dblclick',e=>e.preventDefault());
 function backAction(){
   if(sndSheet){closeSndSheet();return true}
   if(patSheet){closePatSheet();return true}
-  if(trkSheet){closeTrkSheet();return true}
   if(U.tab==='seq'&&U.seqDr&&isLandPhone()){U.seqDr=false;R.seq();return true}
   if(U.tab==='sound'&&(U.lockOpen||U.lockStep>=0)){U.lockOpen=false;U.lockStep=-1;R.sound();return true}
   return false;
@@ -72,6 +71,7 @@ document.addEventListener('pointermove',e=>{
 /* tablets: scale the phone column up (CSS zoom); phones stay at 1 */
 function uiZoom(){
   const w=innerWidth,h=innerHeight,sh=Math.min(w,h);let z=1;
+  if(w>h&&w>560){z=h>560&&window.CSS&&CSS.supports&&CSS.supports('zoom','1.2')?Math.max(1,Math.min(1.5,Math.round(Math.min(h/700,w/1000)*20)/20)):1;document.documentElement.style.setProperty('--z',z);return z}
   if(sh>=600&&window.CSS&&CSS.supports&&CSS.supports('zoom','1.2')){const s=w>h?Math.min(h/800,1.4):Math.min(w/600,1.8);z=Math.max(1,Math.round(s*20)/20)}
   document.documentElement.style.setProperty('--z',z);return z;
 }

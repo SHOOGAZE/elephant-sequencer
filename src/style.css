@@ -10,12 +10,11 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 .oled .l1{font-size:11px;letter-spacing:.08em;color:var(--od1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .oled .l2{font-size:20px;font-weight:500;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .oled .l3{font-size:10px;color:var(--od3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.oled canvas{width:100%;height:calc(100% - 16px);display:block;align-self:start}
+.oled canvas{display:block}
 .oled>div:first-child{min-width:0}
 .tr{display:grid;grid-template-columns:70px 42px 50px 46px 1fr;gap:8px;align-items:stretch}
 .btn{border-radius:3px;min-height:40px;padding:0 12px;font-size:13px;text-transform:uppercase;box-shadow:0 2px 0 var(--cream-sh),inset 0 1px 0 #fff9;position:relative}
 .btn:active{box-shadow:0 1px 0 var(--cream-sh),inset 0 1px 0 #fff9}
-.btn.on{background:var(--orange);color:#0a0a0a;box-shadow:0 2px 0 var(--orange-lo),inset 0 1px 0 #fff5}
 .btn.sm{min-height:32px;padding:0 9px;font-size:11px}
 .btn.xs{min-height:28px;padding:0 7px;font-size:10px}
 .btn:disabled{opacity:.4}
@@ -99,12 +98,12 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 .toast[hidden]{display:none}
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 @media (max-height:700px){
-.pads{min-height:160px}
-.knob .cap{width:52px;height:52px}
-.knob .cap::after{height:14px;transform-origin:50% 20px}
+  .pads{min-height:160px}
+  .knob .cap{width:52px;height:52px}
+  .knob .cap::after{height:14px;transform-origin:50% 20px}
 }
 @media (prefers-reduced-motion:no-preference){
-.pad, .btn, .chip{transition:background .08s,transform .06s}
+  .pad, .btn, .chip{transition:background .08s,transform .06s}
 }
 .tr .btn{padding:0;font-size:12px}
 /* touch: no scroll, zoom or text selection while playing */
@@ -125,14 +124,11 @@ html{overscroll-behavior:none;touch-action:manipulation;-webkit-text-size-adjust
 .oled .l2{transition:font-size .1s}
 .pads{min-height:330px}
 @media (max-height:700px) and (orientation:portrait){
-.pads{min-height:250px;grid-auto-rows:minmax(56px,1fr)}
+  .pads{min-height:250px;grid-auto-rows:minmax(56px,1fr)}
 }
 .oled{position:relative}
-.brand-s{position:absolute;right:12px;bottom:6px;font:500 9px var(--font-ui);letter-spacing:.22em;text-transform:uppercase;color:var(--od3)}
-.brand-s::after{content:"";display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--orange);margin-left:4px;vertical-align:middle}
 /* v4 */
 /* fullscreen keys in landscape */
-.knob .cap::after{background:var(--cap)}
 .plate{box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff12}
 .btn, .pad{box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff14}
 /* encoders: matte knurled cap inside a value ring */
@@ -145,8 +141,8 @@ html{overscroll-behavior:none;touch-action:manipulation;-webkit-text-size-adjust
 .knob.sm .cap::before{inset:5px}
 .knob.sm .cap::after{top:8px;height:9px;transform-origin:50% 14px}
 @media (max-height:700px){
-.knob .cap{width:52px;height:52px}
-.knob .cap::after{height:10px;transform-origin:50% 16px}
+  .knob .cap{width:52px;height:52px}
+  .knob .cap::after{height:10px;transform-origin:50% 16px}
 }
 .strip .scb{border:0;background:var(--cream-lo);font:700 8px var(--font-mono);color:var(--ink2);padding:0}
 .strip .scb.on{background:var(--orange);color:#0a0a0a}
@@ -200,14 +196,6 @@ html{overscroll-behavior:none;touch-action:manipulation;-webkit-text-size-adjust
 .eucrow .eucv{min-width:42px;font-size:11px}
 .eucrow .chip.xs{min-width:34px}
 /* track bar + track sheet */
-.tkgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.tkb{background:var(--body-hi);color:var(--text);border:0;border-top:5px solid var(--tc,var(--orange));border-radius:3px;min-height:64px;box-shadow:0 2px 0 var(--body-lo);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;position:relative;min-width:0;padding:0 2px}
-.tkb b{font:700 18px var(--font-mono)}
-.tkb small{font:600 9px var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--text2);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tkb.full::after{content:"";position:absolute;top:6px;right:7px;width:6px;height:6px;border-radius:50%;background:var(--tc,var(--orange))}
-.tkb.mute{opacity:.45}
-.tkb.on{background:var(--tc,var(--orange));color:var(--tcf,#0a0a0a);box-shadow:0 2px 0 rgba(0,0,0,.3)}
-.tkb.on small{color:inherit;opacity:.85}
 /* sound page: live graph, preset extras */
 .viz{display:block;width:100%;height:78px;margin-top:10px;border-radius:3px;box-shadow:inset 0 1px 3px #0003}
 .viz{background:#1b1d20}
@@ -220,8 +208,7 @@ html{overscroll-behavior:none;touch-action:manipulation;-webkit-text-size-adjust
 .akeys .row .note{margin:0;text-align:center}
 /* SOUND page layout: sticky audition keys (portrait), two-column (landscape phones) */
 .sl:empty{display:none}
-.shead, .stabs{display:flex;flex-direction:column;gap:8px}
-.shead h3{margin-bottom:0}
+.stabs{display:flex;flex-direction:column;gap:8px}
 /* sliders keep a small gap to the frame at both ends */
 .fader{--pd:9px}
 .strip .fader{--pd:12px}
@@ -261,7 +248,7 @@ button, .chip, .nav button{touch-action:manipulation}
 .pad.hit, .tkb.hit{animation:thit .32s ease-out;filter:none}
 .pad.hit{box-shadow:0 3px 0 var(--cream-sh),inset 0 1px 0 #fffc}
 @media (prefers-reduced-motion:reduce){
-.pad.hit, .tkb.hit{animation:none}
+  .pad.hit, .tkb.hit{animation:none}
 }
 /* SOUND fullscreen v2: keys on the left, sliding settings panel on the right */
 /* SEQ landscape: settings slide in from the right so the grid stays big for live play */
@@ -289,7 +276,7 @@ button, .chip, .nav button{touch-action:manipulation}
 .pr .mvol .hfader{height:34px;min-width:0;--pd:9px}
 .pr{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr) 62px 62px}
 @media (max-width:420px){
-.pr{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr) 54px 54px}
+  .pr{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr) 54px 54px}
 }
 /* bend and mod wheels beside the SOUND keys */
 /* boot screen: "takt" pressed into the surface, outline only */
@@ -335,13 +322,13 @@ html{--z:1}
 .psheet, .padmenu, #toast{zoom:var(--z)}
 /* touch targets */
 @media (pointer:coarse) and (orientation:portrait){
-.chip{min-height:36px}
-.chip.xs{min-width:34px}
-.mix .strip .sn{min-height:28px;min-width:34px}
-.scb{min-height:34px}
+  .chip{min-height:36px}
+  .chip.xs{min-width:34px}
+  .mix .strip .sn{min-height:28px;min-width:34px}
+  .scb{min-height:34px}
 }
 @media (pointer:coarse) and (orientation:portrait) and (min-height:800px){
-.chip{min-height:40px}
+  .chip{min-height:40px}
 }
 /* boot: product word under the wordmark */
 #boot .bwm{text-align:center}
@@ -387,13 +374,13 @@ html{--z:1}
 /* v115 back button on landscape sound view */
 /* v116 display: fixed line boxes so a message never pushes the small text */
 @media (orientation:portrait),(min-height:561px){
-.oled{padding:6px 10px}
-.oled>div:first-child{display:grid;grid-template-rows:14px 26px 12px;row-gap:3px;align-content:start}
-.oled .l1, .oled .l2, .oled .l3{margin:0;box-sizing:border-box}
-.oled .l1{line-height:14px}
-.oled .l2{line-height:26px;font-size:20px}
-.oled .l3{line-height:12px}
-.oled.msg .l2{font-size:22px}
+  .oled{padding:6px 10px}
+  .oled>div:first-child{display:grid;grid-template-rows:14px 26px 12px;row-gap:3px;align-content:start}
+  .oled .l1, .oled .l2, .oled .l3{margin:0;box-sizing:border-box}
+  .oled .l1{line-height:14px}
+  .oled .l2{line-height:26px;font-size:20px}
+  .oled .l3{line-height:12px}
+  .oled.msg .l2{font-size:22px}
 }
 /* v118 landscape phone: full-screen sequencer */
 /* v118 master box: more air between the fader, the meter and MUTE */
@@ -423,7 +410,7 @@ html{--z:1}
 #boot .bwm span{display:inline-block;white-space:nowrap;text-transform:uppercase}
 #boot .bwm span::after{position:absolute;left:.6px;top:1px;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--fl);text-shadow:.6px 1px 0 var(--el);display:block;white-space:nowrap}
 @media (max-width:420px){
-#boot .bwm span{font-size:19px}
+  #boot .bwm span{font-size:19px}
 }
 /* v143 SEQ GRID: all tracks at once */
 .gview{display:grid;grid-template-columns:26px repeat(var(--c,8),1fr);gap:4px;margin:10px 0 8px}
@@ -435,17 +422,17 @@ html{--z:1}
 /* v145 phone upright: one transport row (PLAY REC BPM PAT ...), the rest under the dots button */
 .tmore{display:none}
 @media (max-width:520px) and (orientation:portrait){
-.top{display:grid;grid-template-columns:repeat(24,1fr);column-gap:4px;row-gap:6px}
-.top>.oled{grid-column:1/-1}
-.tr, .pr{display:contents}
-#btnplay{grid-column:span 4}
-.tr>.btn:nth-child(2){grid-column:span 4}
-.tr>.bpm{grid-column:span 8;min-height:40px;grid-template-columns:28px 1fr 28px}
-.pr>.patb{grid-column:span 4;padding:0;font-size:11px;letter-spacing:.06em;min-height:40px}
-.pr>.tmore{display:block;grid-column:span 4;padding:0;min-height:40px;font-size:18px;line-height:1}
-.top.more .tmore{background:var(--orange);color:#fff}
-.top .tx{grid-column:span 6;min-height:38px}
-.top:not(.more) .tx, .pr>.mvol{display:none}
+  .top{display:grid;grid-template-columns:repeat(24,1fr);column-gap:4px;row-gap:6px}
+  .top>.oled{grid-column:1/-1}
+  .tr, .pr{display:contents}
+  #btnplay{grid-column:span 4}
+  .tr>.btn:nth-child(2){grid-column:span 4}
+  .tr>.bpm{grid-column:span 8;min-height:40px;grid-template-columns:28px 1fr 28px}
+  .pr>.patb{grid-column:span 4;padding:0;font-size:11px;letter-spacing:.06em;min-height:40px}
+  .pr>.tmore{display:block;grid-column:span 4;padding:0;min-height:40px;font-size:18px;line-height:1}
+  .top.more .tmore{background:var(--orange);color:#fff}
+  .top .tx{grid-column:span 6;min-height:38px}
+  .top:not(.more) .tx, .pr>.mvol{display:none}
 }
 /* v145 SEQ GRID in landscape on a phone: 16 steps x 8 tracks fill the screen */
 /* v146 GRID cells get the same edge as the steps in TRACK, so empty cells never vanish into the plate */
@@ -453,11 +440,11 @@ html{--z:1}
 /* v147 wide screens: the grid takes the room, the step panel stays a fixed side column, a tip never takes a column, one transport row */
 /* v148 grid: muted and solo tracks, VEL toggle */
 .gc.mt{opacity:.45}
-/* v149: same wheel labels on the SOUND keys as on PLAY when there is room */
-/* v153: sample pool actions */
+/* same wheel labels on the SOUND keys as on PLAY when there is room */
+/* sample pool actions */
 .sname{width:100%;box-sizing:border-box;font:700 12px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--cream-lo);color:var(--ink);border:1px solid var(--orange);border-radius:3px;padding:6px 8px;outline:0}
 .chip.del.on{background:#c0392b;color:#0a0a0a}
-/* v155: one grid sequencer. a small dot marks a step with P-locks */
+/* one grid sequencer. a small dot marks a step with P-locks */
 .gc.lk::after{content:"";position:absolute;right:4px;top:4px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
 .gc.on.lk::after{background:var(--cream)}
 .lenk .lenv{min-width:44px}
@@ -471,8 +458,8 @@ html{--z:1}
 .plbl{font:700 9px var(--font-ui);letter-spacing:.14em;color:var(--text2,#888);align-self:center;min-width:44px}
 /* v159 transport: the expanded row of extras sits under the main row, four equal buttons */
 @media (max-width:520px) and (orientation:portrait){
-.top .tx{order:3;grid-column:span 6}
-.top.more .tx{display:block}
+  .top .tx{order:3;grid-column:span 6}
+  .top.more .tx{display:block}
 }
 /* v159 a soft edge where scrolled content slides under the transport, so no card is cut flat */
 .screen:not(.qfs){padding-top:6px;padding-bottom:6px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 7px,#000 calc(100% - 7px),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 7px,#000 calc(100% - 7px),transparent 100%)}
@@ -496,7 +483,7 @@ body{background:var(--body);font-variant-numeric:tabular-nums}
 .btn, .pad, .nav button, .oled, .gc, .chip, .sheet, .card, .sec, .plate, .toast{border-radius:3px;box-shadow:none;background-image:none}
 .btn{background:#151515;color:var(--text);border:1px solid #272727;font-weight:700;letter-spacing:.12em}
 .btn:active{background:#202020;transform:none}
-.btn.on, .btn.pri{background:var(--orange);color:var(--onf);border-color:var(--orange);box-shadow:none}
+.btn.on{background:var(--orange);color:var(--onf);border-color:var(--orange);box-shadow:none}
 .oled{background:#070707;border:1px solid #222}
 .oled .l2{color:var(--text)}
 .oled.msg .l2{color:var(--amber2)}
@@ -562,90 +549,57 @@ body{background:var(--body);font-variant-numeric:tabular-nums}
 .pad.hit .pe, .pad.hit .pn{color:inherit}
 /* ===== LANDSCAPE: one layout system for phones, tablets and desktop ===== */
 /* phone held sideways: header and tabs in a left column, the screen wide on the right */
-@media (orientation:landscape) and (max-height:560px){
-body{padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
-#app{max-width:none;display:grid;grid-template-columns:minmax(236px,29%) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"top screens" "nav screens";gap:6px 12px;padding-block:6px}
-.top{grid-area:top;min-height:0;overflow-y:auto;scrollbar-width:none;gap:6px}
-.top::-webkit-scrollbar{display:none}
-.screens{grid-area:screens}
-.nav{grid-area:nav;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line)}
-.nav button{min-height:30px;font-size:10px;letter-spacing:.1em}
-.nav button.on::before{left:12%;right:12%}
-.oled{height:56px;padding:5px 8px}
-.oled .l2{font-size:16px;margin-top:1px}
-.oled .l1, .oled .l3{font-size:9px}
-.tr{grid-template-columns:repeat(4,1fr);gap:5px}
-.tr .bpm{grid-column:1/-1;min-height:38px}
-.tr .btn{min-height:34px}
-.pr{grid-template-columns:repeat(3,1fr);gap:5px}
-.pr .mvol{grid-column:1/-1}
-.pr .patb, .pr .hist{min-height:32px}
-.brand-l{display:none}
-}
 /* tablet and desktop: tabs in a rail on the left, header across the top of the main area */
+@media (orientation:landscape) and (min-width:561px){
+  body{padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
+  #app{max-width:none;display:grid;grid-template-columns:minmax(236px,29%) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"top screens" "nav screens";gap:6px 12px;padding-block:6px}
+  .top{grid-area:top;min-height:0;overflow-y:auto;scrollbar-width:none;gap:6px}
+  .top::-webkit-scrollbar{display:none}
+  .screens{grid-area:screens}
+  .nav{grid-area:nav;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line)}
+  .nav button{min-height:30px;font-size:10px;letter-spacing:.1em}
+  .nav button.on::before{left:12%;right:12%}
+  .oled{height:56px;padding:5px 8px}
+  .oled .l2{font-size:16px;margin-top:1px}
+  .oled .l1, .oled .l3{font-size:9px}
+  .tr{grid-template-columns:repeat(4,1fr);gap:5px}
+  .tr .bpm{grid-column:1/-1;min-height:38px}
+  .tr .btn{min-height:34px}
+  .pr{grid-template-columns:repeat(3,1fr);gap:5px}
+  .pr .mvol{grid-column:1/-1}
+  .pr .patb, .pr .hist{min-height:32px}
+  .brand-l{display:none}
+}
 @media (orientation:landscape) and (min-height:561px){
-#app{max-width:1280px;display:grid;grid-template-columns:128px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"nav top" "nav screens";gap:10px 16px;padding-block:10px}
-.top{grid-area:top;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr) minmax(0,1.1fr);gap:10px;align-items:stretch}
-.top .oled{height:auto;min-height:70px}
-.screens{grid-area:screens}
-.nav{grid-area:nav;display:flex;flex-direction:column;gap:2px;align-self:start;border-top:0;border-right:1px solid var(--line);padding:4px 0}
-.nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em}
-.nav button.on{background:#151515}
-.nav button.on::before{left:0;right:auto;top:8px;bottom:8px;width:2px;height:auto}
-.brand-l{display:none}
-#s-sound.on, #s-smpl.on, #s-fx.on, #s-sys.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;align-items:start}
+  #app{max-width:1280px;display:grid;grid-template-columns:128px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"nav top" "nav screens";gap:10px 16px;padding-block:10px}
+  .top{grid-area:top;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr) minmax(0,1.1fr);gap:10px;align-items:stretch}
+  .top .oled{height:auto;min-height:70px}
+  .screens{grid-area:screens}
+  .nav{grid-area:nav;display:flex;flex-direction:column;gap:2px;align-self:start;border-top:0;border-right:1px solid var(--line);padding:4px 0}
+  .nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em}
+  .nav button.on{background:#151515}
+  .nav button.on::before{left:0;right:auto;top:8px;bottom:8px;width:2px;height:auto}
+  .brand-l{display:none}
+  #s-sound.on, #s-smpl.on, #s-fx.on, #s-sys.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;align-items:start}
 }
 /* every landscape screen: pads square and sized by the height, the sequencer in two columns */
 @media (orientation:landscape){
-#s-play .pads{height:100%;max-height:100%;aspect-ratio:1/1;max-width:100%;margin:0 auto;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);grid-auto-rows:auto;flex:none;min-height:0}
-#s-play .pad{aspect-ratio:auto;min-height:0}
-#s-seq.on{flex-direction:row;align-items:flex-start;gap:10px;overflow:hidden}
-#s-seq .seqtop{flex:1.25;min-width:0;max-height:100%;overflow-y:auto;scrollbar-width:none}
-#s-seq .seqpanel{flex:1;min-width:0;max-height:100%;overflow-y:auto;scrollbar-width:none}
-#s-seq .trigs .gc{aspect-ratio:auto;min-height:44px}
-}
-@media (orientation:landscape) and (max-height:560px){
-#s-seq .seqtop .tk{min-height:26px}
-#s-seq .trigs .gc{min-height:40px}
-#s-seq .seqtop .chip.xs{min-height:28px}
+  #s-play .pads{height:100%;max-height:100%;aspect-ratio:1/1;max-width:100%;margin:0 auto;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);grid-auto-rows:auto;flex:none;min-height:0}
+  #s-play .pad{aspect-ratio:auto;min-height:0}
+  #s-seq.on{flex-direction:row;align-items:flex-start;gap:10px;overflow:hidden}
+  #s-seq .seqtop{flex:1.25;min-width:0;max-height:100%;overflow-y:auto;scrollbar-width:none}
+  #s-seq .seqpanel{flex:1;min-width:0;max-height:100%;overflow-y:auto;scrollbar-width:none}
+  #s-seq .trigs .gc{aspect-ratio:auto;min-height:44px}
 }
 @media (orientation:landscape) and (min-width:900px) and (min-height:561px){
-#s-seq .seqtop{flex:1.7}
-#s-seq .tkeys{grid-template-columns:repeat(16,1fr)}
-#s-seq .tk{min-height:38px}
-#s-seq .gview.trigs{grid-template-columns:repeat(16,1fr);gap:4px}
-#s-seq .trigs .gc{aspect-ratio:1/1;min-height:0}
+  #s-seq .seqtop{flex:1.7}
+  #s-seq .tkeys{grid-template-columns:repeat(16,1fr)}
+  #s-seq .tk{min-height:38px}
+  #s-seq .gview.trigs{grid-template-columns:repeat(16,1fr);gap:4px}
+  #s-seq .trigs .gc{aspect-ratio:1/1;min-height:0}
 }
 /* full-screen SEQ and MIX on a phone held sideways */
 .fsstrip, .fsscrim{display:none}
-@media (orientation:landscape) and (max-height:560px){
-body.fs #app{display:block;max-width:none;padding-left:52px}
-body.fs .screens{height:100%}
-body.fs .top, body.fs .nav{display:none}
-body.fs .fsstrip{display:flex;flex-direction:column;gap:8px;position:fixed;left:max(8px,env(safe-area-inset-left,0px));top:10px;z-index:40}
-.fsb{width:40px;height:40px;background:#151515;border:1px solid #272727;border-radius:3px;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;font:700 14px var(--font-ui)}
-.fsb i{display:block;width:16px;height:2px;background:var(--text)}
-.fsplay.on, body.fsopen .fsmenu{background:var(--orange);color:var(--onf);border-color:var(--orange)}
-body.fsopen .fsmenu i{background:var(--onf)}
-body.fsopen .fsscrim{display:block;position:fixed;inset:0;z-index:50;background:#000a}
-body.fs.fsopen .top{display:flex;position:fixed;z-index:60;left:0;top:0;bottom:84px;width:min(300px,46vw);background:#0a0a0a;border-right:1px solid var(--line);padding:10px 10px 6px max(10px,env(safe-area-inset-left,0px));overflow-y:auto}
-body.fs.fsopen .nav{display:grid;position:fixed;z-index:60;left:0;bottom:0;width:min(300px,46vw);background:#0a0a0a;border-right:1px solid var(--line);padding:4px 6px max(6px,env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
-body.fs.fsopen .fsstrip{z-index:70}
-body.fs .mix{gap:6px}
-}
-@media (orientation:landscape) and (max-height:560px){
-body.fs.fsopen .top{padding-left:calc(max(8px,env(safe-area-inset-left,0px)) + 56px)}
-body.fs.fsopen .nav{padding-left:calc(max(8px,env(safe-area-inset-left,0px)) + 56px)}
-/* MIX: master on the left, all 16 faders across */
-body.fs #s-mix.on{flex-direction:row;align-items:stretch;gap:8px;overflow:hidden}
-body.fs #s-mix .mastplate{flex:none;width:176px;overflow-y:auto;scrollbar-width:none}
-body.fs #s-mix .trkplate{flex:1;min-width:0;overflow-y:auto;scrollbar-width:none}
-body.fs #s-mix .mix{grid-template-columns:repeat(16,minmax(0,1fr));gap:3px}
-body.fs #s-mix .strip{padding:4px 0 4px;gap:3px}
-body.fs #s-mix .strip .sl, body.fs #s-mix .trkplate .note, body.fs #s-mix .mixact{display:none}
-body.fs #s-mix .fader{height:clamp(80px,36vh,150px)}
-body.fs #s-mix .ms button, body.fs #s-mix .scb{min-height:22px;font-size:9px;padding:0}
-}
 /* ===== BEHEMOTH-style SVG knobs ===== */
 .knob{--kw:58px;width:100%}
 .knob .ksvg{width:var(--kw);height:var(--kw);overflow:visible;display:block;cursor:ns-resize}
@@ -666,17 +620,16 @@ body.fs #s-mix .ms button, body.fs #s-mix .scb{min-height:22px;font-size:9px;pad
 #vbubble i{display:block;font:700 9px var(--font-mono,monospace);font-style:normal;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
 #vbubble b{font:700 22px 'Helvetica Neue',Helvetica,Arial,sans-serif}
 @media (max-width:600px){
-.knob{--kw:54px}
+  .knob{--kw:54px}
 }
 /* ===== modulation matrix ===== */
-.modtray{display:flex;gap:6px;align-items:center;margin:8px 0 2px}
+.modtray{display:flex;align-items:center;margin:8px 0 2px}
 .modtray .mtl{font:700 9.5px var(--font-ui);letter-spacing:.14em;color:var(--dim);margin-right:2px}
-.msrc{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;min-height:38px;border:1px solid #2b2b2b;border-radius:4px;background:#151515;color:var(--text);font:700 11px var(--font-ui);letter-spacing:.08em;touch-action:none;-webkit-user-select:none;user-select:none}
+.msrc{flex:1;display:flex;align-items:center;justify-content:center;min-height:38px;color:var(--text);font:700 11px var(--font-ui);touch-action:none;-webkit-user-select:none;user-select:none}
 .msrc i{width:9px;height:9px;border-radius:50%;background:var(--sg)}
 .msrc sup{font-size:9px;color:var(--text2)}
-.msrc.on{background:var(--sg);color:#0a0a0a;border-color:var(--sg)}
 .msrc.on i{background:#0a0a0a}
-.mghost{position:fixed;z-index:500;transform:translate(-50%,-130%);pointer-events:none;background:#0a0a0a;border:2px solid;border-radius:14px;padding:6px 12px;font:700 12px var(--font-ui);letter-spacing:.1em;color:#fff}
+.mghost{position:fixed;z-index:500;transform:translate(-50%,-130%);pointer-events:none;background:#0a0a0a;border:2px solid;padding:6px 12px;font:700 12px var(--font-ui);letter-spacing:.1em;color:#fff}
 .knob .mod{fill:none;stroke-width:3;stroke-linecap:butt}
 .knob.armed .trk{stroke:#555}
 .knob.armed .ksvg{filter:drop-shadow(0 0 5px #fff5)}
@@ -693,46 +646,18 @@ body.fs #s-mix .ms button, body.fs #s-mix .scb{min-height:22px;font-size:9px;pad
 .startrow .mtl{font:700 9.5px var(--font-ui);letter-spacing:.14em;color:var(--dim)}
 .startrow .chip{min-height:40px}
 /* MIX full screen: no left strip, the menu and play buttons sit in the empty corner of the master plate */
-@media (orientation:landscape) and (max-height:560px){
-body.fs.fsmix #app{padding-left:max(6px,env(safe-area-inset-left,0px))}
-body.fsmix .fsstrip{flex-direction:row;top:auto;bottom:14px;left:calc(max(6px,env(safe-area-inset-left,0px)) + 12px)}
-body.fsmix.fsopen .fsstrip{flex-direction:column;top:10px;bottom:auto;left:max(8px,env(safe-area-inset-left,0px))}
-body.fs.fsmix #s-mix .mastplate{width:164px}
-}
 /* ===== wordmark row, like BEHEMOTH: logo on the left, SYS on the right ===== */
 .brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px;grid-column:1/-1;min-height:40px}
 .brandrow .logo{font:700 16px 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.2em;color:var(--text);padding-left:4px}
 .brandrow .tsys{min-width:64px;min-height:40px;font-size:11px;letter-spacing:.14em}
-.brand-s{display:none}
-@media (max-width:560px){.brandrow .logo{font-size:14px;letter-spacing:.14em}}
+@media (max-width:560px){
+  .brandrow .logo{font-size:14px;letter-spacing:.14em}
+}
 /* ===== SEQ full screen on a phone held sideways: the trigs fill the width at the bottom, the panel drops down from the top ===== */
 .fsb.fspanelbtn{display:none}
-@media (orientation:landscape) and (max-height:560px){
-  body.fs.fsseq{--trh:clamp(96px,36vh,170px)}
-  body.fs.fsseq .fsb.fspanelbtn{display:flex;align-items:center;justify-content:center}
-  body.fs.fsseq.fspanel .fsb.fspanelbtn{background:var(--text);color:#0a0a0a}
-  body.fsseq #s-seq .seqtop{flex:1;max-height:100%;height:100%;display:flex;flex-direction:column;gap:8px;overflow:hidden}
-  body.fsseq #s-seq .tkeys{order:1;grid-template-columns:repeat(16,minmax(0,1fr));gap:3px}
-  body.fsseq #s-seq .tk{min-height:36px}
-  body.fsseq #s-seq .thead{order:2;margin:0}
-  body.fsseq #s-seq .pager{order:3}
-  body.fsseq #s-seq .lenk{order:4}
-  body.fsseq #s-seq .gview.trigs{order:5;margin:auto 0 0;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px}
-  body.fsseq #s-seq .trigs .gc{aspect-ratio:auto;min-height:var(--trh);padding:4px 3px}
-  body.fsseq #s-seq .seqtop .chip.xs{min-height:34px}
-  body.fsseq #s-seq .seqpanel{position:fixed;z-index:45;top:0;left:calc(max(8px,env(safe-area-inset-left,0px)) + 52px);right:max(8px,env(safe-area-inset-right,0px));
-    max-height:calc(100vh - var(--trh) - 26px);overflow-y:auto;background:#0e0e0e;border:1px solid #2a2a2a;border-top:0;border-radius:0 0 8px 8px;box-shadow:0 12px 30px #000c;
-    transform:translateY(-110%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s;padding:10px 12px}
-  body.fsseq.fspanel #s-seq .seqpanel{transform:none;visibility:visible;transition:transform .22s ease}
-  body.fs.fsseq.fspanel{--trh:58px}
-  body.fsseq #s-seq .seqpanel .kgrid{grid-template-columns:repeat(auto-fit,minmax(78px,1fr))!important;gap:4px 6px;margin-top:6px}
-  body.fsseq #s-seq .seqpanel .modhint{display:none}
-  body.fsseq #s-seq .seqpanel .note{display:none}
-  body.fsseq #s-seq .trigs .gc{transition:min-height .2s ease}
-  body.fsseq #s-seq .seqpanel .stabs{max-width:460px}
-}
 /* ===== MOD sources as round pills with a live underline, plus the cable (from BEHEMOTH) ===== */
-.modwrap{margin:8px 0 2px}.modwrap .modtray{margin:0}
+.modwrap{margin:8px 0 2px}
+.modwrap .modtray{margin:0}
 .modhint{font:500 11px var(--font-ui);color:var(--dim);margin:6px 2px 2px;min-height:14px}
 .modhint b{color:var(--text)}
 .msrc{position:relative;border-radius:999px;background:#131313;border:1px solid color-mix(in srgb,var(--sg) 65%,#000)}
@@ -757,14 +682,342 @@ body.fs.fsmix #s-mix .mastplate{width:164px}
 .mghost{border-radius:999px}
 .msrc{white-space:nowrap;padding:0 6px;gap:5px;font-size:10.5px;letter-spacing:.05em}
 .msrc sup{position:static;line-height:1}
-.modtray{gap:5px}.modtray .mtl{display:none}
-@media (min-width:480px){.modtray .mtl{display:block}.msrc{font-size:11px;padding:0 10px}}
-
+.modtray{gap:5px}
+.modtray .mtl{display:none}
+@media (min-width:480px){
+  .modtray .mtl{display:block}
+  .msrc{font-size:11px;padding:0 10px}
+}
 /* waveform: no level meter, sits toward the centre of the display */
 .oled canvas{align-self:center;height:60%;width:calc(100% - 24px);margin:0 auto}
 /* master encoders under the pads */
 .mastenc{margin-top:12px;padding:10px 6px 4px;border-top:1px solid var(--line,#262626)}
 .mastenc .mtl{font:700 9.5px var(--font-ui);letter-spacing:.14em;color:var(--dim);margin:0 0 8px 4px}
 .mastenc .mkg{grid-template-columns:repeat(4,1fr);gap:12px 6px}
-@media (orientation:landscape) and (max-height:560px){.mastenc{display:none}}
-@media (orientation:portrait){#s-play .pads{min-height:240px;grid-auto-rows:minmax(0,1fr);gap:6px}#s-play .pad{min-height:0;aspect-ratio:auto}.mastenc{margin-top:8px;padding-top:6px}.mastenc .mkg{gap:6px}}
+@media (orientation:portrait){
+  #s-play .pads{--ps:calc((100% - 18px)/4);min-height:0;flex:none;grid-template-columns:repeat(4,1fr);grid-auto-rows:auto;gap:6px;aspect-ratio:auto;width:100%}
+  #s-play .pad{min-height:0;aspect-ratio:1/1;width:100%;height:auto}
+  .mastenc{margin-top:8px;padding-top:6px}
+  .mastenc .mkg{gap:6px}
+}
+/* where can this source go: valid knobs glow in the source colour, the rest dim */
+body.modcand .knob[data-dest]:not(.cand){opacity:.3;transition:opacity .15s}
+.knob.cand .ksvg{filter:drop-shadow(0 0 6px var(--cg,#fff))}
+.knob.cand .trk{stroke:var(--cg,#fff);stroke-opacity:.55}
+.knob.cand .cap{stroke:var(--cg,#fff);stroke-width:1.5}
+.knob.cand .ksvg{animation:candp 1s ease-in-out infinite}
+@keyframes candp{50%{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){
+  .knob.cand .ksvg{animation:none}
+}
+.knob.cand.drop .ksvg{animation:none}
+.chip.cand{box-shadow:0 0 0 1.5px var(--cg,#fff),0 0 10px var(--cg,#fff);animation:candp 1s ease-in-out infinite}
+body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
+.viz.wv{height:132px}
+/* ===== v21: full screen MIX fills the height; full screen SEQ gets square trigs in two rows of eight and a small PAGE ===== */
+/* ===== v21: SAMPLE screen: compact header rows, two columns when held sideways ===== */
+#s-sound .sbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+#s-sound .sbar .stt{font:700 11px var(--font-ui);letter-spacing:.12em;color:var(--text);flex:1 0 auto;white-space:nowrap}
+#s-sound .sbar .snav{display:flex;gap:4px;order:2}
+#s-sound .sbar .sampseg{order:3;margin:0;flex:0 0 auto}
+#s-sound .sbar .sampseg .chip{min-width:78px}
+#s-sound .sbar .sndpick{order:4;flex:1;min-width:110px}
+#s-sound .stabs{flex-direction:row;align-items:stretch;gap:6px;margin-top:8px}
+#s-sound .stabs .ptabs{flex:1;margin:0}
+#s-sound .stabs .ptabs .chip{min-height:40px}
+#s-sound .stabs .plk{flex:0 0 auto;min-height:40px;padding:0 10px;font-size:10px;letter-spacing:.06em}
+#s-sound .modtray{margin-top:8px}
+@media (orientation:landscape) and (min-width:561px),(min-width:900px) and (orientation:landscape){
+  #s-sound .splate{display:grid;grid-template-columns:minmax(300px,5fr) 6fr;grid-template-rows:auto 1fr;gap:0 18px;align-items:start}
+  #s-sound .sleft{grid-column:1;grid-row:1}
+  #s-sound .splate>.sl{grid-column:1;grid-row:2;align-self:stretch;margin-top:10px;display:flex;flex-direction:column}
+  #s-sound .splate>.sl .viz{flex:none;height:104px}
+  #s-sound .modhint{display:none}
+  #s-sound .sright{grid-column:2;grid-row:1/3}
+  #s-sound .sbar .stt{flex:1 1 100%;order:0}
+  #s-sound .sbar .snav{order:1;margin-left:auto}
+  #s-sound .sbar .sampseg{order:0}
+  #s-sound .sbar .sndpick{flex:1}
+  #s-sound .sr .kgrid{margin-top:0!important}
+  #s-sound .sr .kgrid{grid-template-columns:repeat(4,1fr);gap:6px 4px}
+}
+@media (orientation:portrait){
+  #s-sound .sbar .stt{flex:1}
+}
+@media (min-width:900px) and (orientation:landscape){
+  #s-sound .splate{max-width:none;width:100%;box-sizing:border-box;grid-template-columns:minmax(340px,5fr) minmax(300px,6fr)}
+  #s-sound.on{display:block}
+}
+.presrow{gap:6px}
+.presrow .btn{flex:1 1 30%;min-height:44px}
+.startrow{flex-wrap:wrap}
+.startrow .mtl{flex:1 0 100%}
+.startrow .chip{flex:1 1 30%}
+/* ===== v27: phone held sideways: play and sequence get a slim button rail, the playing area on the left, the encoders in a scrollable column on the right ===== */
+/* the hint line under the SOUND chips: room above and below, same left edge as the chips */
+.seqsnd .lkinfo{margin:10px 4px 8px;line-height:1.35;min-height:18px;font-size:11.5px;letter-spacing:.01em}
+.bankroles{flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.bankroles .chip{flex:1 1 22%;min-height:32px}
+/* ===== v28: MIX, SAMPLE, FX, WAVE and SYS follow the same sideways layout: big controls, panes that scroll on their own ===== */
+/* ===== v29: sideways panes: equal height, tops aligned, each one scrolls on its own ===== */
+@media (orientation:landscape) and (min-width:561px){
+  #s-seq .seqtop .tk{min-height:26px}
+  #s-seq .trigs .gc{min-height:40px}
+  #s-seq .seqtop .chip.xs{min-height:28px}
+  body.fs #app{padding-left:52px}
+  body.fs .top, body.fs .nav{display:none}
+  body.fs .fsstrip{display:flex;flex-direction:column;gap:8px;position:fixed;left:max(8px,env(safe-area-inset-left,0px));top:10px;z-index:40}
+  .fsb{width:40px;height:40px;background:#151515;border:1px solid #272727;border-radius:3px;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;font:700 14px var(--font-ui)}
+  .fsb i{display:block;width:16px;height:2px;background:var(--text)}
+  .fsplay.on, body.fsopen .fsmenu{background:var(--orange);color:var(--onf);border-color:var(--orange)}
+  body.fsopen .fsmenu i{background:var(--onf)}
+  body.fsopen .fsscrim{display:block;position:fixed;inset:0;z-index:50;background:#000a}
+  body.fs.fsopen .top{display:flex;position:fixed;z-index:60;left:0;width:min(300px,46vw);background:#0a0a0a;border-right:1px solid var(--line);overflow-y:auto}
+  body.fs.fsopen .nav{display:grid;position:fixed;z-index:60;left:0;bottom:0;width:min(300px,46vw);background:#0a0a0a;border-right:1px solid var(--line);padding:4px 6px max(6px,env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  body.fs.fsopen .fsstrip{z-index:70}
+  body.fs .mix{gap:6px}
+  body.fs.fsopen .top{padding-left:calc(max(8px,env(safe-area-inset-left,0px)) + 56px)}
+  /* MIX: master on the left, all 16 faders across */
+  body.fs #s-mix.on{flex-direction:row;gap:8px;overflow:hidden}
+  body.fs #s-mix .mastplate{flex:none;width:176px;overflow-y:auto;scrollbar-width:none}
+  body.fs #s-mix .trkplate{flex:1;min-width:0;overflow-y:auto;scrollbar-width:none}
+  body.fs #s-mix .mix{grid-template-columns:repeat(16,minmax(0,1fr));gap:3px}
+  body.fs #s-mix .strip{padding:4px 0 4px;gap:3px}
+  body.fs #s-mix .strip .sl, body.fs #s-mix .trkplate .note, body.fs #s-mix .mixact{display:none}
+  body.fs #s-mix .fader{height:clamp(80px,36vh,150px)}
+  body.fs #s-mix .ms button, body.fs #s-mix .scb{min-height:22px;font-size:9px;padding:0}
+  body.fs.fsmix #app{padding-left:max(6px,env(safe-area-inset-left,0px))}
+  body.fsmix .fsstrip{flex-direction:row;top:auto;bottom:14px;left:calc(max(6px,env(safe-area-inset-left,0px)) + 12px)}
+  body.fsmix.fsopen .fsstrip{flex-direction:column;top:10px;bottom:auto;left:max(8px,env(safe-area-inset-left,0px))}
+  body.fs.fsseq{--trh:clamp(96px,36vh,170px)}
+  body.fs.fsseq .fsb.fspanelbtn{display:flex;align-items:center;justify-content:center}
+  body.fs.fsseq.fspanel .fsb.fspanelbtn{background:var(--text);color:#0a0a0a}
+  body.fsseq #s-seq .seqtop{flex:1;max-height:100%;height:100%;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+  body.fsseq #s-seq .tkeys{order:1;grid-template-columns:repeat(16,minmax(0,1fr));gap:3px}
+  body.fsseq #s-seq .tk{min-height:36px}
+  body.fsseq #s-seq .thead{order:2;margin:0}
+  body.fsseq #s-seq .pager{order:3}
+  body.fsseq #s-seq .lenk{order:4}
+  body.fsseq #s-seq .gview.trigs{order:5;margin:auto 0 0;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px}
+  body.fsseq #s-seq .trigs .gc{aspect-ratio:auto;min-height:var(--trh);padding:4px 3px}
+  body.fsseq #s-seq .seqtop .chip.xs{min-height:34px}
+  body.fsseq #s-seq .seqpanel{position:fixed;z-index:45;overflow-y:auto;background:#0e0e0e;border:1px solid #2a2a2a;border-top:0;border-radius:0 0 8px 8px;box-shadow:0 12px 30px #000c;transform:translateY(-110%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s}
+  body.fsseq.fspanel #s-seq .seqpanel{transform:none;visibility:visible;transition:transform .22s ease}
+  body.fs.fsseq.fspanel{--trh:58px}
+  body.fsseq #s-seq .seqpanel .kgrid{grid-template-columns:repeat(auto-fit,minmax(78px,1fr))!important;gap:4px 6px;margin-top:6px}
+  body.fsseq #s-seq .seqpanel .modhint{display:none}
+  body.fsseq #s-seq .seqpanel .note{display:none}
+  body.fsseq #s-seq .trigs .gc{transition:min-height .2s ease}
+  .mastenc{display:none}
+  body.fs.fsmix #s-mix .trkplate{display:flex;flex-direction:column;overflow:hidden}
+  body.fs.fsmix #s-mix .trkplate>h3{flex:none}
+  body.fs.fsmix #s-mix .mix{flex:1;min-height:0;grid-template-rows:minmax(0,1fr);touch-action:pan-x}
+  body.fs.fsmix #s-mix .strip{height:100%;min-height:0}
+  body.fs.fsmix #s-mix .strip .fm{flex:1;align-self:stretch}
+  body.fs.fsmix #s-mix .strip .fader{height:100%;min-height:56px}
+  body.fs.fsmix #s-mix .strip .meter{height:100%}
+  body.fs.fsmix #s-mix .ms button,body.fs.fsmix #s-mix .scb{min-height:26px}
+  body.fs.fsmix #s-mix .mastplate{display:flex;flex-direction:column}
+  body.fsseq:not(.fspanel) #s-seq .pager{gap:4px}
+  body.fsseq:not(.fspanel) #s-seq .pager .plbl{display:none}
+  body.fsseq:not(.fspanel) #s-seq .pager .chip.xs{flex:0 0 auto;min-width:34px;min-height:28px;padding:0 8px;font-size:10px}
+  body.fsseq:not(.fspanel) #s-seq .trigs .gc i{font-size:12px}
+  body.fs.fsmix #s-mix .strip.cur{outline-offset:-2px}
+  body.fsseq:not(.fspanel){--sq:min(calc((100vw - 130px)/8 - 5px),calc((100vh - 150px)/2 - 4px))}
+  body{padding-left:max(6px,env(safe-area-inset-left,0px));padding-right:max(6px,env(safe-area-inset-right,0px))}
+  body.fs #app{display:block;max-width:none;padding:56px 0 max(4px,env(safe-area-inset-bottom,0px))}
+  body.fs[data-fst=play] #app, body.fs[data-fst=seq] #app{padding:4px 0 max(4px,env(safe-area-inset-bottom,0px)) 56px}
+  body.fs .fsstrip, body.fsmix .fsstrip{flex-direction:row;align-items:center;gap:8px;top:5px;bottom:auto;left:max(6px,env(safe-area-inset-left,0px))}
+  body.fs[data-fst=play] .fsstrip, body.fs[data-fst=seq] .fsstrip{flex-direction:column;align-items:stretch;top:4px}
+  body.fs .fsb{width:46px;height:46px;border-radius:6px}
+  body.fs .fsb svg{display:block;margin:auto}
+  body.fs .fsmenu i{width:20px;height:2.5px}
+  body.fs .fsrec{display:none}
+  body.fs[data-fst=play] .fsrec, body.fs[data-fst=seq] .fsrec{display:flex;align-items:center;justify-content:center}
+  body.fs .fsrec.on{background:var(--orange);color:var(--onf);border-color:var(--orange)}
+  body.fs .fsplay{align-items:center;justify-content:center}
+  .fsinfo{font:600 11px var(--font-ui);letter-spacing:.08em;color:var(--dim);white-space:nowrap;margin-left:6px;text-transform:uppercase}
+  body.fs[data-fst=play] .fsinfo, body.fs[data-fst=seq] .fsinfo{display:none}
+  body.fs.fsopen .top{top:0;bottom:84px;padding:8px max(10px,env(safe-area-inset-left,0px)) 6px;gap:8px;flex-direction:column}
+  body.fs.fsopen .top>*{flex:none}
+  body.fs.fsopen .nav{padding-left:max(6px,env(safe-area-inset-left,0px))}
+  body.fs.fsopen[data-fst=play] .top, body.fs.fsopen[data-fst=seq] .top{padding-left:calc(max(6px,env(safe-area-inset-left,0px)) + 62px)}
+  body.fs .screens{height:100%}
+  body.fs[data-fst=play] #s-play.screen, body.fs[data-fst=seq] #s-seq.screen{padding:0;-webkit-mask-image:none;mask-image:none;overflow:hidden}
+  /* the encoder column */
+  body.fs .fsenc{display:flex;flex-direction:column;gap:10px;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:#0e0e0e;border:1px solid #1f1f1f;border-radius:8px;padding:8px 6px 10px;container-type:inline-size}
+  body.fs .fsenc::-webkit-scrollbar{display:none}
+  body.fs .fsenc .fspg{display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:4px}
+  body.fs .fsenc .fspg .chip{min-height:34px;padding:0 2px;font-size:10px}
+  body.fs .fsenc .fsk{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:12px 2px;padding:2px 0 4px}
+  body.fs .fsenc .knob{gap:1px}
+  body.fs .fsenc .knob .cap{width:clamp(40px,18cqw,58px);height:clamp(40px,18cqw,58px)}
+  body.fs .fsenc .knob .cap::before{inset:5px}
+  body.fs .fsenc .knob .cap::after{top:8px;height:9px;transform-origin:50% 15px}
+  body.fs .fsenc .kl{font-size:9px}
+  body.fs .fsenc .fsmaster{border-top:1px solid #262626;padding-top:8px}
+  body.fs .fsenc .mastenc{display:block;margin:0;padding:0;border:0}
+  body.fs .fsenc .mastenc .mkg{grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:12px 2px}
+  /* PADS: big square pads, the encoders beside them */
+  body.fs #s-play .fsplay2{flex:1;min-height:0;display:flex;gap:10px;height:100%}
+  body.fs #s-play .fspadz{flex:none;height:100%;aspect-ratio:1/1;max-width:62%}
+  body.fs #s-play .fspadz .pads{height:100%;width:100%;max-height:none;aspect-ratio:auto;margin:0;gap:6px}
+  body.fs #s-play .fsenc{flex:1;min-width:210px}
+  body.fs #s-play .pad{border-radius:6px}
+  /* SEQ: track keys, bar and 2 x 8 squares on the left, encoders on the right */
+  body.fsseq:not(.fspanel) #s-seq .seqtop{--encw:clamp(206px,29vw,252px);--sq:min(calc((100cqw - var(--encw) - 12px - 35px)/8),calc((100cqh - 136px)/2));container-type:size;display:grid;grid-template-columns:auto minmax(0,1fr) auto var(--encw);grid-template-rows:auto auto auto minmax(0,1fr);gap:8px 12px;align-items:center;align-content:start;padding:0;background:none;border:0;box-shadow:none;height:100%;max-height:100%}
+  body.fsseq:not(.fspanel) #s-seq .tkeys{grid-column:1/4;grid-row:1;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:0}
+  body.fsseq:not(.fspanel) #s-seq .tk{min-height:40px}
+  body.fsseq:not(.fspanel) #s-seq .thead{grid-column:1;grid-row:2;height:32px;margin:0}
+  body.fsseq:not(.fspanel) #s-seq .pager{grid-column:2;grid-row:2;height:32px;margin:0;justify-content:center}
+  body.fsseq:not(.fspanel) #s-seq .lenk{grid-column:3;grid-row:2;height:32px;margin:0}
+  body.fsseq:not(.fspanel) #s-seq .seqtop .chip.xs{min-height:30px;padding:0 8px}
+  body.fsseq:not(.fspanel) #s-seq .gview.trigs{grid-column:1/4;grid-row:3/5;margin:0;align-self:start;justify-self:start;grid-template-columns:repeat(8,var(--sq));grid-auto-rows:var(--sq);gap:5px}
+  body.fsseq:not(.fspanel) #s-seq .trigs .gc{aspect-ratio:1/1;min-height:0;width:var(--sq);height:var(--sq);padding:3px}
+  body.fsseq:not(.fspanel) #s-seq .fsenc{grid-column:4;grid-row:1/5;align-self:stretch;height:100%}
+  body.fsseq.fspanel .fsenc{display:none}
+  /* the drop-down panel: tabs down the left, content in columns */
+  body.fsseq #s-seq .seqpanel{top:4px;left:calc(max(6px,env(safe-area-inset-left,0px)) + 56px);right:max(6px,env(safe-area-inset-right,0px));max-height:calc(100vh - var(--trh) - 16px);display:grid;grid-template-columns:86px minmax(0,1fr);gap:0 14px;align-items:start;padding:10px 12px}
+  body.fsseq #s-seq .seqpanel .stabs{flex-direction:column;max-width:none;position:sticky;top:0;align-items:stretch}
+  body.fsseq #s-seq .seqpanel .stabs .chip{min-height:40px;width:100%;flex:none}
+  body.fsseq #s-seq .seqpanel .stabs>*{width:100%}
+  body.fsseq #s-seq .seqpanel .sbody{min-width:0}
+  body.fsseq #s-seq .tgen, body.fsseq #s-seq .tedit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 18px;align-items:start}
+  body.fsseq #s-seq .tgen .tgrp, body.fsseq #s-seq .tedit .tgrp{margin:0}
+  body.fsseq #s-seq .tgen .row, body.fsseq #s-seq .tedit .row{flex-wrap:wrap}
+  body.fsseq #s-seq .tstep{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 14px;align-items:center}
+  body.fsseq #s-seq .tstep>h3{grid-column:1/-1;margin:0}
+  body.fsseq #s-seq .tstep>.kgrid{grid-column:1/-1;grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  body.fsseq #s-seq .seqpanel .note.lbl, body.fsseq #s-seq .seqpanel .note.eucv, body.fsseq #s-seq .seqpanel .shint .note{display:block}
+  /* MIX: big strips, swipe sideways */
+  body.fs.fsmix #s-mix .mastplate{flex:none}
+  body.fs.fsmix #s-mix .mix{grid-template-columns:repeat(16,92px)!important;gap:8px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 6px 6px}
+  body.fs.fsmix #s-mix .mix::-webkit-scrollbar{display:none}
+  body.fs.fsmix #s-mix .strip{scroll-snap-align:start;padding:6px 4px 6px}
+  body.fs.fsmix #s-mix .strip .sl{display:block;font:600 9.5px var(--font-ui);letter-spacing:.06em;text-align:center;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  body.fs.fsmix #s-mix .ms{gap:6px}
+  body.fs.fsmix #s-mix .ms button, body.fs.fsmix #s-mix .scb{min-height:36px;font-size:14px}
+  body.fs.fsmix #s-mix .scb{font-size:11px}
+  .mixnav{align-items:center;gap:8px}
+  .mixnav .chip{min-width:46px;min-height:34px;font-size:20px;padding:0}
+  /* SAMPLE: wave takes what is left, the knobs pane scrolls by itself */
+  body.fs #s-sound .splate>.sl{min-height:0;margin-top:8px}
+  body.fs #s-sound .splate>.sl .viz{height:auto;flex:1;min-height:56px}
+  body.fs #s-sound .sright{-webkit-overflow-scrolling:touch}
+  body.fs #s-sound .sright::-webkit-scrollbar{display:none}
+  /* FX: effect list on the left, graph and knobs on the right */
+  body.fs #s-fx.on{display:grid;grid-template-columns:minmax(150px,26%) minmax(0,1fr);gap:10px;overflow:hidden;align-content:stretch}
+  body.fs #s-fx.on>.plate{overflow-y:auto;min-height:0;height:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  body.fs #s-fx.on>.plate::-webkit-scrollbar{display:none}
+  body.fs #s-fx .fxtabs{grid-template-columns:1fr;gap:6px}
+  body.fs #s-fx .fxtabs .chip{font-size:12px}
+  body.fs #s-fx .fxviz{height:96px}
+  body.fs #s-fx .kgrid{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px 4px}
+  body.fs #s-fx .knob .cap{width:56px;height:56px}
+  /* WAVE and SYS: two panes */
+  body.fs #s-smpl.on, body.fs #s-sys.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-content:start;align-items:start}
+  body.fs.fsmix #s-mix .mastplate{width:176px}
+  body.fs.fsmix #s-mix .trkplate>h3{display:none}
+  body.fs.fsmix #s-mix .trkplate{padding:6px 4px}
+  body.fs.fsmix .mixnav{position:fixed;top:5px;right:max(8px,env(safe-area-inset-right,0px));z-index:41;align-items:center;gap:10px;font:600 11px var(--font-ui);letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+  body.fs.fsmix .mixnav .chip{width:56px;height:46px;min-height:46px;font-size:24px}
+  body.fs.fsmix #s-mix .strip{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto auto auto;gap:5px 4px;align-items:center}
+  body.fs.fsmix #s-mix .strip .sn{grid-column:1;grid-row:1;min-height:0;font-size:18px;text-align:left;padding-left:6px}
+  body.fs.fsmix #s-mix .strip .lvl{grid-column:2;grid-row:1;text-align:right;padding-right:6px;font-size:13px}
+  body.fs.fsmix #s-mix .strip .fm{grid-column:1/-1;grid-row:2;min-height:0;height:100%}
+  body.fs.fsmix #s-mix .strip .ms{grid-column:1/-1;grid-row:3}
+  body.fs.fsmix #s-mix .strip .scb{grid-column:1/-1;grid-row:4;min-height:30px}
+  body.fs.fsmix #s-mix .strip .sl{grid-column:1/-1;grid-row:5}
+  body.fs.fsmix #s-mix .ms button{min-height:34px}
+  .mixnav{display:none}
+  body.fs.fsmix .mixnav{display:flex}
+  body.fs #s-fx .fxtabs .chip{min-height:40px}
+  body.fs #s-sound .splate{padding-bottom:12px}
+  body.fs #s-sound.on{overflow:hidden}
+  body.fs #s-sound .splate{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:minmax(0,1fr);gap:14px;height:100%;min-height:0;box-sizing:border-box;align-items:stretch}
+  body.fs #s-sound .sleft{overflow-y:auto;min-height:0;scrollbar-width:none;-webkit-overflow-scrolling:touch;grid-column:1;grid-row:1;display:flex;flex-direction:column;gap:6px}
+  body.fs #s-sound .sleft::-webkit-scrollbar{display:none}
+  body.fs #s-sound .sright{grid-column:2;grid-row:1;overflow-y:auto;min-height:0;scrollbar-width:none}
+  body.fs #s-sound .sright>.sl{display:block;margin:0 0 8px}
+  body.fs #s-sound .sright>.sl .viz{display:block;width:100%;flex:none}
+  body.fs #s-sound .sr .kgrid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:0!important}
+  body.fs #s-sound .sbar{gap:6px}
+  body.fs #s-sound .sbar .chip, body.fs #s-sound .sbar .sndpick{min-height:36px}
+  body.fs #s-sound .modtray{margin:0}
+  body.fs #s-sound .modtray .msrc{min-height:36px;font-size:11px}
+  body.fs #s-sound .stabs{margin:0}
+  body.fs #s-sound .stabs .ptabs .chip, body.fs #s-sound .stabs .plk{min-height:36px}
+  body.fs #s-mix.on{align-items:stretch}
+  body.fs.fsmix #s-mix .mastplate, body.fs.fsmix #s-mix .trkplate{height:100%;box-sizing:border-box;align-self:stretch}
+  body.fs #s-fx.on>.plate, body.fs #s-smpl.on>.plate, body.fs #s-sys.on>.plate{box-sizing:border-box}
+  body.fs #s-sound .sright>.sl{margin-bottom:6px}
+  body.fs #s-sound .sright>.sl .viz{height:58px}
+  body.fs #s-sound .sr .knob .cap{width:42px;height:42px}
+  body.fs #s-sound .sr .knob{gap:0}
+  body.fs #s-sound .sr .kgrid{gap:2px 4px}
+  body.fs #s-sound .splate{padding:8px 12px}
+  body.fs.fsopen:not([data-fst=play]):not([data-fst=seq]) .fsstrip{flex-direction:row;align-items:center;top:5px;bottom:auto;left:max(6px,env(safe-area-inset-left,0px))}
+  body.fs.fsopen:not([data-fst=play]):not([data-fst=seq]) .fsinfo{display:none}
+  body.fs.fsopen:not([data-fst=play]):not([data-fst=seq]) .top{top:60px;bottom:0;padding:8px 10px 60px max(10px,env(safe-area-inset-left,0px))}
+  body.fs.fsopen[data-fst=play] .top, body.fs.fsopen[data-fst=seq] .top{left:calc(max(6px,env(safe-area-inset-left,0px)) + 58px);top:0;bottom:0;padding:8px 10px 60px;width:min(300px,42vw)}
+  body.fs.fsopen[data-fst=play] .nav, body.fs.fsopen[data-fst=seq] .nav{left:calc(max(6px,env(safe-area-inset-left,0px)) + 58px);padding-left:6px;width:min(300px,42vw)}
+}
+@media (orientation:landscape) and (min-width:561px) and (max-aspect-ratio:3/2){
+  body.fsseq:not(.fspanel) #s-seq .seqtop{--sh:min(calc((100cqh - 136px)/2),calc(var(--sq)*2.4))}
+  body.fsseq:not(.fspanel) #s-seq .gview.trigs{justify-self:stretch;align-self:stretch;grid-template-columns:repeat(8,minmax(0,1fr));grid-auto-rows:var(--sh)}
+  body.fsseq:not(.fspanel) #s-seq .trigs .gc{width:auto;height:auto;aspect-ratio:auto}
+}
+/* the drawer opens the same way on every tab; on PADS and SEQ it slides out beside the button rail */
+/* very short screens (a phone held sideways inside another app's window): shrink graphs and knobs so nothing is cut in half */
+@media (orientation:landscape) and (min-width:561px) and (max-height:340px){
+  body.fs #s-fx .fxtabs{gap:4px}
+  body.fs #s-fx .fxtabs .chip{min-height:34px;font-size:11px}
+  body.fs #s-fx .fxviz{height:54px}
+  body.fs #s-fx .knob .cap{width:44px;height:44px}
+  body.fs #s-fx .kgrid{gap:6px 4px}
+  body.fs #s-sound .sright>.sl .viz{height:28px}
+  body.fs #s-sound .splate{padding:4px 10px}
+  body.fs #s-sound .sr .knob .cap{width:30px;height:30px}
+  body.fs #s-sound .sr .kgrid{gap:0 4px}
+  body.fs .fsenc .knob .cap{width:clamp(34px,15cqw,46px);height:clamp(34px,15cqw,46px)}
+  body.fs .fsenc .fsk, body.fs .fsenc .mastenc .mkg{gap:6px 2px}
+  body.fs .fsenc .fspg .chip{min-height:28px}
+  body.fs .fsenc{gap:6px}
+}
+/* the display in the drawer has a fixed height, so the size of its level canvas can never stretch it */
+@media (orientation:landscape) and (min-width:561px){
+body.fs.fsopen .top .oled{height:96px;min-height:0;overflow:hidden}
+body.fs.fsopen .top .oled canvas{width:100%;height:100%;min-height:0}
+}
+/* SAMPLE sideways: one column that scrolls. The controls sit on top, the big detailed wave and the knobs below */
+@media (orientation:landscape) and (min-width:561px){
+body.fs #s-sound.on{display:block;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+body.fs #s-sound.on::-webkit-scrollbar{display:none}
+body.fs #s-sound .splate{display:flex;flex-direction:column;gap:12px;height:auto;min-height:0;padding:10px 12px 18px;overflow:visible}
+body.fs #s-sound .sleft{flex:none;overflow:visible;gap:8px}
+body.fs #s-sound .sright{flex:none;overflow:visible}
+body.fs #s-sound .sright>.sl{margin:0 0 10px}
+body.fs #s-sound .sright>.sl .viz{height:clamp(150px,calc(48vh / var(--z)),380px);display:block;width:100%;min-height:0}
+body.fs #s-sound .sr .kgrid{grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:10px 6px}
+body.fs #s-sound .sr .knob .cap{width:46px;height:46px}
+}
+@media (orientation:landscape) and (min-width:561px) and (max-height:340px){
+body.fs #s-sound .sbar .chip, body.fs #s-sound .sbar .sndpick{min-height:30px}
+body.fs #s-sound .modtray .msrc{min-height:30px}
+body.fs #s-sound .stabs .ptabs .chip, body.fs #s-sound .stabs .plk{min-height:30px}
+body.fs #s-sound .splate{gap:8px;padding:6px 10px 14px}
+body.fs #s-sound .sright>.sl .viz{height:clamp(120px,calc(60vh / var(--z)),380px)}
+}
+/* SEQ bar between the track keys and the steps: one centre line, the three groups spread apart (left, middle, right) */
+@media (orientation:landscape) and (min-width:561px){
+body.fsseq:not(.fspanel) #s-seq .thead, body.fsseq:not(.fspanel) #s-seq .pager, body.fsseq:not(.fspanel) #s-seq .lenk{align-self:center;align-items:center;height:34px;padding-top:0!important;padding-bottom:0!important;margin-top:0!important;margin-bottom:0!important}
+body.fsseq:not(.fspanel) #s-seq .thead .chip.xs, body.fsseq:not(.fspanel) #s-seq .pager .chip.xs, body.fsseq:not(.fspanel) #s-seq .lenk .chip.xs{height:34px;min-height:34px;padding-top:0;padding-bottom:0}
+body.fsseq:not(.fspanel) #s-seq .pager{justify-self:center;margin:0 14px}
+body.fsseq:not(.fspanel) #s-seq .lenk{justify-self:end}
+@container (max-width:780px){
+  body.fsseq:not(.fspanel) #s-seq .thead small{display:none}
+  body.fsseq:not(.fspanel) #s-seq .lenk .lbl{font-size:0;letter-spacing:0}
+  body.fsseq:not(.fspanel) #s-seq .lenk .lbl::before{content:'LEN';font:600 10px var(--font-ui);letter-spacing:.1em}
+  body.fsseq:not(.fspanel) #s-seq .thead .chip.xs, body.fsseq:not(.fspanel) #s-seq .lenk .chip.xs{padding-left:8px;padding-right:8px}
+}
+}

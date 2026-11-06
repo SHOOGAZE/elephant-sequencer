@@ -31,25 +31,98 @@ const PTRK=[
 ];
 function pset(row,steps,o){(Array.isArray(steps)?steps:[steps]).forEach(i=>{const s=row[i];s.on=1;s.vel=o.vel==null?.8:o.vel;s.note=o.note||0;s.len=o.len||1;s.micro=o.micro||0;if(o.cond)s.cond=o.cond})}
 const PRESETS=[
- {name:'DUB CHORDS',bpm:122,dly:[4,.66,.55],rev:[.82,.45,.5],pats:[
+ {name:'DUB CHORDS',bpm:122,kit:['DEEP','RIM 2','CLAP LONG','HAT CL 2','HAT OP 2','DUB M9','SUB SOFT','VINYL'],dly:[4,.66,.55],rev:[.82,.45,.5],pats:[
   p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[4],[2,6,10,14],{vel:.75});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.32,micro:1});pset(p[1],[7,15],{vel:.5});pset(p[5],3,{vel:.9});pset(p[5],10,{vel:.7});pset(p[6],0,{len:3,vel:.9});pset(p[6],8,{len:2,vel:.8})},
   p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[4],[2,6,10,14],{vel:.75});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.35,micro:1});pset(p[2],[4,12],{vel:.8});pset(p[5],3,{vel:.9});pset(p[5],10,{vel:.75,note:3});pset(p[5],14,{vel:.55,note:3});pset(p[6],0,{len:3,vel:.9});pset(p[6],10,{len:3,vel:.8,note:3});pset(p[7],0,{len:16,vel:.5})},
   p=>{pset(p[5],0,{vel:.9});pset(p[5],6,{vel:.75,note:3});pset(p[5],12,{vel:.7,note:5});pset(p[6],0,{len:6,vel:.8});pset(p[6],12,{len:4,vel:.7,note:5});pset(p[4],[4,12],{vel:.5});pset(p[7],0,{len:16,vel:.6})}]},
- {name:'DEEP MINIMAL',bpm:124,dly:[3,.55,.5],rev:[.7,.5,.4],pats:[
+ {name:'DEEP MINIMAL',bpm:124,kit:['SOFT','WOOD','TIGHT SN','HAT TICK','HAT OP 1','CLAV','PLUCK BS','AIR'],dly:[3,.55,.5],rev:[.7,.5,.4],pats:[
   p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[3],[2,6,10,14],{vel:.5});pset(p[1],[4,12],{vel:.6});pset(p[5],6,{vel:.65});pset(p[5],11,{vel:.5,note:5});pset(p[6],0,{len:4,vel:.85});pset(p[6],8,{len:4,vel:.8,note:3})},
   p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[3],[2,6,10,14],{vel:.55});pset(p[4],14,{vel:.6});pset(p[2],12,{vel:.7});pset(p[1],[4],{vel:.55});pset(p[5],6,{vel:.7});pset(p[5],9,{vel:.5,note:3});pset(p[5],11,{vel:.6,note:5});pset(p[6],0,{len:4,vel:.85});pset(p[6],8,{len:4,vel:.8,note:5});pset(p[7],0,{len:16,vel:.35})}]},
  {name:'ECHO SPACE',bpm:118,dly:[5,.72,.62],rev:[.9,.5,.55],pats:[
   p=>{pset(p[0],[0,8],{vel:1});pset(p[0],11,{vel:.5});pset(p[4],[4,12],{vel:.7});pset(p[3],[2,6,10,14],{vel:.35});pset(p[2],12,{vel:.75});pset(p[5],2,{vel:.9});pset(p[5],7,{vel:.7,note:3});pset(p[5],14,{vel:.7,note:5});pset(p[6],0,{len:6,vel:.85});pset(p[6],10,{len:4,vel:.8,note:3});pset(p[7],0,{len:16,vel:.45})},
-  p=>{pset(p[5],2,{vel:.9});pset(p[5],10,{vel:.7,note:5});pset(p[6],0,{len:8,vel:.8});pset(p[7],0,{len:16,vel:.7});pset(p[1],[6,14],{vel:.4})}]}
+  p=>{pset(p[5],2,{vel:.9});pset(p[5],10,{vel:.7,note:5});pset(p[6],0,{len:8,vel:.8});pset(p[7],0,{len:16,vel:.7});pset(p[1],[6,14],{vel:.4})}]},
+ {name:'WAREHOUSE',bpm:126,kit:['DIST','COWBELL','CLAP 2','HAT CL 1','HAT OP 1','RAVE','ACID','RUMBLE'],dly:[4,.5,.35],rev:[.6,.5,.3],pats:[
+  p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[4],[2,6,10,14],{vel:.7});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.28,micro:1});pset(p[2],[4,12],{vel:.8});pset(p[6],[2,6,10,14],{vel:.8});pset(p[5],3,{vel:.85});pset(p[5],10,{vel:.65,note:3})},
+  p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[4],[2,6,10,14],{vel:.7});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.3,micro:1});pset(p[2],[4,12],{vel:.85});pset(p[1],[7,15],{vel:.5});pset(p[6],[2,6,10],{vel:.8});pset(p[6],14,{vel:.7,note:3});pset(p[5],3,{vel:.85,note:5});pset(p[5],11,{vel:.7,note:3});pset(p[7],0,{len:16,vel:.35})},
+  p=>{pset(p[5],0,{vel:.85});pset(p[5],8,{vel:.7,note:5});pset(p[6],0,{len:8,vel:.8});pset(p[6],8,{len:8,vel:.75,note:5});pset(p[3],[4,12],{vel:.3});pset(p[7],0,{len:16,vel:.6})}]},
+ {name:'BROKEN DUB',bpm:112,kit:['808','CONGA','SNAP','HAT TICK','HAT OP 2','ORGAN','SUB 808','DARK'],dly:[5,.62,.55],rev:[.8,.5,.45],pats:[
+  p=>{pset(p[0],[0,7,10],{vel:1});pset(p[2],[4,12],{vel:.8});pset(p[1],14,{vel:.6});pset(p[3],[2,5,6,10,13,14],{vel:.32});pset(p[6],0,{len:5,vel:.9});pset(p[6],10,{len:4,vel:.8,note:3});pset(p[5],3,{vel:.8});pset(p[5],11,{vel:.65,note:5})},
+  p=>{pset(p[0],[0,7,10,15],{vel:1});pset(p[2],[4,12],{vel:.85});pset(p[1],[6,14],{vel:.55});pset(p[4],[2,9],{vel:.55});pset(p[3],[1,3,5,8,11,13],{vel:.3});pset(p[6],0,{len:5,vel:.9});pset(p[6],10,{len:6,vel:.8,note:5});pset(p[5],3,{vel:.8,note:3});pset(p[5],9,{vel:.7});pset(p[7],0,{len:16,vel:.4})}]},
+ {name:'HYPNOTIC',bpm:128,kit:['CLICK','BONGO','RIM 2','HAT CL 1','HAT OP 1','VIBES','FM BASS','DRONE'],dly:[3,.6,.45],rev:[.65,.5,.35],len:{3:12,5:12,1:10},pats:[
+  p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[3],[0,2,4,6,8,10],{vel:.34});pset(p[1],[3,7],{vel:.55});pset(p[5],0,{vel:.85});pset(p[5],7,{vel:.6,note:3});pset(p[6],0,{len:4,vel:.85});pset(p[6],8,{len:4,vel:.8,note:5})},
+  p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[3],[0,2,4,6,8,10],{vel:.36});pset(p[4],14,{vel:.55});pset(p[1],[3,7],{vel:.6});pset(p[2],12,{vel:.7});pset(p[5],0,{vel:.85,note:3});pset(p[5],5,{vel:.65});pset(p[5],8,{vel:.6,note:5});pset(p[6],0,{len:4,vel:.85});pset(p[6],8,{len:4,vel:.8,note:3});pset(p[7],0,{len:16,vel:.4})}]},
+ {name:'DEEP HOUSE',bpm:122,kit:['SOFT','CLAVE','CLAP 2','HAT CL 1','HAT OP 1','PIANO','SQ BASS','WARM'],dly:[4,.55,.4],rev:[.7,.5,.4],pats:[
+  p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[2],[4,12],{vel:.85});pset(p[4],[2,6,10,14],{vel:.7});pset(p[3],[3,7,11,15],{vel:.4});pset(p[1],7,{vel:.5});pset(p[6],0,{len:2,vel:.9});pset(p[6],3,{len:2,vel:.8});pset(p[6],10,{len:3,vel:.8,note:3});pset(p[5],0,{vel:.85});pset(p[5],3,{vel:.7,note:3});pset(p[5],10,{vel:.8,note:5});pset(p[5],13,{vel:.6,note:3})},
+  p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[2],[4,12],{vel:.85});pset(p[4],[2,6,10,14],{vel:.7});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.3,micro:1});pset(p[1],[7,15],{vel:.5});pset(p[6],0,{len:2,vel:.9});pset(p[6],6,{len:2,vel:.8,note:5});pset(p[6],10,{len:3,vel:.8,note:3});pset(p[5],3,{vel:.85,note:5});pset(p[5],8,{vel:.7});pset(p[5],11,{vel:.7,note:3});pset(p[7],0,{len:16,vel:.3})},
+  p=>{pset(p[5],0,{vel:.85});pset(p[5],6,{vel:.7,note:3});pset(p[5],12,{vel:.7,note:5});pset(p[6],0,{len:6,vel:.85});pset(p[6],8,{len:6,vel:.8,note:3});pset(p[3],[2,6,10,14],{vel:.3});pset(p[7],0,{len:16,vel:.6})}]},
 ];
+
+/* genre presets built on the sound bank: kit = one bank sound per track (kick, perc, snare/clap, hat, open hat, chord, bass, texture) */
+const E8=[0,2,4,6,8,10,12,14],S16=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+PRESETS.push(
+ {name:'UK GARAGE',bpm:132,dly:[4,.5,.4],rev:[.6,.5,.35],kit:['SOFT','RIM 2','CLAP 2','HAT CL 1','HAT OP 1','CHOIR ST','SUB 808','VINYL'],tp:{7:{4:0}},pats:[
+  p=>{pset(p[0],[0,10],{vel:1});pset(p[2],[4,12],{vel:.9});pset(p[1],[7,15],{vel:.5});pset(p[3],E8,{vel:.35,micro:1});pset(p[4],[6,14],{vel:.6});pset(p[5],3,{vel:.8});pset(p[5],6,{vel:.6,note:3});pset(p[5],11,{vel:.7,note:5});pset(p[6],0,{len:3,vel:.9});pset(p[6],10,{len:4,vel:.85,note:3});pset(p[7],0,{len:16,vel:.25})},
+  p=>{pset(p[0],[0,10,15],{vel:1});pset(p[2],[4,12],{vel:.9});pset(p[1],[3,7,11],{vel:.45});pset(p[3],E8,{vel:.35,micro:1});pset(p[3],[3,11],{vel:.25});pset(p[5],3,{vel:.8,note:3});pset(p[5],8,{vel:.6});pset(p[5],12,{vel:.7,note:5});pset(p[6],0,{len:4,vel:.9,note:3});pset(p[6],10,{len:5,vel:.85});pset(p[7],0,{len:16,vel:.25})}]},
+ {name:'LO-FI HIP-HOP',bpm:80,dly:[6,.5,.35],rev:[.8,.5,.4],kit:['SOFT','SHAKER','LOFI SN','HAT TICK','HAT OP 2','EP KEYS','SUB SOFT','VINYL'],tp:{7:{4:1}},pats:[
+  p=>{pset(p[0],[0,7,10],{vel:1});pset(p[2],[4,12],{vel:.9});pset(p[3],E8,{vel:.3,micro:3});pset(p[1],[3,11],{vel:.4});pset(p[5],0,{vel:.8});pset(p[5],8,{vel:.7,note:3});pset(p[6],0,{len:5,vel:.9});pset(p[6],8,{len:6,vel:.85,note:3});pset(p[7],0,{len:16,vel:.35})},
+  p=>{pset(p[0],[0,5,10,14],{vel:1});pset(p[2],[4,12],{vel:.9});pset(p[3],E8,{vel:.3,micro:3});pset(p[4],15,{vel:.4});pset(p[1],[3,7,11],{vel:.35});pset(p[5],0,{vel:.8,note:5});pset(p[5],6,{vel:.6,note:3});pset(p[5],10,{vel:.75});pset(p[6],0,{len:4,vel:.9,note:5});pset(p[6],8,{len:6,vel:.85});pset(p[7],0,{len:16,vel:.35})}]},
+ {name:'AMBIENT',bpm:90,dly:[6,.75,.6],rev:[.95,.5,.7],kit:['SOFT','TOM LO','RIM 2','TAMBO','HAT OP 2','GLASS','DRONE','WARM'],tp:{7:{4:1},6:{4:0}},pats:[
+  p=>{pset(p[7],0,{len:16,vel:.7});pset(p[6],0,{len:16,vel:.55});pset(p[5],0,{vel:.6});pset(p[5],8,{vel:.5,note:5});pset(p[1],[6,14],{vel:.35});pset(p[0],0,{vel:.5});pset(p[3],[2,6,10,14],{vel:.15})},
+  p=>{pset(p[7],0,{len:16,vel:.7,note:5});pset(p[6],0,{len:16,vel:.5});pset(p[5],4,{vel:.55,note:3});pset(p[5],12,{vel:.5});pset(p[1],[3,10,13],{vel:.3});pset(p[4],8,{vel:.2});pset(p[2],12,{vel:.2})}]},
+ {name:'ELECTRO',bpm:128,dly:[3,.5,.4],rev:[.5,.5,.3],kit:['PUNCH','COWBELL','CLAP 2','HAT CL 1','HAT OP 1','SQ STAB','FM BASS','ZAP'],tp:{7:{4:0}},pats:[
+  p=>{pset(p[0],[0,6,10],{vel:1});pset(p[0],3,{vel:.7});pset(p[2],[4,12],{vel:.9});pset(p[3],S16,{vel:.28,micro:1});pset(p[4],[2,10],{vel:.6});pset(p[6],0,{len:2,vel:.9});pset(p[6],3,{len:1,vel:.8,note:5});pset(p[6],6,{len:3,vel:.9});pset(p[6],10,{len:2,vel:.85,note:3});pset(p[5],8,{vel:.7});pset(p[1],[7,15],{vel:.4})},
+  p=>{pset(p[0],[0,3,6,10,13],{vel:1});pset(p[2],[4,12],{vel:.9});pset(p[3],S16,{vel:.3,micro:1});pset(p[4],[2,6,10,14],{vel:.55});pset(p[6],0,{len:2,vel:.9,note:3});pset(p[6],4,{len:2,vel:.85});pset(p[6],8,{len:3,vel:.9,note:5});pset(p[6],12,{len:2,vel:.85,note:3});pset(p[5],2,{vel:.65,note:3});pset(p[5],10,{vel:.65});pset(p[7],14,{vel:.5})}]}
+);
+
+/* melodic arrangements: every preset gets its own scale, progression and bass rhythm. [step, semitones from D, length, velocity] on the chord (5), bass (6) and texture (7) tracks */
+const MN=(row,l)=>l.forEach(a=>pset(row,a[0],{note:a[1],len:a[2]||1,vel:a[3]==null?.8:a[3]}));
+const mclear=p=>[5,6,7].forEach(t=>{for(let i=0;i<p[t].length;i++)p[t][i]=GR.newStep()});
+const MEL={
+ 'DUB CHORDS':[ /* Dm7 to Gm7, off-beat skank, long dub bass */
+  p=>{MN(p[5],[[3,0,1,.9],[11,0,1,.7]]);MN(p[6],[[0,0,4,.9],[8,0,3,.85]])},
+  p=>{MN(p[5],[[3,5,1,.9],[6,5,1,.5],[11,5,1,.7]]);MN(p[6],[[0,5,4,.9],[8,5,3,.85],[12,7,2,.7]])},
+  p=>{MN(p[5],[[0,0,1,.9],[8,-2,1,.8]]);MN(p[6],[[0,0,8,.85]]);MN(p[7],[[0,0,16,.55]])}],
+ 'DEEP MINIMAL':[ /* one hypnotic dorian cell, tight staccato bass */
+  p=>{MN(p[5],[[6,0,1,.65],[11,-2,1,.5]]);MN(p[6],[[0,0,1,.9],[3,0,1,.6],[6,12,1,.5],[8,0,1,.85],[11,7,1,.55],[14,0,1,.6]])},
+  p=>{MN(p[5],[[4,0,1,.6],[9,-2,1,.55],[14,5,1,.5]]);MN(p[6],[[0,0,1,.9],[2,0,1,.5],[5,12,1,.5],[8,-2,1,.85],[10,-2,1,.5],[13,7,1,.55]])}],
+ 'ECHO SPACE':[ /* open aeolian, descending bass, lots of air */
+  p=>{MN(p[5],[[2,0,1,.9],[7,7,1,.7],[14,10,1,.65]]);MN(p[6],[[0,0,6,.85],[10,-5,6,.8]])},
+  p=>{MN(p[5],[[2,10,1,.85],[10,12,1,.6]]);MN(p[6],[[0,-2,8,.8],[8,-5,8,.8]]);MN(p[7],[[0,0,16,.6]])}],
+ 'WAREHOUSE':[ /* phrygian, rolling off-beat bass, tense minor-second stabs */
+  p=>{MN(p[5],[[3,1,1,.75],[11,0,1,.65]]);MN(p[6],[[2,0,1,.9],[3,0,1,.5],[6,1,1,.85],[7,0,1,.5],[10,0,1,.9],[11,12,1,.5],[14,1,1,.85]])},
+  p=>{MN(p[5],[[3,1,1,.75],[7,0,1,.55],[11,-1,1,.65]]);MN(p[6],[[2,0,1,.9],[6,1,1,.85],[10,0,1,.9],[13,-2,1,.8],[14,0,1,.7]])},
+  p=>{MN(p[5],[[0,1,1,.85],[8,7,1,.7]]);MN(p[6],[[0,0,8,.8],[8,1,8,.75]])}],
+ 'BROKEN DUB':[ /* syncopated chromatic walk down */
+  p=>{MN(p[5],[[3,3,1,.8],[11,7,1,.65]]);MN(p[6],[[0,0,3,.9],[6,0,1,.7],[10,-2,3,.85],[14,-5,1,.7]])},
+  p=>{MN(p[5],[[3,5,1,.8],[9,3,1,.7],[12,7,1,.6]]);MN(p[6],[[0,0,2,.9],[3,0,1,.7],[7,-2,2,.85],[10,-5,4,.85]]);MN(p[7],[[0,0,16,.4]])}],
+ 'HYPNOTIC':[ /* 12 step arp against a 16 step groove: it phases */
+  p=>{MN(p[5],[[0,0,1,.8],[3,7,1,.6],[6,12,1,.65],[9,7,1,.55]]);MN(p[6],[[0,0,2,.85],[8,0,2,.8],[12,-5,2,.7]])},
+  p=>{MN(p[5],[[0,3,1,.8],[3,10,1,.6],[6,15,1,.6],[9,10,1,.55]]);MN(p[6],[[0,3,4,.85],[8,7,4,.8]]);MN(p[7],[[0,0,16,.4]])}],
+ 'DEEP HOUSE':[ /* Dm7 to Gm7 to C, house stab rhythm, walking bass */
+  p=>{MN(p[5],[[0,0,1,.85],[3,0,1,.7],[6,0,1,.7],[10,0,1,.8],[13,0,1,.6]]);MN(p[6],[[0,0,2,.9],[3,0,1,.7],[6,12,1,.6],[8,0,2,.85],[11,7,1,.65],[14,5,1,.65]])},
+  p=>{MN(p[5],[[0,5,1,.85],[3,5,1,.7],[6,5,1,.7],[10,-2,1,.8],[13,-2,1,.6]]);MN(p[6],[[0,5,2,.9],[3,5,1,.7],[6,17,1,.6],[8,-2,2,.85],[11,5,1,.65],[14,3,1,.65]]);MN(p[7],[[0,0,16,.3]])},
+  p=>{MN(p[5],[[0,0,1,.85],[8,5,1,.8]]);MN(p[6],[[0,0,8,.85],[8,5,8,.8]]);MN(p[7],[[0,0,16,.6]])}],
+ 'UK GARAGE':[ /* jazzy 2-step: rhodes chords, skipping sub */
+  p=>{MN(p[5],[[3,0,1,.8],[6,5,1,.65],[10,7,1,.75],[13,5,1,.6]]);MN(p[6],[[0,0,3,.9],[7,7,2,.8],[10,5,3,.85],[14,3,1,.7]]);MN(p[7],[[0,0,16,.25]])},
+  p=>{MN(p[5],[[3,5,1,.8],[6,5,1,.65],[11,3,1,.75],[14,7,1,.6]]);MN(p[6],[[0,5,3,.9],[7,5,2,.8],[10,3,3,.85],[14,0,1,.7]]);MN(p[7],[[0,0,16,.25]])}],
+ 'LO-FI HIP-HOP':[ /* ii-V-I-ish, dusty chords, slow sub */
+  p=>{MN(p[5],[[0,5,1,.8],[6,5,1,.55],[8,-2,1,.75],[14,-2,1,.5]]);MN(p[6],[[0,5,6,.9],[8,-2,6,.85]]);MN(p[7],[[0,0,16,.35]])},
+  p=>{MN(p[5],[[0,0,1,.8],[6,0,1,.55],[8,3,1,.75],[14,3,1,.5]]);MN(p[6],[[0,0,6,.9],[8,3,6,.85]]);MN(p[7],[[0,0,16,.35]])}],
+ 'AMBIENT':[ /* open fifths, slow drone, bell-like glass */
+  p=>{MN(p[5],[[0,0,1,.6],[10,7,1,.5]]);MN(p[6],[[0,0,16,.55]]);MN(p[7],[[0,0,16,.7]])},
+  p=>{MN(p[5],[[3,5,1,.55],[11,12,1,.5]]);MN(p[6],[[0,-5,16,.5]]);MN(p[7],[[0,5,16,.7]])}],
+ 'ELECTRO':[ /* robotic staccato bass with chromatic bite */
+  p=>{MN(p[5],[[8,7,1,.7],[11,10,1,.6]]);MN(p[6],[[0,0,1,.9],[1,0,1,.6],[3,1,1,.8],[6,0,1,.9],[7,-2,1,.8],[10,0,1,.9],[12,1,1,.8],[14,0,1,.85]])},
+  p=>{MN(p[5],[[2,3,1,.65],[10,5,1,.65]]);MN(p[6],[[0,0,1,.9],[2,0,1,.7],[3,12,1,.7],[6,0,1,.9],[8,-1,1,.8],[10,-1,1,.75],[11,0,1,.8],[14,7,1,.85]]);MN(p[7],[[14,0,1,.5]])}]
+};
 GR.presets=PRESETS.map(p=>({name:p.name,bpm:p.bpm,patterns:p.pats.length}));
 GR.loadPreset=function(i){
   const pr=PRESETS[i];if(!pr)return false;pseed=7+i;
-  Samples.slots=[];const sl=PSOUNDS.map(([n,f])=>Samples.add(n,[f()],PSR,true));
+  Samples.slots=[];const sl=pr.kit?null:PSOUNDS.map(([n,f])=>Samples.add(n,[f()],PSR,true));
   const P=defaultProject();P.name=pr.name;P.bpm=pr.bpm;
-  PTRK.forEach(([si,par],ti)=>{const t=P.tracks[ti];t.slot=sl[si];Object.assign(t.params,par);t.len=16});
+  PTRK.forEach(([si,par],ti)=>{const t=P.tracks[ti];t.slot=pr.kit?GR.bankSlot(pr.kit[ti]):sl[si];Object.assign(t.params,par);if(pr.tp&&pr.tp[ti])Object.assign(t.params,pr.tp[ti]);t.len=(pr.len&&pr.len[ti])||16});
   P.tracks[5].routes=[{s:0,d:'cut',a:.2}];
   P.fx.delay=[dnorm(pr.dly[0],8),pr.dly[1],pr.dly[2]];P.fx.reverb=pr.rev.slice();
-  pr.pats.forEach((f,k)=>f(P.patterns[k]));
+  pr.pats.forEach((f,k)=>{f(P.patterns[k]);const m=MEL[pr.name]&&MEL[pr.name][k];if(m){mclear(P.patterns[k]);m(P.patterns[k])}});
   GR.proj=P;return true;
 };

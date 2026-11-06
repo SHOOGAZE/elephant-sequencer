@@ -3,7 +3,7 @@ function h(tag,props){
   const e=document.createElement(tag);
   if(props)for(const k in props){const v=props[k];
     if(k==='class')e.className=v;else if(k==='text')e.textContent=T(v);else if(k==='style')e.style.cssText=v;
-    else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(k,v===true?'':v)}
+    else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(k,v===true?'':(k==='aria-label'||k==='title'||k==='placeholder')&&typeof v==='string'?T(v):v)}
   for(let i=2;i<arguments.length;i++){const c=arguments[i];
     (Array.isArray(c)?c:[c]).forEach(x=>{if(x==null||x===false)return;e.append(x.nodeType?x:document.createTextNode(T(x)))})}
   return e;

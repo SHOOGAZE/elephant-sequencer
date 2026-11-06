@@ -12,7 +12,7 @@ function assignSlot(ti,idx){
   dirty();return true;
 }
 function openSndSheet(ti){
-  closeSndSheet();U.pickT=ti==null?U.tr:ti;if(U.pickCat!=='pool'&&U.pickCat!=='mine')U.pickCat=S.slots.length?'pool':'mine';
+  closeSndSheet();U.pickT=ti==null?U.tr:ti;if(U.pickCat!=='pool'&&U.pickCat!=='mine'&&U.pickCat!=='bank')U.pickCat=S.slots.length?'pool':'bank';
   sndSheet=h('div',{class:'psheet',onpointerdown:e=>{if(e.target===sndSheet)closeSndSheet()}});document.body.append(sndSheet);
   renderSndSheet();catLoad().then(()=>{if(sndSheet)renderSndSheet()});
 }
@@ -20,10 +20,15 @@ function closeSndSheet(){if(sndSheet){sndSheet.remove();sndSheet=null;if(U.tab==
 function renderSndSheet(){
   if(!sndSheet)return;
   const ti=U.pickT,t=P().tracks[ti],cur=S.slots[t.slot];
-  const cats=[['pool','LOADED'],['mine','MY FILES']];
+  const cats=[['bank','BANK'],['pool','LOADED'],['mine','MY FILES']];
   const body=h('div',{class:'sgrid'});
   const pick=(mk)=>{ensureAudio();const idx=mk();if(assignSlot(ti,idx)){previewSlot(idx);vib(8);renderSndSheet()}};
-  if(U.pickCat==='pool'){
+  let roles=null;
+  if(U.pickCat==='bank'){
+    const bi=Math.min(U.bankRole|0,GR.bank.length-1),br=GR.bank[bi];
+    roles=h('div',{class:'row cats bankroles'},GR.bank.map((r,k)=>h('button',{class:'chip xs'+(k===bi?' on':''),text:r.role,onclick:()=>{U.bankRole=k;renderSndSheet()}})));
+    br.names.forEach(n=>body.append(h('button',{class:'sitem'+(cur&&cur.key==='bank:'+n?' on':''),text:n,onclick:()=>pick(()=>GR.bankSlot(n))})));
+  }else if(U.pickCat==='pool'){
     if(!S.slots.length)body.append(h('div',{class:'note',text:'No samples loaded. Open MY FILES, add some, or record one on SMPL.'}));
     S.slots.forEach((x,i)=>body.append(h('button',{class:'sitem'+(i===t.slot?' on':''),text:x.name,onclick:()=>pick(()=>i)})));
   }else if(U.pickCat==='mine'){
@@ -52,19 +57,9 @@ function renderSndSheet(){
   sndSheet.replaceChildren(h('div',{class:'pcard'},
     h('h3',{},h('span',{text:'SOUND  T'+(ti+1)+'  '+(cur?cur.name:'EMPTY')}),h('button',{class:'chip xs',text:'DONE',onclick:closeSndSheet})),
     h('div',{class:'row nw cats'},cats.map(c=>h('button',{class:'chip grow xs'+(U.pickCat===c[0]?' on':''),text:c[1],onclick:()=>{U.pickCat=c[0];renderSndSheet()}}))),
-    body,
+    roles,body,
     U.pickCat==='mine'?h('button',{class:'chip or on',text:'ADD FROM PHONE',onclick:()=>{inp.value='';inp.click()}}):null,
     inp));
-}
-function openTrkSheet(){if(trkSheet){closeTrkSheet();return}trkSheet=h('div',{class:'psheet',onpointerdown:e=>{if(e.target===trkSheet)closeTrkSheet()}});document.body.append(trkSheet);renderTrkSheet()}
-function renderTrkSheet(){
-  const Pj=P(),pat=curPat();
-  trkSheet.replaceChildren(h('div',{class:'pcard'},
-    h('h3',{},h('span',{text:'TRACKS'}),h('button',{class:'chip xs',text:'DONE',onclick:closeTrkSheet})),
-    h('div',{class:'tkgrid'},Pj.tracks.map((t,i)=>h('button',{'data-t':i,class:'tkb'+(i===U.tr?' on':'')+(t.mute?' mute':'')+(pat[i].some(x=>x.on)?' full':''),style:tcStyle(i),onclick:()=>{setTrack(i);closeTrkSheet()}},
-      h('b',{text:String(i+1).padStart(2,'0')}),h('small',{text:trackLabel(i)})))),
-    h('div',{class:'row nw',style:'margin-top:10px'},
-      h('button',{class:'chip or on grow',text:'EDIT SOUND',onclick:()=>{closeTrkSheet();go('sound')}}))));
 }
 let LPT=0,LPX=0,LPY=0;
 function startLP(e,fn){clearTimeout(LPT);LPX=e.clientX;LPY=e.clientY;LPT=setTimeout(()=>{LPT=0;fn()},480)}

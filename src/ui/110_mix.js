@@ -32,5 +32,8 @@ R.mix=function(){
     h('div',{class:'mrow'},h('span',{class:'mcl',text:'OUT'}),mm),cmp);
   root.append(mast,h('div',{class:'plate trkplate'},h('h3',{},h('span',{text:'TRACK LEVELS'}),h('span',{text:T('TRACK ')+(U.tr+1)+' '+T('SELECTED')})),wide?null:h('div',{class:'row nw',style:'gap:6px'},chipRow(['1 - 8','9 - 16'],i=>mp===i,i=>{U.mixPage=i;R.mix()},'grow')),strips,acts,
     h('div',{class:'note',text:'M mutes a track, S solos it. SC sets how much the track ducks when the kick hits. Pan, sends, drive and crush are on the MIX page of SOUND.'})));
+  document.querySelectorAll('.mixnav').forEach(e=>e.remove());
+  if(fsWant())$('#app').append(h('div',{class:'mixnav'},h('button',{class:'chip xs','aria-label':'Scroll left',text:'\u2039',onclick:()=>strips.scrollBy({left:-300,behavior:'smooth'})}),h('span',{text:T('TRACK ')+(U.tr+1)}),h('button',{class:'chip xs','aria-label':'Scroll right',text:'\u203A',onclick:()=>strips.scrollBy({left:300,behavior:'smooth'})})));
+  if(fsWant()){strips.addEventListener('scroll',()=>{U.mixSX=strips.scrollLeft},{passive:true});const sx=U.mixSX||0;strips.scrollLeft=sx;requestAnimationFrame(()=>{strips.scrollLeft=sx})}
 };
 

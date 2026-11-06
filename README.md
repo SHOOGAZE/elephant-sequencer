@@ -12,8 +12,9 @@ A pocket sampler groovebox that runs in the browser, sibling of the BEHEMOTH syn
 - **Modulation matrix:** drag LFO 1, LFO 2, ENV or VEL onto a knob (cutoff, tune, level, pan); the ring shows the depth, drag the knob to set it, double tap to remove
 - **FX:** delay, chorus and reverb on send buses (AudioWorklet engine shared with BEHEMOTH), master filter, compressor/limiter, plus a compressor on any single track
 - **MIX** page with master and track levels, project save/open as a file, undo, WAV and stem export
+- **Sound bank and presets:** 71 built-in sounds (kicks, snares, hats, percussion, basses, chord stabs, pads, FX) and 11 presets, most with their own kit and stab or chord sound
 - **Five tabs:** PADS, SEQ, SAMPLE (SOUND and WAVE), MIX, FX; SYS lives in the header
-- **Phone landscape:** SEQ and MIX go full screen with a menu button
+- **Landscape (phone and tablet):** full-screen layout with a button rail, big square pads or steps, an encoder column on the right, a swipeable mixer; the menu opens from the button
 - **Computer keyboard:** pads 1-16 on 7 8 9 0 / U I O P / J K L ; / M , . /, SPACE starts and stops
 - Strict monochrome look, shared with the BEHEMOTH synth
 
@@ -58,9 +59,10 @@ The scripts drive the built `index.html` in headless Chromium and fail on any pa
 ```
 index.html       built app (served by GitHub Pages)
 sw.js            offline cache
+icons/           app icon: icon.svg and png in several sizes (favicon, home screen, manifest)
 src/engine/      audio engine in ordered parts: core, parameters, FX definitions,
                  samples, project model, serialization, audio graph, voices,
-                 sequencer, WAV/ZIP, storage
+                 sequencer, WAV/ZIP, storage, presets, sound bank
 src/ui/          interface in ordered parts: helpers, controls, transport, shell, PLAY,
                  SEQ, sound picker, step editor, SOUND, FX, MIX, samples, keyboard,
                  loops, start, coach
@@ -69,7 +71,7 @@ src/i18n.js      generated from gen_i18n.py (do not edit by hand)
 gen_i18n.py      translation table -> src/i18n.js
 build.py         joins the parts into index.html
 test/            Playwright regression scripts (python3 test/run_all.py)
-tools/           visual-regression helpers (visreg.py, viscmp.py) and screenshot scripts
+tools/           CSS and visual-regression helpers (css_tidy.py, styledump.py, visreg.py, viscmp.py)
 .github/         CI: builds and runs the tests on every push
 ```
 
