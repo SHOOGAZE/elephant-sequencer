@@ -4,7 +4,7 @@ A pocket sampler groovebox that runs in the browser, sibling of the BEHEMOTH syn
 
 **Try it:** open the GitHub Pages link of this repo on your phone, then *Share → Add to Home Screen* for a full-screen app.
 
-▶ Listen: https://shoogaze.github.io/elephant-sequencer/
+Try it: open [https://shoogaze.github.io/behemoth-synth-/ ](https://shoogaze.github.io/elephant-sequencer/) on your phone and tap the screen to start audio. On an iPhone or iPad use Share → Add to Home Screen for a full-screen app.
 
 ## Screenshots
 
