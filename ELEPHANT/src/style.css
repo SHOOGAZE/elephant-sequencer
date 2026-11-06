@@ -1,0 +1,1045 @@
+/* Layout: fixed column. OLED strip and transport on top, one screen in the middle, seven tabs at the bottom. Cream control plates sit on an anthracite body. */
+:root{--body:#0a0a0a;--body-hi:#171717;--body-lo:#0a0a0a;--cream:#171717;--cream-lo:#111;--cream-sh:#000;--ink:#dcd8d1;--ink2:#8c8883;--onf:#0a0a0a;--text:#dcd8d1;--text2:#8c8883;--dim:#57544f;--line:#262626;--orange:#e6e6e6;--orange-lo:#a8a8a8;--blue:#e6e6e6;--oled:#070707;--amber:#dcd8d1;--amber2:#f5f5f5;--od1:#8c8883;--od3:#57544f;--sc:#dcd8d1;--sd-on:#e6e6e6;--sd-cur:#fff;--sd-b4:#4a4a4a;--sd-off:#1b1b1b;--cap:#dcd8d1;--ringt:#262626;--ringv:#e6e6e6;--font-ui:"Helvetica Neue",Helvetica,Arial,"Liberation Sans",system-ui,sans-serif;--font-mono:var(--font-ui);color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html, body{height:100%;margin:0}
+body{color:var(--text);font-family:var(--font-ui);font-size:14px;line-height:1.3;overflow:hidden;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));-webkit-user-select:none;user-select:none;touch-action:manipulation}
+button{font-family:inherit;color:inherit;cursor:pointer}
+#app{height:100%;max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:8px;padding-block:8px 6px}
+.top{display:flex;flex-direction:column;gap:8px;flex:none}
+.oled{border-radius:3px;box-shadow:var(--oled-sh,inset 0 2px 6px #000c),0 1px 0 var(--body-hi);height:70px;display:grid;grid-template-columns:1fr 118px;gap:8px;padding:8px 10px;color:var(--amber);font-family:var(--font-mono);overflow:hidden}
+.oled .l1{font-size:11px;letter-spacing:.08em;color:var(--od1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oled .l2{font-size:20px;font-weight:500;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oled .l3{font-size:10px;color:var(--od3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oled canvas{display:block}
+.oled>div:first-child{min-width:0}
+.tr{display:grid;grid-template-columns:70px 42px 50px 46px 1fr;gap:8px;align-items:stretch}
+.btn{border-radius:3px;min-height:40px;padding:0 12px;font-size:13px;text-transform:uppercase;box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff14;position:relative}
+.btn:active{box-shadow:0 1px 0 #000a,inset 0 1px 0 #ffffff14}
+.btn.sm{min-height:32px;padding:0 9px;font-size:11px}
+.btn.xs{min-height:28px;padding:0 7px;font-size:10px}
+.btn:disabled{opacity:.4}
+.bpm{display:grid;grid-template-columns:34px 1fr 34px;background:var(--oled);border-radius:3px;overflow:hidden;box-shadow:inset 0 1px 3px #0009}
+.bpm button{background:var(--body-hi);border:0;font:600 18px var(--font-mono);color:var(--text)}
+.bpm button:active{background:var(--blue)}
+.bpm div{display:flex;flex-direction:column;align-items:center;justify-content:center;font:500 17px var(--font-mono);color:var(--amber);touch-action:none}
+.bpm small{font-size:8px;letter-spacing:.12em;color:var(--od3)}
+.screens{flex:1;min-height:0;position:relative}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;gap:8px;overflow-y:auto;overflow-x:hidden;padding-bottom:2px;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen.on{display:flex}
+.nav{flex:none}
+.nav button{border-bottom:3px solid transparent}
+.nav button.on{border-bottom-color:var(--orange)}
+.plate{background:var(--cream);color:var(--ink);border-radius:3px;padding:10px;display:flex;flex-direction:column;gap:8px;flex:none}
+.plate h3{margin:0;font:700 10px var(--font-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.row.nw{flex-wrap:nowrap}
+.row>.grow{flex:1}
+.chip{background:var(--body-hi);color:var(--text);border:0;border-radius:3px;min-height:32px;padding:0 10px;font:600 11px var(--font-ui);letter-spacing:.07em;text-transform:uppercase;box-shadow:0 2px 0 var(--body-lo)}
+.chip:active{transform:translateY(1px)}
+.plate .chip{background:var(--cream-lo);color:var(--ink);box-shadow:0 2px 0 var(--cream-sh)}
+.chip.on{background:var(--blue);color:var(--onf);box-shadow:0 2px 0 #0f2140}
+.plate .chip.on{background:var(--blue);color:var(--onf)}
+.chip.or.on{background:var(--orange);color:#0a0a0a;box-shadow:0 2px 0 var(--orange-lo)}
+/* pads */
+.pads{display:grid;grid-template-columns:repeat(4,1fr);flex:1}
+.pad{border-radius:3px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff14;touch-action:none;position:relative;min-height:46px;overflow:hidden}
+.pad .pe{font:700 10px var(--font-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pad.mute{opacity:.45}
+.pad.solo::after{content:"S";position:absolute;right:8px;top:6px;font:700 11px var(--font-mono)}
+/* knobs */
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 6px}
+.knob{display:flex;flex-direction:column;align-items:center;gap:3px;touch-action:none;outline:none;min-width:0}
+.knob .cap{transform:none}
+.knob:focus-visible .cap{box-shadow:0 3px 0 #0d0e0f,0 0 0 3px var(--blue)}
+.kl{font:700 9.5px var(--font-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);text-align:center;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.kv{font:500 11px var(--font-mono);background:var(--oled);color:var(--amber);padding:1px 6px;border-radius:3px;min-width:46px;text-align:center;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+/* sequencer */
+/* sound */
+.lkstrip{display:grid;grid-template-columns:repeat(16,1fr);gap:3px}
+.lkstrip button{background:var(--cream-lo);border:0;border-radius:3px;min-height:26px;font:500 9px var(--font-mono);color:var(--ink2);position:relative;padding:0}
+.lkstrip button.on{background:var(--ink2);color:var(--onf)}
+.lkstrip button.has::after{content:"";position:absolute;right:2px;top:2px;width:5px;height:5px;border-radius:50%;background:var(--orange)}
+.lkstrip button.sel{outline:3px solid var(--orange);outline-offset:0;background:var(--cream)}
+.lkstrip button.sel.on{background:var(--ink)}
+.lkinfo{font:500 11px var(--font-mono);color:var(--ink2);min-height:16px}
+.lkinfo b{color:var(--orange-lo)}
+/* fx */
+.fxtabs .chip{text-align:center}
+/* mixer */
+.mix{display:grid}
+.strip{background:var(--cream);color:var(--ink);display:flex;flex-direction:column;align-items:center;box-shadow:0 2px 0 var(--cream-sh);min-width:0}
+.strip .sn{font:500 11px var(--font-mono)}
+.strip .sl{font:700 8px var(--font-ui);letter-spacing:.06em;color:var(--ink2);text-transform:uppercase;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fader{width:26px;height:104px;position:relative;touch-action:none}
+.fader::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-radius:2px}
+.fader i{position:absolute;left:50%}
+.fader i::after{content:"";position:absolute;border-radius:1px}
+.strip .ms{display:flex;width:100%;align-items:center}
+.strip .ms button{border:0;background:var(--cream-lo);font:700 10px var(--font-mono);color:var(--ink);box-shadow:0 1px 0 var(--cream-sh);padding:0}
+.strip .ms button.on{background:var(--blue);color:var(--onf)}
+.strip .ms button.m.on{background:var(--orange);color:#fff}
+.strip.cur{outline:2px solid var(--blue)}
+/* keys */
+.hfader{position:relative;touch-action:none;flex:1;min-width:100px}
+.hfader::before{content:"";position:absolute;top:50%;left:0;right:0;height:4px;margin-top:-2px;background:var(--ink);border-radius:2px}
+.hfader i{position:absolute;top:50%;background:var(--orange);border-radius:3px;box-shadow:0 2px 0 var(--orange-lo),inset 0 1px 0 #fff5}
+/* sample + sys */
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.slots .chip{text-align:left;padding:0 7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-height:34px}
+.slots .chip small{font:500 9px var(--font-mono);opacity:.7}
+.slots .chip.cur{outline:2px solid var(--orange)}
+.wave{background:var(--oled);border-radius:3px;height:108px;width:100%;display:block;touch-action:none}
+.note{font:500 11px var(--font-mono);color:var(--ink2);line-height:1.45}
+.input{background:var(--oled);border:0;border-radius:3px;color:var(--amber);font:500 15px var(--font-mono);padding:8px 10px;min-height:38px;min-width:0;width:100%;-webkit-user-select:text;user-select:text}
+.list{display:flex;flex-direction:column;gap:5px;max-height:150px;overflow-y:auto}
+.list .it{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;background:var(--cream-lo);border-radius:3px;padding:4px 4px 4px 9px;font:500 12px var(--font-mono)}
+.toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--oled);color:var(--amber);font:500 12px var(--font-mono);padding:8px 14px;border-radius:3px;z-index:20;box-shadow:0 4px 14px #0008;max-width:90vw;text-align:center}
+.toast[hidden]{display:none}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+@media (max-height:700px){
+  .pads{min-height:160px}
+  .knob .cap{width:52px;height:52px}
+  .knob .cap::after{height:14px;transform-origin:50% 20px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .pad, .btn, .chip{transition:background .08s,transform .06s}
+}
+.tr .btn{padding:0;font-size:12px}
+/* touch: no scroll, zoom or text selection while playing */
+html{overscroll-behavior:none;touch-action:manipulation;-webkit-text-size-adjust:100%}
+.pads, .pad, .knob, .knob *, .fader, .fader *, .lkstrip button, .wave{touch-action:none;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+/* landscape phones: controls left, active screen wide on the right */
+/* v3 additions */
+.chip.hist{min-width:42px;padding:0 6px;font-size:9.5px;letter-spacing:.04em}
+.note.kn{font:600 10px var(--font-ui);letter-spacing:.1em;color:#b9b3a1;white-space:nowrap}
+.fm{display:flex;gap:3px;align-items:stretch;justify-content:center}
+.meter{width:5px;background:var(--ink);border-radius:3px;position:relative;overflow:hidden;box-shadow:inset 0 1px 2px #000a}
+.meter i{position:absolute;left:0;right:0;bottom:0;height:0;background:linear-gradient(0deg,#3f9f5a,#e0b43a 70%,var(--orange));border-radius:2px}
+/* takt look: nav icons, track colors, display, boot, light body */
+.nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 0}
+.nav button span{font:600 9px var(--font-ui);letter-spacing:.08em}
+.strip{border-top:4px solid var(--tc,transparent)}
+.oled.msg .l2{font-size:26px}
+.oled .l2{transition:font-size .1s}
+.pads{min-height:330px}
+@media (max-height:700px) and (orientation:portrait){
+  .pads{min-height:250px;grid-auto-rows:minmax(56px,1fr)}
+}
+.oled{position:relative}
+/* v4 */
+/* fullscreen keys in landscape */
+.plate{box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff12}
+.btn, .pad{box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff14}
+/* encoders: matte knurled cap inside a value ring */
+.knob .cap{position:relative}
+.knob .cap::before{content:"";position:absolute;inset:6px;border-radius:50%;box-shadow:0 3px 5px #0008,inset 0 0 0 2px #0c0d0e,inset 0 1px 0 #ffffff26}
+.knob .cap::after{content:"";position:absolute;left:50%;top:10px;width:3px;height:12px;margin-left:-1.5px;border-radius:2px;transform-origin:50% 19px;transform:rotate(var(--r,0deg));box-shadow:0 0 0 1px #0006}
+.knob.locked .cap::after{background:var(--orange)}
+.knob:focus-visible .cap{outline:2px solid var(--blue);outline-offset:2px}
+.knob.sm .cap{width:44px;height:44px}
+.knob.sm .cap::before{inset:5px}
+.knob.sm .cap::after{top:8px;height:9px;transform-origin:50% 14px}
+@media (max-height:700px){
+  .knob .cap{width:52px;height:52px}
+  .knob .cap::after{height:10px;transform-origin:50% 16px}
+}
+.strip .scb{border:0;background:var(--cream-lo);font:700 8px var(--font-mono);color:var(--ink2);padding:0}
+.strip .scb.on{background:var(--orange);color:#0a0a0a}
+.nohint div.note, .nohint .lkinfo{display:none}
+.mix{grid-template-columns:repeat(4,1fr);gap:8px}
+.strip{padding:8px 4px 8px;gap:8px;border-radius:3px}
+.strip .sn{font-size:14px}
+.strip .sl{font-size:10px}
+.strip .fader{width:38px;height:150px}
+.strip .fader i{border-radius:3px}
+.strip .meter{width:8px}
+.strip .fm{gap:8px}
+.strip .ms{flex-direction:row;gap:5px;justify-content:center}
+.strip .ms button{width:38px;min-height:34px;font-size:13px;border-radius:3px}
+.strip .scb{width:100%;min-height:30px;font-size:11px;border-radius:3px}
+/* keys plate in the light theme */
+/* finger sized keys in portrait */
+.tgrp{display:flex;flex-direction:column;gap:8px;padding-top:14px;margin-top:6px;border-top:1px solid #8a826c33}
+.tsub{font:700 9.5px var(--font-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--ink2)}
+.tgrp{border-top-color:#ffffff14}
+.plate h3+.tgrp{border-top:0;padding-top:2px;margin-top:0}
+.hfader{height:40px}
+/* horizontal slider: label sits above the handle track */
+/* sliders: handle stays fully inside the track */
+/* wheels: value fill on the track */
+/* pattern bar + sheet */
+.pr{display:grid;gap:8px}
+.pr .patb{min-height:36px;font-size:12px;letter-spacing:.12em;white-space:nowrap}
+.pr .hist{min-height:36px}
+.psheet{position:fixed;inset:0;z-index:70;background:#0007;display:flex;align-items:flex-end;justify-content:center}
+.pcard{width:100%;max-width:560px;background:var(--body);border-radius:16px 16px 0 0;padding:14px 14px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px;box-shadow:0 -6px 24px #0007}
+.pcard h3{display:flex;justify-content:space-between;align-items:center;margin:0;font:600 11px var(--font-ui);letter-spacing:.14em;color:var(--text2)}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pbtn{background:var(--body-hi);color:var(--text);border:0;border-radius:3px;min-height:64px;box-shadow:0 2px 0 var(--body-lo);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative}
+.pbtn b{font:600 24px var(--font-ui)}
+.pbtn small{font:600 8px var(--font-ui);letter-spacing:.12em;color:var(--text2);min-height:9px}
+.pbtn.full::after{content:"";position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;background:var(--orange)}
+.pbtn.on{background:var(--blue);color:var(--onf);box-shadow:0 2px 0 #0f2140}
+.pbtn.on small{color:inherit}
+.pbtn.nx{outline:2px solid var(--orange)}
+/* fullscreen keys: finger-size function bars */
+/* landscape phones v2: slim nav rail on the left, one compact header bar on top, full width for content */
+/* velocity as a full-width fill of the step; euclid row inside the step plate */
+.eucrow{margin-top:8px;align-items:center}
+.eucrow .eucv{text-align:center;color:var(--ink);font-weight:700}
+.eucrow .kspacer{flex:1}
+.eucrow .chip.xs{min-height:34px}
+.pcard{max-height:calc(100vh - 16px);overflow:auto}
+/* softer step buttons: round body, inset rounded velocity fill */
+.eucrow{gap:3px}
+.eucrow .eucv{min-width:42px;font-size:11px}
+.eucrow .chip.xs{min-width:34px}
+/* track bar + track sheet */
+/* sound page: live graph, preset extras */
+.viz{display:block;width:100%;height:78px;margin-top:10px;border-radius:3px;box-shadow:inset 0 1px 3px #0003}
+.viz{background:#1b1d20}
+.ptabs .chip{padding:0 4px;font-size:10px;letter-spacing:.03em;min-width:0}
+.akeys{box-shadow:inset 0 1px 3px #0002}
+.akeys .row{align-items:center;gap:6px}
+.akeys .note{margin-top:6px}
+.akeys{background:#1b1d20}
+.akeys{padding:6px 8px;margin-top:8px}
+.akeys .row .note{margin:0;text-align:center}
+/* SOUND page layout: sticky audition keys (portrait), two-column (landscape phones) */
+.sl:empty{display:none}
+.stabs{display:flex;flex-direction:column;gap:8px}
+/* sliders keep a small gap to the frame at both ends */
+.fader{--pd:9px}
+.strip .fader{--pd:12px}
+.fader i{top:calc(var(--pd) + (100% - 2*var(--pd))*(1 - var(--v,0)))}
+.hfader{--pd:11px}
+.hfader i{left:calc(var(--pd) + (100% - 2*var(--pd))*var(--v,0))}
+.viz, .viz{background:transparent;box-shadow:none}
+/* level bar ends exactly under the lowest handle position */
+/* multi-touch friendly controls */
+button, .chip, .pad, .nav button, .hfader, .hfader *, .fader, .fader *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent}
+button, .chip, .nav button{touch-action:manipulation}
+.cats{gap:3px}
+.cats .chip{flex:1 1 auto;min-width:0;padding:0 5px;font-size:10px;font-weight:600;letter-spacing:0;white-space:nowrap}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);max-height:42vh;overflow:auto;-webkit-overflow-scrolling:touch}
+.sitem{background:var(--body-hi);color:var(--text);border:0;border-radius:3px;font:700 12px var(--font-ui);letter-spacing:.06em;box-shadow:0 2px 0 var(--body-lo);display:flex;padding:0}
+.sitem.on{background:var(--cream);color:var(--ink)}
+.sitem.mine{grid-column:span 3}
+.sitem .sname{flex:1;background:none;border:0;color:inherit;font:inherit;text-align:left;padding:0 12px;letter-spacing:inherit}
+.sitem .sdel{width:44px;background:none;border:0;color:inherit;font:700 18px var(--font-ui);opacity:.6}
+.sgrid .note{grid-column:span 3}
+.seqpanel{display:flex;flex-direction:column;gap:10px}
+.sbody .tgrp{margin-top:0;margin-bottom:12px}
+.sbody .eucrow{flex-wrap:nowrap}
+.sitem{min-height:58px;font-size:14px;justify-content:center;align-items:center;text-align:center}
+.sitem.mine{justify-content:flex-start}
+.sgrid{gap:8px}
+.cats .chip{min-height:44px}
+.stabs>.row{width:100%}
+.stabs .chip{flex:1;min-height:44px}
+.sbody{padding-top:8px}
+.sbody>div>h3{margin:0 0 14px}
+.sbody .kgrid{margin-bottom:6px}
+.sbody .row.nw{margin-top:14px}
+/* SOUND fullscreen (landscape phones) */
+/* soft trigger glow, Digitakt style */
+@keyframes thit{0%{box-shadow:inset 0 0 0 2px var(--tc,var(--blue)),0 0 14px -2px var(--tc,var(--blue))}100%{box-shadow:inset 0 0 0 2px transparent,0 0 0 transparent}}
+.pad.hit, .tkb.hit{animation:thit .32s ease-out;filter:none}
+.pad.hit{box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff14}
+@media (prefers-reduced-motion:reduce){
+  .pad.hit, .tkb.hit{animation:none}
+}
+/* SOUND fullscreen v2: keys on the left, sliding settings panel on the right */
+/* SEQ landscape: settings slide in from the right so the grid stays big for live play */
+/* step hold popup */
+.stpop{position:fixed;z-index:90;background:var(--body);border-radius:16px;box-shadow:0 10px 34px #000a,0 0 0 1px #0002;padding:10px 12px 8px;display:flex;flex-direction:column;gap:8px;pointer-events:none;animation:spin .14s ease-out}
+@keyframes spin{from{opacity:0;transform:translateY(6px) scale(.97)}}
+.spfn{display:flex;flex-wrap:wrap;gap:4px}
+.spp{font:700 9px var(--font-ui);letter-spacing:.07em;padding:4px 7px;border-radius:3px;background:var(--body-hi);color:var(--text2)}
+.spp.on{background:var(--orange);color:#fff}
+.spmid{display:flex;align-items:center;gap:12px}
+.spmid b{flex:1;font:700 30px var(--font-mono);color:var(--text);text-align:center}
+.spbar{width:12px;height:56px;border-radius:3px;background:var(--body-lo);display:flex;align-items:flex-end;overflow:hidden}
+.spbar i{display:block;width:100%;background:var(--orange);border-radius:3px}
+.stpop small{font:600 9px var(--font-ui);letter-spacing:.08em;color:var(--text2);text-align:center;text-transform:uppercase}
+/* sequencer breathing room */
+#s-seq{gap:12px}
+#s-seq>.plate:first-child>.row.nw{border-top:1px solid #0001;padding-top:10px;margin-top:2px}
+.seqpanel{min-height:0}
+.sbody{min-height:0}
+.seqpanel{flex:none}
+/* the step panel is as tall as its content, an empty STEP hint does not reserve room */
+/* master volume next to the pattern button */
+.pr .mvol{display:flex;align-items:center;gap:4px;min-width:0}
+.pr .mvol span{font-size:9px;letter-spacing:.14em;color:var(--dim,#8a8f96);font-family:var(--font-mono)}
+.pr .mvol .hfader{height:34px;min-width:0;--pd:9px}
+.pr{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr) 62px 62px}
+@media (max-width:420px){
+  .pr{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr) 54px 54px}
+}
+/* bend and mod wheels beside the SOUND keys */
+/* boot screen: "takt" pressed into the surface, outline only */
+#boot{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;transition:opacity .55s;touch-action:manipulation;cursor:pointer;color:var(--tap)}
+#boot{--ed:#030304;--el:rgba(255,255,255,.15);--fl:#0d0e10}
+#boot.out{opacity:0;pointer-events:none}
+#boot .bwm span{position:relative}
+#boot .btap{border:0;background:none;color:var(--tap);padding:8px 12px;opacity:0;transition:opacity .4s}
+#boot.ready .btap{opacity:1;animation:bl 1.3s ease-in-out infinite}
+@keyframes bl{50%{opacity:.45}}
+/* a little air between the knobs and RESET PAGE / RANDOM PAGE */
+.sr .kgrid+.row{margin-top:14px}
+.sr .kgrid+.row .chip{min-height:40px}
+/* light theme: SOUND wheels match the PLAY ones (light track, orange thumb) */
+/* PLAY wheels in the light theme keep the grip lines, same as on SOUND */
+/* keys, modern flat look (PLAY, SOUND, full screen) */
+.hfrow{align-items:center;gap:10px;padding:2px 4px}
+.hfrow .hfader{margin:0 9px;min-width:0}
+/* landscape: the pads use the room the mode row left behind */
+/* keys page: fit one screen, 2-octave stack, scale lock */
+/* landscape keys: menus behind a button */
+.pr .mvol{background:none;padding:0 4px;border-radius:0}
+/* menu button inset, labelled wheels on SOUND fullscreen, panel bottom room */
+/* menu button clearly inset from the plate edge */
+/* wide menu button spanning the wheel column */
+/* PARAMS open hides the keys, panel takes the full width */
+/* pad hold menu */
+.padmenu{position:fixed;z-index:95;background:var(--body);border-radius:3px;box-shadow:0 10px 34px #000a,0 0 0 1px #0002,0 0 0 2px var(--tc,transparent);padding:8px 10px 10px;display:flex;flex-direction:column;gap:8px;animation:spin .14s ease-out}
+.padmenu .pmh{font:700 10px var(--font-mono);letter-spacing:.1em;color:var(--text2)}
+.padmenu .row{gap:6px}
+.padmenu .chip{min-height:42px;padding:0 14px}
+.fxtabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fxtabs .chip{min-width:0;padding:0 4px}
+/* FX picture + ON/OFF */
+.fxviz{display:block;width:100%;height:84px;margin:6px 0 10px;border-radius:3px;background:var(--body-hi,#0002);color:var(--text2,#888);touch-action:none}
+.fxbtns{display:flex;gap:6px;align-items:center}
+.fxon.on{background:var(--orange)!important;color:#0a0a0a!important}
+.fxtabs .chip.fxo{opacity:.5;text-decoration:line-through}
+/* fullscreen keys rotated into landscape while the phone is held upright */
+/* tablet scaling */
+html{--z:1}
+#app{zoom:var(--z)}
+.psheet, .padmenu, #toast{zoom:var(--z)}
+/* touch targets */
+@media (pointer:coarse) and (orientation:portrait){
+  .chip{min-height:36px}
+  .chip.xs{min-width:34px}
+  .mix .strip .sn{min-height:28px;min-width:34px}
+  .scb{min-height:34px}
+}
+@media (pointer:coarse) and (orientation:portrait) and (min-height:800px){
+  .chip{min-height:40px}
+}
+/* boot: product word under the wordmark */
+#boot .bwm{text-align:center}
+#boot .bwm small{display:block;margin-top:14px;font:500 12px var(--font-mono);letter-spacing:.62em;margin-right:-.62em;text-transform:uppercase;color:var(--tap);opacity:.8}
+/* seq track bar: SOUND shortcut */
+/* tutorial */
+#tour{display:block;position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 86px);z-index:150;max-width:480px;margin:0 auto;background:var(--body-hi);color:var(--text);border:1px solid var(--orange);border-radius:16px;padding:12px 14px;box-shadow:0 12px 32px #0009}
+#tour.top{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 12px)}
+#tour .tn{font:600 9px var(--font-ui);letter-spacing:.22em;color:var(--text2);margin-bottom:4px}
+#tour .tt{font:500 14px/1.4 var(--font-ui);margin-bottom:10px}
+.tourhl{outline:2px solid var(--orange);outline-offset:3px;animation:tourp 1.4s ease-in-out infinite}
+@keyframes tourp{50%{outline-color:transparent}}
+.psheet, .padmenu, #toast, #tour{zoom:var(--z)}
+/* mixer extras */
+.mixact .chip{min-height:38px;font-size:11px;padding-left:6px;padding-right:6px;white-space:nowrap}
+.mmeter{border-radius:3px;background:var(--ink,#222);overflow:hidden;box-shadow:inset 0 1px 2px #000a}
+.mmeter i{display:block;height:100%;width:0;background:#3fae5a}
+.mmeter.clip{box-shadow:0 0 0 1px #dcd8d1}
+/* tablet landscape = wide two column workspace */
+/* mixer: master is its own block between the actions and the strips */
+.mixact{margin-bottom:0}
+.note.lbl, .pr .mvol span{font:600 10px var(--font-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);white-space:nowrap}
+.note.lbl.val{min-width:22px;text-align:center;color:var(--ink)}
+/* one depth for all display wells, tidier faders */
+:root{--well:#191b1e;--well-ln:#ffffff0d}
+.viz, .wave, .fxviz, .viz{background:var(--well);box-shadow:inset 0 1px 2px #0002,inset 0 0 0 1px var(--well-ln);border-radius:3px}
+.hfader::before, .fader::before{background:var(--well);box-shadow:inset 0 1px 2px #0005,0 0 0 1px var(--well-ln);height:6px;margin-top:-3px}
+.fader::before{height:auto;margin-top:0;width:6px;margin-left:-3px}
+.strip .fader::before{width:6px;margin-left:-3px}
+.hfader::after{content:"";position:absolute;top:50%;height:6px;margin-top:-3px;left:var(--pd);width:calc((100% - 2*var(--pd))*var(--v,0));background:var(--orange);border-radius:3px;opacity:.85}
+.fader::after{content:"";position:absolute;left:50%;width:6px;margin-left:-3px;bottom:var(--pd);height:calc((100% - 2*var(--pd))*var(--v,0));background:var(--orange);border-radius:3px;opacity:.85}
+.hfader i, .fader i{background:linear-gradient(#f4f0e6,#d9d4c4);border-radius:3px;box-shadow:0 1px 3px #0006,0 0 0 1px #0003,inset 0 1px 0 #fff9;z-index:1}
+.hfader i{width:16px;height:24px;margin-top:-12px;margin-left:-8px}
+.fader i{width:26px;height:16px;margin-left:-13px;margin-top:-8px}
+.strip .fader i{width:34px;height:20px;margin-left:-17px;margin-top:-10px}
+.hfader i::after, .fader i::after{background:var(--orange);opacity:1;border-radius:1px}
+.hfader i::after{left:50%;right:auto;top:5px;bottom:5px;width:2px;height:auto;margin-left:-1px}
+.fader i::after{left:5px;right:5px;top:50%;height:2px;margin-top:-1px}
+.pr .mvol .hfader i{width:12px;height:22px;margin-top:-11px;margin-left:-6px}
+.strip .fader i::after{top:50%;left:6px;right:6px}
+.sysmore[hidden]{display:none}
+/* live encoders under the scope in landscape sound view */
+/* v115 back button on landscape sound view */
+/* v116 display: fixed line boxes so a message never pushes the small text */
+@media (orientation:portrait),(min-height:561px){
+  .oled{padding:6px 10px}
+  .oled>div:first-child{display:grid;grid-template-rows:14px 26px 12px;row-gap:3px;align-content:start}
+  .oled .l1, .oled .l2, .oled .l3{margin:0;box-sizing:border-box}
+  .oled .l1{line-height:14px}
+  .oled .l2{line-height:26px;font-size:20px}
+  .oled .l3{line-height:12px}
+  .oled.msg .l2{font-size:22px}
+}
+/* v118 landscape phone: full-screen sequencer */
+/* v118 master box: more air between the fader, the meter and MUTE */
+/* v119 sound fullscreen keys match the PLAY keys: wider BEND and MOD so the menu and back buttons never merge */
+/* v120 back on the left, menu on the right; one chevron icon everywhere */
+/* v121 pad menu volume */
+.padmenu .pmvol{align-items:center;gap:8px;min-width:240px;padding:0 4px}
+.padmenu .pmvol .hfader{height:40px;min-width:0;--pd:10px}
+.padmenu .pmvol .val{min-width:30px;text-align:right}
+/* SOUND fullscreen keyboard column = PLAY KEYS look */
+/* pattern sequence editor */
+.seqrow{flex-wrap:wrap;gap:6px;align-items:center}
+.row.nw.seqrow{flex-wrap:wrap}
+.seqrow .chip.xs{min-width:32px;padding-left:0;padding-right:0}
+/* the two oscilloscope wells are separate panels, the canvas behind them is bare */
+.viz, .viz, .sl .viz{background:transparent;box-shadow:none;border-radius:0}
+.slots .chip{padding-left:8px;padding-right:6px;letter-spacing:0}
+.slots .chip small{margin-right:4px}
+/* desktop play page = pads and keys together; compact master in the mixer on every device */
+.pad.hit{filter:brightness(1.45)}
+/* coach tip */
+.coach{display:flex;align-items:center;gap:10px;margin:0 0 8px;padding:8px 10px;border-radius:3px;background:var(--well);box-shadow:inset 0 0 0 1px var(--orange);font:500 12px/1.35 var(--font-ui);color:var(--text)}
+.coach b{font:700 9px var(--font-ui);letter-spacing:.2em;color:var(--orange)}
+.coach span{flex:1}
+.nohint .coach{display:none}
+/* splash wordmark: the same spaced caps and orange dot as the display */
+#boot .bwm span{display:inline-block;white-space:nowrap;text-transform:uppercase}
+#boot .bwm span::after{position:absolute;left:.6px;top:1px;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--fl);text-shadow:.6px 1px 0 var(--el);display:block;white-space:nowrap}
+@media (max-width:420px){
+  #boot .bwm span{font-size:19px}
+}
+/* v143 SEQ GRID: all tracks at once */
+.gview{display:grid;grid-template-columns:26px repeat(var(--c,8),1fr);gap:4px;margin:10px 0 8px}
+.gc{position:relative;border:0;border-radius:3px;min-height:42px;padding:0;touch-action:manipulation}
+.gc.on, .gc.on{background:color-mix(in srgb,var(--tc,var(--orange)) calc(45% + var(--v,.8)*55%),var(--cream-lo))}
+.gc.sel{outline:2px solid var(--blue);outline-offset:1px}
+.gc.out{opacity:.25}
+/* v143 PLAY: slimmer PADS / KEYS switch on a phone held upright */
+/* v145 phone upright: one transport row (PLAY REC BPM PAT ...), the rest under the dots button */
+.tmore{display:none}
+@media (max-width:520px) and (orientation:portrait){
+  .top{display:grid;grid-template-columns:repeat(24,1fr);column-gap:4px;row-gap:6px}
+  .top>.oled{grid-column:1/-1}
+  .tr, .pr{display:contents}
+  #btnplay{grid-column:span 4}
+  .tr>.btn:nth-child(2){grid-column:span 4}
+  .tr>.bpm{grid-column:span 8;min-height:40px;grid-template-columns:28px 1fr 28px}
+  .pr>.patb{grid-column:span 4;padding:0;font-size:11px;letter-spacing:.06em;min-height:40px}
+  .pr>.tmore{display:block;grid-column:span 4;padding:0;min-height:40px;font-size:18px;line-height:1}
+  .top.more .tmore{background:var(--orange);color:#fff}
+  .top .tx{grid-column:span 6;min-height:38px}
+  .top:not(.more) .tx, .pr>.mvol{display:none}
+}
+/* v145 SEQ GRID in landscape on a phone: 16 steps x 8 tracks fill the screen */
+/* v146 GRID cells get the same edge as the steps in TRACK, so empty cells never vanish into the plate */
+.gc.now, .gc.now{box-shadow:inset 0 0 0 2px var(--text)}
+/* v147 wide screens: the grid takes the room, the step panel stays a fixed side column, a tip never takes a column, one transport row */
+/* v148 grid: muted and solo tracks, VEL toggle */
+.gc.mt{opacity:.45}
+/* same wheel labels on the SOUND keys as on PLAY when there is room */
+/* sample pool actions */
+.sname{width:100%;box-sizing:border-box;font:700 12px var(--font-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--cream-lo);color:var(--ink);border:1px solid var(--orange);border-radius:3px;padding:6px 8px;outline:0}
+.chip.del.on{background:#c0392b;color:#0a0a0a}
+/* one grid sequencer. a small dot marks a step with P-locks */
+.gc.lk::after{content:"";position:absolute;right:4px;top:4px;width:5px;height:5px;border-radius:50%;background:var(--blue)}
+.gc.on.lk::after{background:var(--cream)}
+.lenk .lenv{min-width:44px}
+/* v159 seq: velocity bar, note label, extra-settings dot, step info strip, labelled pagers */
+.gc small{position:absolute;left:4px;top:3px;font:700 8px/1 var(--font-mono);color:rgba(255,255,255,.88);pointer-events:none;letter-spacing:0}
+.gc.on::before{content:"";position:absolute;left:5px;bottom:4px;height:3px;border-radius:2px;width:calc((100% - 10px)*var(--v,.8));background:rgba(255,255,255,.7);pointer-events:none}
+.gc.alt{box-shadow:inset 0 -2px 0 var(--orange),0 2px 0 rgba(0,0,0,.28)}
+.sinfo{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;margin:0 0 8px;padding:6px 10px;border-radius:3px;background:var(--well);font:600 10px var(--font-mono);letter-spacing:.06em;color:var(--text2,var(--text));min-height:30px;box-sizing:border-box;border-left:4px solid var(--tc,var(--orange))}
+.sinfo b{color:var(--tc,var(--orange));font-weight:700}
+.sinfo:not(.on){opacity:.75;font-weight:500}
+.plbl{font:700 9px var(--font-ui);letter-spacing:.14em;color:var(--text2,#888);align-self:center;min-width:44px}
+/* v159 transport: the expanded row of extras sits under the main row, four equal buttons */
+@media (max-width:520px) and (orientation:portrait){
+  .top .tx{order:3;grid-column:span 6}
+  .top.more .tx{display:block}
+}
+/* v159 a soft edge where scrolled content slides under the transport, so no card is cut flat */
+.screen:not(.qfs){padding-top:6px;padding-bottom:6px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 7px,#000 calc(100% - 7px),transparent 100%);mask-image:linear-gradient(to bottom,transparent 0,#000 7px,#000 calc(100% - 7px),transparent 100%)}
+/* v159 mixer: master card apart from the track faders, readable meters */
+.meter, .mmeter, .grm{background:#0b0c0d}
+.mastplate{margin-bottom:8px}
+.mrow, .mcomp{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:8px;margin:6px 0}
+.mcomp{grid-template-columns:44px 1fr 40px 54px}
+.mcl{font:700 10px var(--font-ui);letter-spacing:.12em;color:var(--text2,#888)}
+.cval{font:600 11px var(--font-mono);text-align:right;color:var(--orange)}
+.grm{height:8px;border-radius:4px;overflow:hidden;position:relative;direction:rtl;box-shadow:inset 0 1px 2px #000a}
+.grm i{display:block;height:100%;width:0;background:var(--orange);border-radius:4px}
+.mmeter{height:10px}
+.strip .lvl{font:600 10px var(--font-mono);color:var(--ink2);margin-top:-4px}
+.fader::before, .hfader::before{background:#0b0c0d}
+.pager .chip.xs{min-width:0;padding-left:5px;padding-right:5px}
+/* v163 SOUND keys: the same two stacked octaves as PLAY KEYS on a tall phone */
+/* v165 SOUND without the keyboard: one column on wide screens */
+/* ===== ELEPHANT skin: flat matte black, one neutral ink, no gloss ===== */
+body{background:var(--body);font-variant-numeric:tabular-nums}
+.btn, .pad, .nav button, .oled, .gc, .chip, .sheet, .card, .sec, .plate, .toast{border-radius:3px;box-shadow:none;background-image:none}
+.btn{background:#151515;color:var(--text);border:1px solid #272727;font-weight:700;letter-spacing:.12em}
+.btn:active{background:#202020;transform:none}
+.btn.on{background:var(--orange);color:var(--onf);border-color:var(--orange);box-shadow:none}
+.oled{background:#070707;border:1px solid #222}
+.oled .l2{color:var(--text)}
+.oled.msg .l2{color:var(--amber2)}
+.pads{gap:6px;align-content:start;grid-auto-rows:auto}
+.pad{aspect-ratio:1/1;background:#151515;border:1px solid #272727;border-top:1px solid #272727;padding:8px;color:var(--text)}
+.pad:active{transform:none;background:#202020}
+.pad .pn{font:700 14px var(--font-ui);letter-spacing:.06em}
+.pad.sel{background:var(--orange);color:var(--onf);border-color:var(--orange);box-shadow:none}
+.pad.sel .pe{color:var(--onf);opacity:.7}
+.pad.solo::after{color:var(--text)}
+.nav{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--line);padding-top:0}
+.nav button{background:transparent;border:0;border-radius:0;min-height:46px;font:700 11px var(--font-ui);letter-spacing:.16em;color:var(--dim);position:relative}
+.nav button.on{background:transparent;color:#f5f5f5}
+.nav button.on::before{content:"";position:absolute;left:18%;right:18%;top:-1px;height:2px;background:var(--orange)}
+.gc{background:#141414;box-shadow:inset 0 0 0 1px #1f1f1f}
+.gc.beat{background:#1c1c1c}
+.gc.on{background:#dcd8d1;box-shadow:none}
+.gc.now{box-shadow:inset 0 0 0 2px #fff}
+.knob .cap::before{background:#111;background-image:none}
+.knob .cap::after{background:#f5f5f5}
+/* splash: debossed title, tap anywhere */
+#boot{--bg:#0a0a0a;--tap:#57544f;--dot:#ffffff1f;--don:#dcd8d1;background:radial-gradient(90% 60% at 50% 35%,#131313 0%,#0a0a0a 70%);gap:26px}
+#boot .bwm span{font:700 min(9vw,12vh,68px)/1 var(--font-ui);letter-spacing:.14em;text-indent:.14em;margin-right:0;color:#0b0b0b;text-shadow:0 -2px 2px rgba(0,0,0,.95),0 2px 1px rgba(255,255,255,.1),0 0 2px rgba(0,0,0,.9)}
+#boot .bwm span::after{content:none}
+#boot .btap{position:absolute;left:0;right:0;bottom:max(22px,env(safe-area-inset-bottom,0px));font:400 10px var(--font-ui);letter-spacing:.14em;text-transform:none}
+.brand-l{display:none}
+.fader::before{background:#262626;box-shadow:none}
+.fader i{background:#dcd8d1;box-shadow:none;border-radius:2px}
+.fader i::after{background:#0a0a0a99}
+/* SEQ: track keys, trig keys */
+.seqtop .tkeys{display:grid;grid-template-columns:repeat(8,1fr);gap:4px}
+.tk{background:#151515;color:var(--text2);border:1px solid #272727;border-radius:3px;min-height:34px;font:700 12px var(--font-ui);letter-spacing:.04em}
+.tk.sel{background:var(--orange);color:var(--onf);border-color:var(--orange)}
+.tk.mute{opacity:.4}
+.tk.solo{outline:1px solid #fff;outline-offset:1px}
+.thead{display:flex;align-items:center;gap:8px;min-width:0}
+.thead b{font:700 15px var(--font-ui);letter-spacing:.08em}
+.thead span{font:700 11px var(--font-ui);letter-spacing:.12em;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thead small{font:400 10px var(--font-ui);letter-spacing:.1em;color:var(--dim)}
+.gview.trigs{grid-template-columns:repeat(8,1fr);gap:5px}
+.trigs .gc{aspect-ratio:1/1;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:4px 5px;text-align:left}
+.trigs .gc i{font:700 10px var(--font-ui);font-style:normal;color:var(--dim);letter-spacing:.04em}
+.trigs .gc.on i{color:#0a0a0a99}
+.trigs .gc small{font:700 9px var(--font-ui);align-self:flex-end;color:#0a0a0a}
+.trigs .gc.out{opacity:.25}
+.trigs .gc.alt::after{content:"";position:absolute;right:4px;top:4px;width:4px;height:4px;background:#0a0a0a}
+.trigs .gc.lk::before{content:"";position:absolute;left:4px;right:4px;bottom:3px;height:2px;background:#0a0a0a}
+.trigs .gc.beat:not(.on){background:#1a1a1a}
+.seqtop .pager{margin-bottom:6px}
+.seqtop{gap:6px}
+.seqtop .tkeys{margin-bottom:2px}
+.seqtop .tk{min-height:30px}
+.thead{margin:0}
+.gview.trigs{margin:0}
+.seqtop .chip.xs{min-height:32px}
+.seqpanel .stabs{flex-direction:row}
+.seqpanel .stabs .chip{min-height:34px}
+.seqpanel .kgrid{gap:6px 4px}
+.pad.empty .pe{opacity:.45}
+/* hit flash: flat, no glow and no top highlight; the pad lights up and fades back */
+@keyframes phit{0%{background:#dcd8d1;color:#0a0a0a;border-color:#dcd8d1}100%{}}
+.pad.hit, .tk.hit, .tkb.hit{animation:phit .24s ease-out;box-shadow:none;filter:none}
+.pad.hit .pe, .pad.hit .pn{color:inherit}
+/* ===== LANDSCAPE: one layout system for phones, tablets and desktop ===== */
+/* phone held sideways: header and tabs in a left column, the screen wide on the right */
+/* tablet and desktop: tabs in a rail on the left, header across the top of the main area */
+@media (orientation:landscape) and (min-width:561px){
+  body{padding-left:max(10px,env(safe-area-inset-left,0px));padding-right:max(10px,env(safe-area-inset-right,0px))}
+  #app{max-width:none;display:grid;grid-template-columns:minmax(236px,29%) minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"top screens" "nav screens";gap:6px 12px;padding-block:6px}
+  .top{grid-area:top;min-height:0;overflow-y:auto;scrollbar-width:none;gap:6px}
+  .top::-webkit-scrollbar{display:none}
+  .screens{grid-area:screens}
+  .nav{grid-area:nav;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line)}
+  .nav button{min-height:30px;font-size:10px;letter-spacing:.1em}
+  .nav button.on::before{left:12%;right:12%}
+  .oled{height:56px;padding:5px 8px}
+  .oled .l2{font-size:16px;margin-top:1px}
+  .oled .l1, .oled .l3{font-size:9px}
+  .tr{grid-template-columns:repeat(4,1fr);gap:5px}
+  .tr .bpm{grid-column:1/-1;min-height:38px}
+  .tr .btn{min-height:34px}
+  .pr{grid-template-columns:repeat(3,1fr);gap:5px}
+  .pr .mvol{grid-column:1/-1}
+  .pr .patb, .pr .hist{min-height:32px}
+  .brand-l{display:none}
+}
+@media (orientation:landscape) and (min-height:561px){
+  #app{max-width:1280px;display:grid;grid-template-columns:128px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"nav top" "nav screens";gap:10px 16px;padding-block:10px}
+  .top{grid-area:top;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1.5fr) minmax(0,1.1fr);gap:10px;align-items:stretch}
+  .top .oled{height:auto;min-height:70px}
+  .screens{grid-area:screens}
+  .nav{grid-area:nav;display:flex;flex-direction:column;gap:2px;align-self:start;border-top:0;border-right:1px solid var(--line);padding:4px 0}
+  .nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em}
+  .nav button.on{background:#151515}
+  .nav button.on::before{left:0;right:auto;top:8px;bottom:8px;width:2px;height:auto}
+  .brand-l{display:none}
+  #s-sound.on, #s-smpl.on, #s-fx.on, #s-sys.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;align-items:start}
+}
+/* every landscape screen: pads square and sized by the height, the sequencer in two columns */
+@media (orientation:landscape){
+  #s-play .pads{height:100%;max-height:100%;aspect-ratio:1/1;max-width:100%;margin:0 auto;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);grid-auto-rows:auto;flex:none;min-height:0}
+  #s-play .pad{aspect-ratio:auto;min-height:0}
+  #s-seq.on{flex-direction:row;align-items:flex-start;gap:10px;overflow:hidden}
+  #s-seq .seqtop{flex:1.25;min-width:0;max-height:100%;overflow-y:auto;scrollbar-width:none}
+  #s-seq .seqpanel{flex:1;min-width:0;max-height:100%;overflow-y:auto;scrollbar-width:none}
+  #s-seq .trigs .gc{aspect-ratio:auto;min-height:44px}
+}
+@media (orientation:landscape) and (min-width:900px) and (min-height:561px){
+  #s-seq .seqtop{flex:1.7}
+  #s-seq .tkeys{grid-template-columns:repeat(16,1fr)}
+  #s-seq .tk{min-height:38px}
+  #s-seq .gview.trigs{grid-template-columns:repeat(16,1fr);gap:4px}
+  #s-seq .trigs .gc{aspect-ratio:1/1;min-height:0}
+}
+/* full-screen SEQ and MIX on a phone held sideways */
+.fsstrip, .fsscrim{display:none}
+/* ===== BEHEMOTH-style SVG knobs ===== */
+.knob{--kw:58px;width:100%}
+.knob .ksvg{width:var(--kw);height:var(--kw);overflow:visible;display:block;cursor:ns-resize}
+.knob.sm{--kw:46px}
+.knob .trk{fill:none;stroke:#1b1b1b;stroke-width:4;stroke-linecap:butt}
+.knob .val{fill:none;stroke:var(--orange);stroke-width:4;stroke-linecap:butt}
+.knob .cap{fill:#161616;stroke:#343434;stroke-width:1;width:auto;height:auto;border-radius:0;box-shadow:none;background:none}
+.knob .cap::before, .knob .cap::after{display:none}
+.knob .ind{stroke:var(--orange);stroke-width:2.6;stroke-linecap:butt}
+.knob.locked .val, .knob.locked .ind{stroke:#fff}
+.knob.locked .cap{stroke:#fff;box-shadow:none;background:none}
+.knob.touch .cap{stroke:#8a8a8a}
+.knob.touch .val{filter:drop-shadow(0 0 6px #fff6)}
+.knob .kv{background:none;padding:0;color:var(--text);min-height:14px}
+.knob .kl{color:var(--dim)}
+#vbubble{position:fixed;z-index:400;transform:translateX(-50%);pointer-events:none;opacity:0;transition:opacity .12s;background:var(--text);color:var(--body);border-radius:12px;padding:7px 14px;text-align:center;box-shadow:0 6px 22px #000b}
+#vbubble.on{opacity:1}
+#vbubble i{display:block;font:700 9px var(--font-mono,monospace);font-style:normal;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+#vbubble b{font:700 22px 'Helvetica Neue',Helvetica,Arial,sans-serif}
+@media (max-width:600px){
+  .knob{--kw:54px}
+}
+/* ===== modulation matrix ===== */
+.modtray{display:flex;align-items:center;margin:8px 0 2px}
+.modtray .mtl{font:700 9.5px var(--font-ui);letter-spacing:.14em;color:var(--dim);margin-right:2px}
+.msrc{flex:1;display:flex;align-items:center;justify-content:center;min-height:38px;color:var(--text);font:700 11px var(--font-ui);touch-action:none;-webkit-user-select:none;user-select:none}
+.msrc i{width:9px;height:9px;border-radius:50%;background:var(--sg)}
+.msrc sup{font-size:9px;color:var(--text2)}
+.msrc.on i{background:#0a0a0a}
+.mghost{position:fixed;z-index:500;transform:translate(-50%,-130%);pointer-events:none;background:#0a0a0a;border:2px solid;padding:6px 12px;font:700 12px var(--font-ui);letter-spacing:.1em;color:#fff}
+.knob .mod{fill:none;stroke-width:3;stroke-linecap:butt}
+.knob.armed .trk{stroke:#555}
+.knob.armed .ksvg{filter:drop-shadow(0 0 5px #fff5)}
+.knob.drop .ksvg{transform:scale(1.14);filter:drop-shadow(0 0 9px #fff9)}
+.knob.drop .cap{stroke:#fff;stroke-width:2}
+.rlist{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.rrow{display:grid;grid-template-columns:104px 1fr 44px 34px;gap:8px;align-items:center}
+.rrow .rn{font:700 10px var(--font-ui);letter-spacing:.08em;color:var(--text2)}
+.rrow .rv{font:500 11px var(--font-mono);text-align:right}
+/* ===== header: meter, SYS, sample segment ===== */
+.btn.tsys{font-size:10px;letter-spacing:.12em}
+.sampseg{display:flex;gap:6px;margin-bottom:8px}
+.startrow{display:flex;gap:6px;align-items:center;margin:0 0 10px}
+.startrow .mtl{font:700 9.5px var(--font-ui);letter-spacing:.14em;color:var(--dim)}
+.startrow .chip{min-height:40px}
+/* MIX full screen: no left strip, the menu and play buttons sit in the empty corner of the master plate */
+/* ===== wordmark row, like BEHEMOTH: logo on the left, SYS on the right ===== */
+.brandrow{display:flex;align-items:center;justify-content:space-between;gap:10px;grid-column:1/-1;min-height:40px}
+.brandrow .logo{font:700 16px 'Helvetica Neue',Helvetica,Arial,sans-serif;letter-spacing:.2em;color:var(--text);padding-left:4px}
+.brandrow .tsys{min-width:64px;min-height:40px;font-size:11px;letter-spacing:.14em}
+@media (max-width:560px){
+  .brandrow .logo{font-size:14px;letter-spacing:.14em}
+}
+/* ===== SEQ full screen on a phone held sideways: the trigs fill the width at the bottom, the panel drops down from the top ===== */
+.fsb.fspanelbtn{display:none}
+/* ===== MOD sources as round pills with a live underline, plus the cable (from BEHEMOTH) ===== */
+.modwrap{margin:8px 0 2px}
+.modwrap .modtray{margin:0}
+.modhint{font:500 11px var(--font-ui);color:var(--dim);margin:6px 2px 2px;min-height:14px}
+.modhint b{color:var(--text)}
+.msrc{position:relative;border-radius:999px;background:#131313;border:1px solid color-mix(in srgb,var(--sg) 65%,#000)}
+.msrc.on{background:var(--sg);color:#0a0a0a;border-color:var(--sg)}
+.msrc.has::after{content:"";position:absolute;left:16px;right:16px;bottom:3px;height:2px;border-radius:2px;background:var(--sg);box-shadow:0 0 6px var(--sg)}
+.msrc.on.has::after{background:#0a0a0a;box-shadow:none}
+.msrc i{box-shadow:0 0 6px var(--sg)}
+#cable{position:fixed;inset:0;width:100%;height:100%;z-index:489;pointer-events:none;display:none;overflow:visible}
+#cable.show{display:block}
+#cable path{fill:none;stroke:var(--sc,#fff);stroke-linecap:round}
+#cable .glow{stroke-width:10;opacity:.22;filter:blur(3px)}
+#cable .core{stroke-width:2.6;stroke-dasharray:8 6;animation:cflow .6s linear infinite}
+#cable .end,#cable .start{fill:var(--sc,#fff);filter:drop-shadow(0 0 6px var(--sc,#fff))}
+#cable.plug{animation:unplug .38s ease-in forwards}
+#cable.plug .core{animation:none;stroke-dasharray:none}
+@keyframes cflow{to{stroke-dashoffset:-28}}
+@keyframes unplug{to{opacity:0}}
+@keyframes zap{0%{transform:scale(1)}25%{transform:scale(1.17);filter:drop-shadow(0 0 14px var(--arm,#fff))}100%{transform:scale(1)}}
+@keyframes modin{0%{stroke-width:10;opacity:0}40%{stroke-width:7;opacity:1}100%{stroke-width:3;opacity:.95}}
+.knob.zap .ksvg{animation:zap .6s ease-out}
+.knob.zap .mod{animation:modin .6s ease-out}
+.mghost{border-radius:999px}
+.msrc{white-space:nowrap;padding:0 6px;gap:5px;font-size:10.5px;letter-spacing:.05em}
+.msrc sup{position:static;line-height:1}
+.modtray{gap:5px}
+.modtray .mtl{display:none}
+@media (min-width:480px){
+  .modtray .mtl{display:block}
+  .msrc{font-size:11px;padding:0 10px}
+}
+/* waveform: no level meter, sits toward the centre of the display */
+.oled canvas{align-self:center;height:60%;width:calc(100% - 24px);margin:0 auto}
+/* master encoders under the pads */
+.mastenc{margin-top:12px;padding:10px 6px 4px;border-top:1px solid var(--line,#262626)}
+.mastenc .mtl{font:700 9.5px var(--font-ui);letter-spacing:.14em;color:var(--dim);margin:0 0 8px 4px}
+.mastenc .mkg{grid-template-columns:repeat(4,1fr);gap:12px 6px}
+@media (orientation:portrait){
+  #s-play .pads{--ps:calc((100% - 18px)/4);min-height:0;flex:none;grid-template-columns:repeat(4,1fr);grid-auto-rows:auto;gap:6px;aspect-ratio:auto;width:100%}
+  #s-play .pad{min-height:0;aspect-ratio:1/1;width:100%;height:auto}
+  .mastenc{margin-top:8px;padding-top:6px}
+  .mastenc .mkg{gap:6px}
+}
+/* where can this source go: valid knobs glow in the source colour, the rest dim */
+body.modcand .knob[data-dest]:not(.cand){opacity:.3;transition:opacity .15s}
+.knob.cand .ksvg{filter:drop-shadow(0 0 6px var(--cg,#fff))}
+.knob.cand .trk{stroke:var(--cg,#fff);stroke-opacity:.55}
+.knob.cand .cap{stroke:var(--cg,#fff);stroke-width:1.5}
+.knob.cand .ksvg{animation:candp 1s ease-in-out infinite}
+@keyframes candp{50%{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){
+  .knob.cand .ksvg{animation:none}
+}
+.knob.cand.drop .ksvg{animation:none}
+.chip.cand{box-shadow:0 0 0 1.5px var(--cg,#fff),0 0 10px var(--cg,#fff);animation:candp 1s ease-in-out infinite}
+body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
+.viz.wv{height:132px}
+/* ===== v21: full screen MIX fills the height; full screen SEQ gets square trigs in two rows of eight and a small PAGE ===== */
+/* ===== v21: SAMPLE screen: compact header rows, two columns when held sideways ===== */
+#s-sound .sbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+#s-sound .sbar .stt{font:700 11px var(--font-ui);letter-spacing:.12em;color:var(--text);flex:1 0 auto;white-space:nowrap}
+#s-sound .sbar .snav{display:flex;gap:4px;order:2}
+#s-sound .sbar .sampseg{order:3;margin:0;flex:0 0 auto}
+#s-sound .sbar .sampseg .chip{min-width:78px}
+#s-sound .sbar .sndpick{order:4;flex:1;min-width:110px}
+#s-sound .stabs{flex-direction:row;align-items:stretch;gap:6px;margin-top:8px}
+#s-sound .stabs .ptabs{flex:1;margin:0}
+#s-sound .stabs .ptabs .chip{min-height:40px}
+#s-sound .stabs .plk{flex:0 0 auto;min-height:40px;padding:0 10px;font-size:10px;letter-spacing:.06em}
+#s-sound .modtray{margin-top:8px}
+@media (orientation:landscape) and (min-width:561px),(min-width:900px) and (orientation:landscape){
+  #s-sound .splate{display:grid;grid-template-columns:minmax(300px,5fr) 6fr;grid-template-rows:auto 1fr;gap:0 18px;align-items:start}
+  #s-sound .sleft{grid-column:1;grid-row:1}
+  #s-sound .splate>.sl{grid-column:1;grid-row:2;align-self:stretch;margin-top:10px;display:flex;flex-direction:column}
+  #s-sound .splate>.sl .viz{flex:none;height:104px}
+  #s-sound .modhint{display:none}
+  #s-sound .sright{grid-column:2;grid-row:1/3}
+  #s-sound .sbar .stt{flex:1 1 100%;order:0}
+  #s-sound .sbar .snav{order:1;margin-left:auto}
+  #s-sound .sbar .sampseg{order:0}
+  #s-sound .sbar .sndpick{flex:1}
+  #s-sound .sr .kgrid{margin-top:0!important}
+  #s-sound .sr .kgrid{grid-template-columns:repeat(4,1fr);gap:6px 4px}
+}
+@media (orientation:portrait){
+  #s-sound .sbar .stt{flex:1}
+}
+@media (min-width:900px) and (orientation:landscape){
+  #s-sound .splate{max-width:none;width:100%;box-sizing:border-box;grid-template-columns:minmax(340px,5fr) minmax(300px,6fr)}
+  #s-sound.on{display:block}
+}
+.presrow{gap:6px}
+.presrow .btn{flex:1 1 30%;min-height:44px}
+.startrow{flex-wrap:wrap}
+.startrow .mtl{flex:1 0 100%}
+.startrow .chip{flex:1 1 30%}
+/* ===== v27: phone held sideways: play and sequence get a slim button rail, the playing area on the left, the encoders in a scrollable column on the right ===== */
+/* the hint line under the SOUND chips: room above and below, same left edge as the chips */
+.seqsnd .lkinfo{margin:10px 4px 8px;line-height:1.35;min-height:18px;font-size:11.5px;letter-spacing:.01em}
+.bankroles{flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.bankroles .chip{flex:1 1 22%;min-height:32px}
+/* ===== v28: MIX, SAMPLE, FX, WAVE and SYS follow the same sideways layout: big controls, panes that scroll on their own ===== */
+/* ===== v29: sideways panes: equal height, tops aligned, each one scrolls on its own ===== */
+@media (orientation:landscape) and (min-width:561px){
+  #s-seq .seqtop .tk{min-height:26px}
+  #s-seq .trigs .gc{min-height:40px}
+  #s-seq .seqtop .chip.xs{min-height:28px}
+  body.fs .top, body.fs .nav{display:none}
+  body.fs .fsstrip{display:flex;flex-direction:column;gap:8px;position:fixed;left:max(8px,env(safe-area-inset-left,0px));top:10px;z-index:40}
+  .fsb{width:40px;height:40px;background:#151515;border:1px solid #272727;border-radius:3px;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;font:700 14px var(--font-ui)}
+  .fsb i{display:block;width:16px;height:2px;background:var(--text)}
+  .fsplay.on, body.fsopen .fsmenu{background:var(--orange);color:var(--onf);border-color:var(--orange)}
+  body.fsopen .fsmenu i{background:var(--onf)}
+  body.fsopen .fsscrim{display:block;position:fixed;inset:0;z-index:50;background:#000a}
+  body.fs.fsopen .top{display:flex;position:fixed;z-index:60;left:0;width:min(300px,46vw);background:#0a0a0a;border-right:1px solid var(--line);overflow-y:auto}
+  body.fs.fsopen .nav{display:grid;position:fixed;z-index:60;left:0;bottom:0;width:min(300px,46vw);background:#0a0a0a;border-right:1px solid var(--line);padding:4px 6px max(6px,env(safe-area-inset-bottom,0px)) max(6px,env(safe-area-inset-left,0px))}
+  body.fs.fsopen .fsstrip{z-index:70}
+  body.fs .mix{gap:6px}
+  body.fs.fsopen .top{padding-left:calc(max(8px,env(safe-area-inset-left,0px)) + 56px)}
+  /* MIX: master on the left, all 16 faders across */
+  body.fs #s-mix.on{flex-direction:row;gap:8px;overflow:hidden}
+  body.fs #s-mix .mastplate{flex:none;width:176px;overflow-y:auto;scrollbar-width:none}
+  body.fs #s-mix .trkplate{flex:1;min-width:0;overflow-y:auto;scrollbar-width:none}
+  body.fs #s-mix .mix{grid-template-columns:repeat(16,minmax(0,1fr));gap:3px}
+  body.fs #s-mix .strip{padding:4px 0 4px;gap:3px}
+  body.fs #s-mix .strip .sl, body.fs #s-mix .trkplate .note, body.fs #s-mix .mixact{display:none}
+  body.fs #s-mix .fader{height:clamp(80px,36vh,150px)}
+  body.fs #s-mix .ms button, body.fs #s-mix .scb{min-height:22px;font-size:9px;padding:0}
+  body.fs #app{padding-left:max(6px,env(safe-area-inset-left,0px))}
+  body.fsmix .fsstrip{flex-direction:row;top:auto;bottom:14px;left:calc(max(6px,env(safe-area-inset-left,0px)) + 12px)}
+  body.fsmix.fsopen .fsstrip{flex-direction:column;top:10px;bottom:auto;left:max(8px,env(safe-area-inset-left,0px))}
+  body.fs.fsseq{--trh:clamp(96px,36vh,170px)}
+  body.fs.fsseq .fsb.fspanelbtn{display:flex;align-items:center;justify-content:center}
+  body.fs.fsseq.fspanel .fsb.fspanelbtn{background:var(--text);color:#0a0a0a}
+  body.fsseq #s-seq .seqtop{flex:1;max-height:100%;height:100%;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+  body.fsseq #s-seq .tkeys{order:1;grid-template-columns:repeat(16,minmax(0,1fr));gap:3px}
+  body.fsseq #s-seq .tk{min-height:36px}
+  body.fsseq #s-seq .thead{order:2;margin:0}
+  body.fsseq #s-seq .pager{order:3}
+  body.fsseq #s-seq .lenk{order:4}
+  body.fsseq #s-seq .gview.trigs{order:5;margin:auto 0 0;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px}
+  body.fsseq #s-seq .trigs .gc{aspect-ratio:auto;min-height:var(--trh);padding:4px 3px}
+  body.fsseq #s-seq .seqtop .chip.xs{min-height:34px}
+  body.fsseq #s-seq .seqpanel{position:fixed;z-index:45;overflow-y:auto;background:#0e0e0e;border:1px solid #2a2a2a;border-top:0;border-radius:0 0 8px 8px;box-shadow:0 12px 30px #000c;transform:translateY(-110%);visibility:hidden;transition:transform .22s ease,visibility 0s .22s}
+  body.fsseq.fspanel #s-seq .seqpanel{transform:none;visibility:visible;transition:transform .22s ease}
+  body.fs.fsseq.fspanel{--trh:58px}
+  body.fsseq #s-seq .seqpanel .kgrid{grid-template-columns:repeat(auto-fit,minmax(78px,1fr))!important;gap:4px 6px;margin-top:6px}
+  body.fsseq #s-seq .seqpanel .modhint{display:none}
+  body.fsseq #s-seq .seqpanel .note{display:none}
+  body.fsseq #s-seq .trigs .gc{transition:min-height .2s ease}
+  .mastenc{display:none}
+  body.fs.fsmix #s-mix .trkplate{display:flex;flex-direction:column;overflow:hidden}
+  body.fs.fsmix #s-mix .trkplate>h3{flex:none}
+  body.fs.fsmix #s-mix .mix{flex:1;min-height:0;grid-template-rows:minmax(0,1fr);touch-action:pan-x}
+  body.fs.fsmix #s-mix .strip{height:100%;min-height:0}
+  body.fs.fsmix #s-mix .strip .fm{flex:1;align-self:stretch}
+  body.fs.fsmix #s-mix .strip .fader{height:100%;min-height:56px}
+  body.fs.fsmix #s-mix .strip .meter{height:100%}
+  body.fs.fsmix #s-mix .ms button,body.fs.fsmix #s-mix .scb{min-height:26px}
+  body.fs.fsmix #s-mix .mastplate{display:flex;flex-direction:column}
+  body.fsseq:not(.fspanel) #s-seq .pager{gap:4px}
+  body.fsseq:not(.fspanel) #s-seq .pager .plbl{display:none}
+  body.fsseq:not(.fspanel) #s-seq .pager .chip.xs{flex:0 0 auto;min-width:34px;min-height:28px;padding:0 8px;font-size:10px}
+  body.fsseq:not(.fspanel) #s-seq .trigs .gc i{font-size:12px}
+  body.fs.fsmix #s-mix .strip.cur{outline-offset:-2px}
+  body.fsseq:not(.fspanel){--sq:min(calc((100vw - 130px)/8 - 5px),calc((100vh - 150px)/2 - 4px))}
+  body{padding-left:max(6px,env(safe-area-inset-left,0px));padding-right:max(6px,env(safe-area-inset-right,0px))}
+  body.fs #app{display:block;max-width:none;padding:56px 0 max(4px,env(safe-area-inset-bottom,0px))}
+  body.fs .fsstrip, body.fsmix .fsstrip{flex-direction:row;align-items:center;gap:8px;top:5px;bottom:auto;left:max(6px,env(safe-area-inset-left,0px))}
+  body.fs .fsb{width:46px;height:46px;border-radius:6px}
+  body.fs .fsb svg{display:block;margin:auto}
+  body.fs .fsmenu i{width:20px;height:2.5px}
+  body.fs .fsrec{display:none}
+  body.fs[data-fst=play] .fsrec, body.fs[data-fst=seq] .fsrec{display:flex;align-items:center;justify-content:center}
+  body.fs .fsrec.on{background:var(--orange);color:var(--onf);border-color:var(--orange)}
+  body.fs .fsplay{align-items:center;justify-content:center}
+  .fsinfo{font:600 11px var(--font-ui);letter-spacing:.08em;color:var(--dim);white-space:nowrap;margin-left:6px;text-transform:uppercase}
+  body.fs.fsopen .top{top:0;bottom:84px;padding:8px max(10px,env(safe-area-inset-left,0px)) 6px;gap:8px;flex-direction:column}
+  body.fs.fsopen .top>*{flex:none}
+  body.fs.fsopen .nav{padding-left:max(6px,env(safe-area-inset-left,0px))}
+  body.fs .screens{height:100%}
+  body.fs[data-fst=play] #s-play.screen, body.fs[data-fst=seq] #s-seq.screen{padding:0;-webkit-mask-image:none;mask-image:none;overflow:hidden}
+  /* the encoder column */
+  body.fs .fsenc{display:flex;flex-direction:column;gap:10px;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;background:#0e0e0e;border:1px solid #1f1f1f;border-radius:8px;padding:8px 6px 10px;container-type:inline-size}
+  body.fs .fsenc::-webkit-scrollbar{display:none}
+  body.fs .fsenc .fspg{display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));gap:4px}
+  body.fs .fsenc .fspg .chip{min-height:34px;padding:0 2px;font-size:10px}
+  body.fs .fsenc .fsk{display:grid;grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:12px 2px;padding:2px 0 4px}
+  body.fs .fsenc .knob{gap:1px}
+  body.fs .fsenc .knob .cap{width:clamp(40px,18cqw,58px);height:clamp(40px,18cqw,58px)}
+  body.fs .fsenc .knob .cap::before{inset:5px}
+  body.fs .fsenc .knob .cap::after{top:8px;height:9px;transform-origin:50% 15px}
+  body.fs .fsenc .kl{font-size:9px}
+  body.fs .fsenc .fsmaster{border-top:1px solid #262626;padding-top:8px}
+  body.fs .fsenc .mastenc{display:block;margin:0;padding:0;border:0}
+  body.fs .fsenc .mastenc .mkg{grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:12px 2px}
+  /* PADS: big square pads, the encoders beside them */
+  body.fs #s-play .fsplay2{flex:1;min-height:0;display:flex;gap:10px;height:100%}
+  body.fs #s-play .fspadz{flex:0 0 57%;height:100%;aspect-ratio:auto;max-width:none;min-width:0}
+  body.fs #s-play .fspadz .pads{height:100%;width:100%;max-height:none;aspect-ratio:auto;margin:0;gap:6px}
+  body.fs #s-play .fsenc{flex:1;min-width:0}
+  body.fs #s-play .pad{border-radius:6px}
+  /* SEQ: track keys, bar and 2 x 8 squares on the left, encoders on the right */
+  body.fsseq:not(.fspanel) #s-seq .seqtop{--encw:clamp(206px,29vw,252px);--sq:min(calc((100cqw - var(--encw) - 12px - 35px)/8),calc((100cqh - 62px)/4));position:relative;container-type:size;display:grid;grid-template-columns:auto minmax(0,1fr) auto var(--encw);grid-template-rows:auto minmax(0,1fr);gap:8px 12px;align-items:center;align-content:start;padding:0;background:none;border:0;box-shadow:none;height:100%;max-height:100%}
+  body.fsseq:not(.fspanel) #s-seq .tkeys{display:none;position:absolute;left:0;top:42px;width:min(420px,calc(100cqw - var(--encw) - 12px));z-index:6;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin:0;padding:8px;background:#0d0d0dF2;border:1px solid #2a2a2a;border-radius:6px;box-shadow:0 8px 24px #000a}
+body.fsseq:not(.fspanel) #s-seq .tkeys.open{display:grid}
+  body.fsseq:not(.fspanel) #s-seq .tk{min-height:38px}
+  body.fsseq:not(.fspanel) #s-seq .thead{grid-column:1;grid-row:1;height:32px;margin:0}
+  body.fsseq:not(.fspanel) #s-seq .pager{grid-column:2;grid-row:1;height:32px;margin:0;justify-content:center}
+  body.fsseq:not(.fspanel) #s-seq .lenk{grid-column:3;grid-row:1;height:32px;margin:0}
+  body.fsseq:not(.fspanel) #s-seq .seqtop .chip.xs{min-height:30px;padding:0 8px}
+  body.fsseq:not(.fspanel) #s-seq .gview.trigs{grid-column:1/4;grid-row:2;margin:0;align-self:start;justify-self:start;grid-template-columns:repeat(8,var(--sq));grid-auto-rows:var(--sq);gap:5px}
+  body.fsseq:not(.fspanel) #s-seq .trigs .gc{aspect-ratio:1/1;min-height:0;width:var(--sq);height:var(--sq);padding:3px}
+  body.fsseq:not(.fspanel) #s-seq .fsenc{grid-column:4;grid-row:1/3;align-self:stretch;height:100%}
+  body.fsseq.fspanel .fsenc{display:none}
+  /* the drop-down panel: tabs down the left, content in columns */
+  body.fsseq #s-seq .seqpanel{top:54px;left:max(6px,env(safe-area-inset-left,0px));right:max(6px,env(safe-area-inset-right,0px));max-height:calc(100vh - 62px);display:grid;grid-template-columns:86px minmax(0,1fr);gap:0 14px;align-items:start;padding:10px 12px}
+  body.fsseq #s-seq .seqpanel .stabs{flex-direction:column;max-width:none;position:sticky;top:0;align-items:stretch}
+  body.fsseq #s-seq .seqpanel .stabs .chip{min-height:40px;width:100%;flex:none}
+  body.fsseq #s-seq .seqpanel .stabs>*{width:100%}
+  body.fsseq #s-seq .seqpanel .sbody{min-width:0}
+  body.fsseq #s-seq .tgen, body.fsseq #s-seq .tedit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 18px;align-items:start}
+  body.fsseq #s-seq .tgen .tgrp, body.fsseq #s-seq .tedit .tgrp{margin:0}
+  body.fsseq #s-seq .tgen .row, body.fsseq #s-seq .tedit .row{flex-wrap:wrap}
+  body.fsseq #s-seq .tstep{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 14px;align-items:center}
+  body.fsseq #s-seq .tstep>h3{grid-column:1/-1;margin:0}
+  body.fsseq #s-seq .tstep>.kgrid{grid-column:1/-1;grid-template-columns:repeat(6,minmax(0,1fr))!important}
+  body.fsseq #s-seq .seqpanel .note.lbl, body.fsseq #s-seq .seqpanel .note.eucv, body.fsseq #s-seq .seqpanel .shint .note{display:block}
+  /* MIX: big strips, swipe sideways */
+  body.fs.fsmix #s-mix .mastplate{flex:none}
+  body.fs.fsmix #s-mix .mix{grid-template-columns:repeat(16,92px)!important;gap:8px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 6px 6px}
+  body.fs.fsmix #s-mix .mix::-webkit-scrollbar{display:none}
+  body.fs.fsmix #s-mix .strip{scroll-snap-align:start;padding:6px 4px 6px}
+  body.fs.fsmix #s-mix .strip .sl{display:block;font:600 9.5px var(--font-ui);letter-spacing:.06em;text-align:center;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+  body.fs.fsmix #s-mix .ms{gap:6px}
+  body.fs.fsmix #s-mix .ms button, body.fs.fsmix #s-mix .scb{min-height:36px;font-size:14px}
+  body.fs.fsmix #s-mix .scb{font-size:11px}
+  /* SAMPLE: wave takes what is left, the knobs pane scrolls by itself */
+  body.fs #s-sound .splate>.sl{min-height:0;margin-top:8px}
+  body.fs #s-sound .splate>.sl .viz{height:auto;flex:1;min-height:56px}
+  body.fs #s-sound .sright{-webkit-overflow-scrolling:touch}
+  body.fs #s-sound .sright::-webkit-scrollbar{display:none}
+  /* FX: effect list on the left, graph and knobs on the right */
+  body.fs #s-fx.on{display:grid;grid-template-columns:minmax(150px,26%) minmax(0,1fr);gap:10px;overflow:hidden;align-content:stretch}
+  body.fs #s-fx.on>.plate{overflow-y:auto;min-height:0;height:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  body.fs #s-fx.on>.plate::-webkit-scrollbar{display:none}
+  body.fs #s-fx .fxtabs{grid-template-columns:1fr;gap:6px}
+  body.fs #s-fx .fxtabs .chip{font-size:12px}
+  body.fs #s-fx .fxviz{height:96px}
+  body.fs #s-fx .kgrid{grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:12px 4px}
+  body.fs #s-fx .knob .cap{width:56px;height:56px}
+  /* WAVE and SYS: two panes */
+  body.fs #s-smpl.on, body.fs #s-sys.on{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-content:start;align-items:start}
+  body.fs.fsmix #s-mix .mastplate{width:176px}
+  body.fs.fsmix #s-mix .trkplate>h3{display:none}
+  body.fs.fsmix #s-mix .trkplate{padding:6px 4px}
+  body.fs.fsmix #s-mix .strip{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto auto auto;gap:5px 4px;align-items:center}
+  body.fs.fsmix #s-mix .strip .sn{grid-column:1;grid-row:1;min-height:0;font-size:18px;text-align:left;padding-left:6px}
+  body.fs.fsmix #s-mix .strip .lvl{grid-column:2;grid-row:1;text-align:right;padding-right:6px;font-size:13px}
+  body.fs.fsmix #s-mix .strip .fm{grid-column:1/-1;grid-row:2;min-height:0;height:100%}
+  body.fs.fsmix #s-mix .strip .ms{grid-column:1/-1;grid-row:3}
+  body.fs.fsmix #s-mix .strip .scb{grid-column:1/-1;grid-row:4;min-height:30px}
+  body.fs.fsmix #s-mix .strip .sl{grid-column:1/-1;grid-row:5}
+  body.fs.fsmix #s-mix .ms button{min-height:34px}
+  body.fs #s-fx .fxtabs .chip{min-height:40px}
+  body.fs #s-sound .splate{padding-bottom:12px}
+  body.fs #s-sound.on{overflow:hidden}
+  body.fs #s-sound .splate{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:minmax(0,1fr);gap:14px;height:100%;min-height:0;box-sizing:border-box;align-items:stretch}
+  body.fs #s-sound .sleft{overflow-y:auto;min-height:0;scrollbar-width:none;-webkit-overflow-scrolling:touch;grid-column:1;grid-row:1;display:flex;flex-direction:column;gap:6px}
+  body.fs #s-sound .sleft::-webkit-scrollbar{display:none}
+  body.fs #s-sound .sright{grid-column:2;grid-row:1;overflow-y:auto;min-height:0;scrollbar-width:none}
+  body.fs #s-sound .sright>.sl{display:block;margin:0 0 8px}
+  body.fs #s-sound .sright>.sl .viz{display:block;width:100%;flex:none}
+  body.fs #s-sound .sr .kgrid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:0!important}
+  body.fs #s-sound .sbar{gap:6px}
+  body.fs #s-sound .sbar .chip, body.fs #s-sound .sbar .sndpick{min-height:36px}
+  body.fs #s-sound .modtray{margin:0}
+  body.fs #s-sound .modtray .msrc{min-height:36px;font-size:11px}
+  body.fs #s-sound .stabs{margin:0}
+  body.fs #s-sound .stabs .ptabs .chip, body.fs #s-sound .stabs .plk{min-height:36px}
+  body.fs #s-mix.on{align-items:stretch}
+  body.fs.fsmix #s-mix .mastplate, body.fs.fsmix #s-mix .trkplate{height:100%;box-sizing:border-box;align-self:stretch}
+  body.fs #s-fx.on>.plate, body.fs #s-smpl.on>.plate, body.fs #s-sys.on>.plate{box-sizing:border-box}
+  body.fs #s-sound .sright>.sl{margin-bottom:6px}
+  body.fs #s-sound .sright>.sl .viz{height:58px}
+  body.fs #s-sound .sr .knob .cap{width:42px;height:42px}
+  body.fs #s-sound .sr .knob{gap:0}
+  body.fs #s-sound .sr .kgrid{gap:2px 4px}
+  body.fs #s-sound .splate{padding:8px 12px}
+  body.fs.fsopen .fsstrip{flex-direction:row;align-items:center;top:5px;bottom:auto;left:max(6px,env(safe-area-inset-left,0px))}
+  body.fs.fsopen .fsinfo{display:none}
+  body.fs.fsopen .top{top:60px;bottom:0;padding:8px 10px 60px max(10px,env(safe-area-inset-left,0px))}
+}
+@media (orientation:landscape) and (min-width:561px){
+  body.fsseq:not(.fspanel) #s-seq .seqtop{--sh:min(calc((100cqh - 62px)/4),calc(var(--sq)*1.6))}
+  body.fsseq:not(.fspanel) #s-seq .gview.trigs{justify-self:stretch;align-self:stretch;grid-template-columns:repeat(8,minmax(0,1fr));grid-auto-rows:var(--sh)}
+  body.fsseq:not(.fspanel) #s-seq .trigs .gc{width:auto;height:auto;aspect-ratio:auto}
+}
+/* the drawer opens the same way on every tab; on PADS and SEQ it slides out beside the button rail */
+/* very short screens (a phone held sideways inside another app's window): shrink graphs and knobs so nothing is cut in half */
+@media (orientation:landscape) and (min-width:561px) and (max-height:340px){
+  body.fs #s-fx .fxtabs{gap:4px}
+  body.fs #s-fx .fxtabs .chip{min-height:34px;font-size:11px}
+  body.fs #s-fx .fxviz{height:54px}
+  body.fs #s-fx .knob .cap{width:44px;height:44px}
+  body.fs #s-fx .kgrid{gap:6px 4px}
+  body.fs #s-sound .sright>.sl .viz{height:28px}
+  body.fs #s-sound .splate{padding:4px 10px}
+  body.fs #s-sound .sr .knob .cap{width:30px;height:30px}
+  body.fs #s-sound .sr .kgrid{gap:0 4px}
+  body.fs .fsenc .knob .cap{width:clamp(34px,15cqw,46px);height:clamp(34px,15cqw,46px)}
+  body.fs .fsenc .fsk, body.fs .fsenc .mastenc .mkg{gap:6px 2px}
+  body.fs .fsenc .fspg .chip{min-height:28px}
+  body.fs .fsenc{gap:6px}
+}
+/* the display in the drawer has a fixed height, so the size of its level canvas can never stretch it */
+@media (orientation:landscape) and (min-width:561px){
+body.fs.fsopen .top .oled{height:96px;min-height:0;overflow:hidden}
+body.fs.fsopen .top .oled canvas{width:100%;height:100%;min-height:0}
+}
+/* SAMPLE sideways: one column that scrolls. The controls sit on top, the big detailed wave and the knobs below */
+@media (orientation:landscape) and (min-width:561px){
+body.fs #s-sound.on{display:block;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+body.fs #s-sound.on::-webkit-scrollbar{display:none}
+body.fs #s-sound .splate{display:flex;flex-direction:column;gap:12px;height:auto;min-height:0;padding:10px 12px 18px;overflow:visible}
+body.fs #s-sound .sleft{flex:none;overflow:visible;gap:8px}
+body.fs #s-sound .sright{flex:none;overflow:visible}
+body.fs #s-sound .sright>.sl{margin:0 0 10px}
+body.fs #s-sound .sright>.sl .viz{height:clamp(150px,calc(48vh / var(--z)),380px);display:block;width:100%;min-height:0}
+body.fs #s-sound .sr .kgrid{grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:10px 6px}
+body.fs #s-sound .sr .knob .cap{width:46px;height:46px}
+}
+@media (orientation:landscape) and (min-width:561px) and (max-height:340px){
+body.fs #s-sound .sbar .chip, body.fs #s-sound .sbar .sndpick{min-height:30px}
+body.fs #s-sound .modtray .msrc{min-height:30px}
+body.fs #s-sound .stabs .ptabs .chip, body.fs #s-sound .stabs .plk{min-height:30px}
+body.fs #s-sound .splate{gap:8px;padding:6px 10px 14px}
+body.fs #s-sound .sright>.sl .viz{height:clamp(120px,calc(60vh / var(--z)),380px)}
+}
+/* SEQ bar between the track keys and the steps: one centre line, the three groups spread apart (left, middle, right) */
+@media (orientation:landscape) and (min-width:561px){
+body.fsseq:not(.fspanel) #s-seq .thead, body.fsseq:not(.fspanel) #s-seq .pager, body.fsseq:not(.fspanel) #s-seq .lenk{align-self:center;align-items:center;height:34px;padding-top:0!important;padding-bottom:0!important;margin-top:0!important;margin-bottom:0!important}
+body.fsseq:not(.fspanel) #s-seq .thead .chip.xs, body.fsseq:not(.fspanel) #s-seq .pager .chip.xs, body.fsseq:not(.fspanel) #s-seq .lenk .chip.xs{height:34px;min-height:34px;padding-top:0;padding-bottom:0}
+body.fsseq:not(.fspanel) #s-seq .pager{justify-self:center;margin:0 14px}
+body.fsseq:not(.fspanel) #s-seq .lenk{justify-self:end}
+@container (max-width:780px){
+  body.fsseq:not(.fspanel) #s-seq .thead small{display:none}
+  body.fsseq:not(.fspanel) #s-seq .lenk .lbl{font-size:0;letter-spacing:0}
+  body.fsseq:not(.fspanel) #s-seq .lenk .lbl::before{content:'LEN';font:600 10px var(--font-ui);letter-spacing:.1em}
+  body.fsseq:not(.fspanel) #s-seq .thead .chip.xs, body.fsseq:not(.fspanel) #s-seq .lenk .chip.xs{padding-left:8px;padding-right:8px}
+}
+}
+
+.tkbtn{display:none}
+@media (orientation:landscape) and (min-width:561px){body.fsseq:not(.fspanel) #s-seq .tkbtn{display:inline-flex;align-items:center;justify-content:center}}
+body.fsseq:not(.fspanel) #s-seq .thead small{display:none}
+body.fsseq:not(.fspanel) #s-seq .thead span{max-width:90px}
+body.fsseq:not(.fspanel) #s-seq .pager.solo{display:none}
+
+.btn:active, .pad.hit{box-shadow:0 1px 0 #000a,inset 0 1px 0 #ffffff14}
+.sbar .chip.slon{background:var(--text);color:#0a0a0a}
+
+/* sideways, one look for every tab: flat buttons, the same dark bordered panels, quiet MIX, record button everywhere */
+@media (orientation:landscape) and (min-width:561px){
+body.fs .chip, body.fs .btn:not(.fsb), body.fs .btn:active{box-shadow:none}
+body.fs #s-sound .splate, body.fs #s-fx.on>.plate, body.fs #s-sys.on>.plate, body.fs #s-smpl.on>.plate, body.fs.fsmix #s-mix .mastplate, body.fs.fsmix #s-mix .trkplate{background:#0e0e0e;border:1px solid #1f1f1f;border-radius:8px;box-shadow:none}
+body.fs .fsrec{display:flex;align-items:center;justify-content:center}
+body.fs.fsmix .fsinfo{display:none}
+body.fs.fsmix #s-mix .strip{border-top-color:#262626;background:#141414;box-shadow:none}
+body.fs.fsmix #s-mix .strip.cur{border-top-color:var(--text);outline:0}
+body.fs #s-mix .fader i, body.fs #s-mix .hfader i{background:var(--text);box-shadow:none}
+/* SAMPLE: controls in two compact rows so the wave and knobs start higher */
+body.fs #s-sound .sleft{flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 10px}
+body.fs #s-sound .sbar{flex:1 1 100%;flex-wrap:nowrap}
+body.fs #s-sound .sbar .stt{flex:0 0 auto;order:0;font-size:12px}
+body.fs #s-sound .sbar .sampseg{order:1}
+body.fs #s-sound .sbar .snav{order:2;margin:0 0 0 auto}
+body.fs #s-sound .sbar .sndpick{order:3;flex:1 1 120px;min-width:100px}
+body.fs #s-sound .sleft>.modtray{flex:1 1 46%;min-width:0}
+body.fs #s-sound .sleft>.stabs{flex:1 1 50%;min-width:0}
+body.fs #s-sound .stabs .ptabs .chip{padding:0 4px;font-size:10px}
+/* FX: use the whole height */
+body.fs #s-fx .fxviz{height:clamp(96px,28vh,220px)}
+body.fs #s-fx .knob .cap{width:clamp(56px,11vh,84px);height:clamp(56px,11vh,84px)}
+body.fs #s-fx .kgrid{gap:14px 6px}
+}
