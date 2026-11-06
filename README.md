@@ -27,7 +27,6 @@ Phone held sideways (the main way to play), a phone upright, and a tablet. Shots
 <img src="screenshots/11-fx-portrait.png" width="19%" alt="FX, portrait">
 </p>
 
-![Sequencer on a tablet](screenshots/06-sequencer-tablet.png)
 
 *Tablet in landscape: the same layout scaled up, the steps fill the height.*
 
