@@ -1,6 +1,6 @@
 # ELEPHANT
 
-A pocket sampler groovebox that runs in the browser, part of a design family with [GRAINS](https://shoogaze.github.io/grains-synth/) and [BEHEMOTH](https://shoogaze.github.io/behemoth-synth-/). 16 pads, a step sequencer, a sampler...
+A pocket sampler groovebox that runs in the browser, part of a design family with [GRAINS](https://shoogaze.github.io/grains-synth/) and [BEHEMOTH](https://shoogaze.github.io/behemoth-synth-/). 16 pads, a step sequencer, a sampler (record, import, slice), a modulation matrix and an FX section, built for phones and tablets. One HTML file, no dependencies, works offline once opened.
 
 Try it: open [ELEPHANT](https://github.com/SHOOGAZE/elephant-sequencer). on your phone and tap the screen to start audio. On an iPhone or iPad use Share → Add to Home Screen for a full-screen app.
 
