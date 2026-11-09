@@ -118,7 +118,8 @@ R.sys=function(){
     ...(navigator.requestMIDIAccess?[midiPlate()]:[]),
     h('div',{class:'plate'},h('h3',{text:'LANGUAGE'}),h('div',{class:'row nw'},['en','ru','uk','es','de'].map(l=>h('button',{class:'chip grow'+(LANG===l?' on':''),text:l==='uk'?'UA':l.toUpperCase(),onclick:()=>{setLang(l);vib(6);R.sys()}})))),
     h('div',{class:'plate'},h('h3',{text:'LOOK'}),
-      h('div',{class:'row nw'},chipRow(['HINTS ON','HINTS OFF'],i=>(document.documentElement.classList.contains('nohint'))===(i===1),i=>{setHints(i===1);R.sys()},'grow'))),
+      h('div',{class:'row nw'},chipRow(['HINTS ON','HINTS OFF'],i=>(document.documentElement.classList.contains('nohint'))===(i===1),i=>{setHints(i===1);R.sys()},'grow')),
+      navigator.vibrate?h('div',{class:'row nw'},chipRow(['VIBRATION ON','VIBRATION OFF'],i=>VIB_OFF===(i===1),i=>{setVib(i===1);R.sys()},'grow')):null),
     h('div',{class:'plate'},h('h3',{text:'HELP'}),h('div',{class:'row nw'},
       h('button',{class:'btn on grow',text:'TUTORIAL',onclick:()=>startTour(0)}))),
     h('div',{class:'plate'},h('h3',{text:'ABOUT'}),h('div',{class:'note',text:'ELEPHANT. A pocket sampler groovebox: 16 pads, up to 64 steps with P-locks, micro timing, trig conditions, retrigs, a sampler with slices, a compressor per track and a master FX chain.'})));

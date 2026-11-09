@@ -8,7 +8,9 @@ function h(tag,props){
     (Array.isArray(c)?c:[c]).forEach(x=>{if(x==null||x===false)return;e.append(x.nodeType?x:document.createTextNode(T(x)))})}
   return e;
 }
-const vib=ms=>{try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};
+let VIB_OFF=false;try{VIB_OFF=localStorage.getItem('elephant-vib')==='0'}catch(e){}
+const setVib=off=>{VIB_OFF=off;try{localStorage.setItem('elephant-vib',off?'0':'1')}catch(e){}};
+const vib=ms=>{if(VIB_OFF)return;try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};
 const nname=m=>NN[((m%12)+12)%12]+(Math.floor(m/12)-1);
 const trk=()=>P().tracks[U.tr];
 const curPat=()=>P().patterns[P().pat];

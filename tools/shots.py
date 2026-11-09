@@ -14,6 +14,9 @@ S=[('01-pads-landscape',874,402,'play',3,''),
    ('09-sample-portrait',390,844,'sound',3,"GRUI.U.tr=5;GRUI.renderTab()"),
    ('10-mixer-portrait',390,844,'mix',3,''),
    ('11-fx-portrait',390,844,'fx',3,''),
+   ('12-wave-portrait',390,844,'smpl',3,''),
+   ('13-sample-filter-portrait',390,844,'sound',3,"GRUI.U.tr=5;GRUI.U.page=1;GRUI.renderTab()"),
+   ('14-system-portrait',390,844,'sys',3,''),
    ('07-menu-landscape',874,402,'play',3,"document.querySelector('.fsmenu').click()")]
 async def main():
     async with async_playwright() as p:

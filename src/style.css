@@ -13,8 +13,8 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 .oled canvas{display:block}
 .oled>div:first-child{min-width:0}
 .tr{display:grid;grid-template-columns:70px 42px 50px 46px 1fr;gap:8px;align-items:stretch}
-.btn{border-radius:3px;min-height:40px;padding:0 12px;font-size:13px;text-transform:uppercase;box-shadow:0 2px 0 var(--cream-sh),inset 0 1px 0 #fff9;position:relative}
-.btn:active{box-shadow:0 1px 0 var(--cream-sh),inset 0 1px 0 #fff9}
+.btn{border-radius:3px;min-height:40px;padding:0 12px;font-size:13px;text-transform:uppercase;box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff14;position:relative}
+.btn:active{box-shadow:0 1px 0 #000a,inset 0 1px 0 #ffffff14}
 .btn.sm{min-height:32px;padding:0 9px;font-size:11px}
 .btn.xs{min-height:28px;padding:0 7px;font-size:10px}
 .btn:disabled{opacity:.4}
@@ -43,7 +43,7 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 .chip.or.on{background:var(--orange);color:#0a0a0a;box-shadow:0 2px 0 var(--orange-lo)}
 /* pads */
 .pads{display:grid;grid-template-columns:repeat(4,1fr);flex:1}
-.pad{border-radius:3px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;box-shadow:0 3px 0 var(--cream-sh),inset 0 1px 0 #fffc;touch-action:none;position:relative;min-height:46px;overflow:hidden}
+.pad{border-radius:3px;display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;text-align:left;box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff14;touch-action:none;position:relative;min-height:46px;overflow:hidden}
 .pad .pe{font:700 10px var(--font-ui);letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pad.mute{opacity:.45}
 .pad.solo::after{content:"S";position:absolute;right:8px;top:6px;font:700 11px var(--font-mono)}
@@ -246,7 +246,7 @@ button, .chip, .nav button{touch-action:manipulation}
 /* soft trigger glow, Digitakt style */
 @keyframes thit{0%{box-shadow:inset 0 0 0 2px var(--tc,var(--blue)),0 0 14px -2px var(--tc,var(--blue))}100%{box-shadow:inset 0 0 0 2px transparent,0 0 0 transparent}}
 .pad.hit, .tkb.hit{animation:thit .32s ease-out;filter:none}
-.pad.hit{box-shadow:0 3px 0 var(--cream-sh),inset 0 1px 0 #fffc}
+.pad.hit{box-shadow:0 2px 0 #000a,inset 0 1px 0 #ffffff14}
 @media (prefers-reduced-motion:reduce){
   .pad.hit, .tkb.hit{animation:none}
 }
@@ -764,7 +764,6 @@ body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
   #s-seq .seqtop .tk{min-height:26px}
   #s-seq .trigs .gc{min-height:40px}
   #s-seq .seqtop .chip.xs{min-height:28px}
-  body.fs #app{padding-left:52px}
   body.fs .top, body.fs .nav{display:none}
   body.fs .fsstrip{display:flex;flex-direction:column;gap:8px;position:fixed;left:max(8px,env(safe-area-inset-left,0px));top:10px;z-index:40}
   .fsb{width:40px;height:40px;background:#151515;border:1px solid #272727;border-radius:3px;color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0;font:700 14px var(--font-ui)}
@@ -786,7 +785,7 @@ body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
   body.fs #s-mix .strip .sl, body.fs #s-mix .trkplate .note, body.fs #s-mix .mixact{display:none}
   body.fs #s-mix .fader{height:clamp(80px,36vh,150px)}
   body.fs #s-mix .ms button, body.fs #s-mix .scb{min-height:22px;font-size:9px;padding:0}
-  body.fs.fsmix #app{padding-left:max(6px,env(safe-area-inset-left,0px))}
+  body.fs #app{padding-left:max(6px,env(safe-area-inset-left,0px))}
   body.fsmix .fsstrip{flex-direction:row;top:auto;bottom:14px;left:calc(max(6px,env(safe-area-inset-left,0px)) + 12px)}
   body.fsmix.fsopen .fsstrip{flex-direction:column;top:10px;bottom:auto;left:max(8px,env(safe-area-inset-left,0px))}
   body.fs.fsseq{--trh:clamp(96px,36vh,170px)}
@@ -826,9 +825,7 @@ body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
   body.fsseq:not(.fspanel){--sq:min(calc((100vw - 130px)/8 - 5px),calc((100vh - 150px)/2 - 4px))}
   body{padding-left:max(6px,env(safe-area-inset-left,0px));padding-right:max(6px,env(safe-area-inset-right,0px))}
   body.fs #app{display:block;max-width:none;padding:56px 0 max(4px,env(safe-area-inset-bottom,0px))}
-  body.fs[data-fst=play] #app, body.fs[data-fst=seq] #app{padding:4px 0 max(4px,env(safe-area-inset-bottom,0px)) 56px}
   body.fs .fsstrip, body.fsmix .fsstrip{flex-direction:row;align-items:center;gap:8px;top:5px;bottom:auto;left:max(6px,env(safe-area-inset-left,0px))}
-  body.fs[data-fst=play] .fsstrip, body.fs[data-fst=seq] .fsstrip{flex-direction:column;align-items:stretch;top:4px}
   body.fs .fsb{width:46px;height:46px;border-radius:6px}
   body.fs .fsb svg{display:block;margin:auto}
   body.fs .fsmenu i{width:20px;height:2.5px}
@@ -837,11 +834,9 @@ body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
   body.fs .fsrec.on{background:var(--orange);color:var(--onf);border-color:var(--orange)}
   body.fs .fsplay{align-items:center;justify-content:center}
   .fsinfo{font:600 11px var(--font-ui);letter-spacing:.08em;color:var(--dim);white-space:nowrap;margin-left:6px;text-transform:uppercase}
-  body.fs[data-fst=play] .fsinfo, body.fs[data-fst=seq] .fsinfo{display:none}
   body.fs.fsopen .top{top:0;bottom:84px;padding:8px max(10px,env(safe-area-inset-left,0px)) 6px;gap:8px;flex-direction:column}
   body.fs.fsopen .top>*{flex:none}
   body.fs.fsopen .nav{padding-left:max(6px,env(safe-area-inset-left,0px))}
-  body.fs.fsopen[data-fst=play] .top, body.fs.fsopen[data-fst=seq] .top{padding-left:calc(max(6px,env(safe-area-inset-left,0px)) + 62px)}
   body.fs .screens{height:100%}
   body.fs[data-fst=play] #s-play.screen, body.fs[data-fst=seq] #s-seq.screen{padding:0;-webkit-mask-image:none;mask-image:none;overflow:hidden}
   /* the encoder column */
@@ -860,9 +855,9 @@ body.modcand .ptabs .chip:not(.cand):not(.on){opacity:.45}
   body.fs .fsenc .mastenc .mkg{grid-template-columns:repeat(auto-fit,minmax(64px,1fr));gap:12px 2px}
   /* PADS: big square pads, the encoders beside them */
   body.fs #s-play .fsplay2{flex:1;min-height:0;display:flex;gap:10px;height:100%}
-  body.fs #s-play .fspadz{flex:none;height:100%;aspect-ratio:1/1;max-width:62%}
+  body.fs #s-play .fspadz{flex:0 0 57%;height:100%;aspect-ratio:auto;max-width:none;min-width:0}
   body.fs #s-play .fspadz .pads{height:100%;width:100%;max-height:none;aspect-ratio:auto;margin:0;gap:6px}
-  body.fs #s-play .fsenc{flex:1;min-width:210px}
+  body.fs #s-play .fsenc{flex:1;min-width:0}
   body.fs #s-play .pad{border-radius:6px}
   /* SEQ: track keys, bar and 2 x 8 squares on the left, encoders on the right */
   body.fsseq:not(.fspanel) #s-seq .seqtop{--encw:clamp(206px,29vw,252px);--sq:min(calc((100cqw - var(--encw) - 12px - 35px)/8),calc((100cqh - 62px)/4));position:relative;container-type:size;display:grid;grid-template-columns:auto minmax(0,1fr) auto var(--encw);grid-template-rows:auto minmax(0,1fr);gap:8px 12px;align-items:center;align-content:start;padding:0;background:none;border:0;box-shadow:none;height:100%;max-height:100%}
@@ -878,7 +873,7 @@ body.fsseq:not(.fspanel) #s-seq .tkeys.open{display:grid}
   body.fsseq:not(.fspanel) #s-seq .fsenc{grid-column:4;grid-row:1/3;align-self:stretch;height:100%}
   body.fsseq.fspanel .fsenc{display:none}
   /* the drop-down panel: tabs down the left, content in columns */
-  body.fsseq #s-seq .seqpanel{top:4px;left:calc(max(6px,env(safe-area-inset-left,0px)) + 56px);right:max(6px,env(safe-area-inset-right,0px));max-height:calc(100vh - var(--trh) - 16px);display:grid;grid-template-columns:86px minmax(0,1fr);gap:0 14px;align-items:start;padding:10px 12px}
+  body.fsseq #s-seq .seqpanel{top:54px;left:max(6px,env(safe-area-inset-left,0px));right:max(6px,env(safe-area-inset-right,0px));max-height:calc(100vh - 62px);display:grid;grid-template-columns:86px minmax(0,1fr);gap:0 14px;align-items:start;padding:10px 12px}
   body.fsseq #s-seq .seqpanel .stabs{flex-direction:column;max-width:none;position:sticky;top:0;align-items:stretch}
   body.fsseq #s-seq .seqpanel .stabs .chip{min-height:40px;width:100%;flex:none}
   body.fsseq #s-seq .seqpanel .stabs>*{width:100%}
@@ -899,8 +894,6 @@ body.fsseq:not(.fspanel) #s-seq .tkeys.open{display:grid}
   body.fs.fsmix #s-mix .ms{gap:6px}
   body.fs.fsmix #s-mix .ms button, body.fs.fsmix #s-mix .scb{min-height:36px;font-size:14px}
   body.fs.fsmix #s-mix .scb{font-size:11px}
-  .mixnav{align-items:center;gap:8px}
-  .mixnav .chip{min-width:46px;min-height:34px;font-size:20px;padding:0}
   /* SAMPLE: wave takes what is left, the knobs pane scrolls by itself */
   body.fs #s-sound .splate>.sl{min-height:0;margin-top:8px}
   body.fs #s-sound .splate>.sl .viz{height:auto;flex:1;min-height:56px}
@@ -920,8 +913,6 @@ body.fsseq:not(.fspanel) #s-seq .tkeys.open{display:grid}
   body.fs.fsmix #s-mix .mastplate{width:176px}
   body.fs.fsmix #s-mix .trkplate>h3{display:none}
   body.fs.fsmix #s-mix .trkplate{padding:6px 4px}
-  body.fs.fsmix .mixnav{position:fixed;top:5px;right:max(8px,env(safe-area-inset-right,0px));z-index:41;align-items:center;gap:10px;font:600 11px var(--font-ui);letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
-  body.fs.fsmix .mixnav .chip{width:56px;height:46px;min-height:46px;font-size:24px}
   body.fs.fsmix #s-mix .strip{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto minmax(0,1fr) auto auto auto;gap:5px 4px;align-items:center}
   body.fs.fsmix #s-mix .strip .sn{grid-column:1;grid-row:1;min-height:0;font-size:18px;text-align:left;padding-left:6px}
   body.fs.fsmix #s-mix .strip .lvl{grid-column:2;grid-row:1;text-align:right;padding-right:6px;font-size:13px}
@@ -930,8 +921,6 @@ body.fsseq:not(.fspanel) #s-seq .tkeys.open{display:grid}
   body.fs.fsmix #s-mix .strip .scb{grid-column:1/-1;grid-row:4;min-height:30px}
   body.fs.fsmix #s-mix .strip .sl{grid-column:1/-1;grid-row:5}
   body.fs.fsmix #s-mix .ms button{min-height:34px}
-  .mixnav{display:none}
-  body.fs.fsmix .mixnav{display:flex}
   body.fs #s-fx .fxtabs .chip{min-height:40px}
   body.fs #s-sound .splate{padding-bottom:12px}
   body.fs #s-sound.on{overflow:hidden}
@@ -957,11 +946,9 @@ body.fsseq:not(.fspanel) #s-seq .tkeys.open{display:grid}
   body.fs #s-sound .sr .knob{gap:0}
   body.fs #s-sound .sr .kgrid{gap:2px 4px}
   body.fs #s-sound .splate{padding:8px 12px}
-  body.fs.fsopen:not([data-fst=play]):not([data-fst=seq]) .fsstrip{flex-direction:row;align-items:center;top:5px;bottom:auto;left:max(6px,env(safe-area-inset-left,0px))}
-  body.fs.fsopen:not([data-fst=play]):not([data-fst=seq]) .fsinfo{display:none}
-  body.fs.fsopen:not([data-fst=play]):not([data-fst=seq]) .top{top:60px;bottom:0;padding:8px 10px 60px max(10px,env(safe-area-inset-left,0px))}
-  body.fs.fsopen[data-fst=play] .top, body.fs.fsopen[data-fst=seq] .top{left:calc(max(6px,env(safe-area-inset-left,0px)) + 58px);top:0;bottom:0;padding:8px 10px 60px;width:min(300px,42vw)}
-  body.fs.fsopen[data-fst=play] .nav, body.fs.fsopen[data-fst=seq] .nav{left:calc(max(6px,env(safe-area-inset-left,0px)) + 58px);padding-left:6px;width:min(300px,42vw)}
+  body.fs.fsopen .fsstrip{flex-direction:row;align-items:center;top:5px;bottom:auto;left:max(6px,env(safe-area-inset-left,0px))}
+  body.fs.fsopen .fsinfo{display:none}
+  body.fs.fsopen .top{top:60px;bottom:0;padding:8px 10px 60px max(10px,env(safe-area-inset-left,0px))}
 }
 @media (orientation:landscape) and (min-width:561px){
   body.fsseq:not(.fspanel) #s-seq .seqtop{--sh:min(calc((100cqh - 62px)/4),calc(var(--sq)*1.6))}
@@ -1028,3 +1015,31 @@ body.fsseq:not(.fspanel) #s-seq .lenk{justify-self:end}
 body.fsseq:not(.fspanel) #s-seq .thead small{display:none}
 body.fsseq:not(.fspanel) #s-seq .thead span{max-width:90px}
 body.fsseq:not(.fspanel) #s-seq .pager.solo{display:none}
+
+.btn:active, .pad.hit{box-shadow:0 1px 0 #000a,inset 0 1px 0 #ffffff14}
+.sbar .chip.slon{background:var(--text);color:#0a0a0a}
+
+/* sideways, one look for every tab: flat buttons, the same dark bordered panels, quiet MIX, record button everywhere */
+@media (orientation:landscape) and (min-width:561px){
+body.fs .chip, body.fs .btn:not(.fsb), body.fs .btn:active{box-shadow:none}
+body.fs #s-sound .splate, body.fs #s-fx.on>.plate, body.fs #s-sys.on>.plate, body.fs #s-smpl.on>.plate, body.fs.fsmix #s-mix .mastplate, body.fs.fsmix #s-mix .trkplate{background:#0e0e0e;border:1px solid #1f1f1f;border-radius:8px;box-shadow:none}
+body.fs .fsrec{display:flex;align-items:center;justify-content:center}
+body.fs.fsmix .fsinfo{display:none}
+body.fs.fsmix #s-mix .strip{border-top-color:#262626;background:#141414;box-shadow:none}
+body.fs.fsmix #s-mix .strip.cur{border-top-color:var(--text);outline:0}
+body.fs #s-mix .fader i, body.fs #s-mix .hfader i{background:var(--text);box-shadow:none}
+/* SAMPLE: controls in two compact rows so the wave and knobs start higher */
+body.fs #s-sound .sleft{flex-direction:row;flex-wrap:wrap;align-items:center;gap:6px 10px}
+body.fs #s-sound .sbar{flex:1 1 100%;flex-wrap:nowrap}
+body.fs #s-sound .sbar .stt{flex:0 0 auto;order:0;font-size:12px}
+body.fs #s-sound .sbar .sampseg{order:1}
+body.fs #s-sound .sbar .snav{order:2;margin:0 0 0 auto}
+body.fs #s-sound .sbar .sndpick{order:3;flex:1 1 120px;min-width:100px}
+body.fs #s-sound .sleft>.modtray{flex:1 1 46%;min-width:0}
+body.fs #s-sound .sleft>.stabs{flex:1 1 50%;min-width:0}
+body.fs #s-sound .stabs .ptabs .chip{padding:0 4px;font-size:10px}
+/* FX: use the whole height */
+body.fs #s-fx .fxviz{height:clamp(96px,28vh,220px)}
+body.fs #s-fx .knob .cap{width:clamp(56px,11vh,84px);height:clamp(56px,11vh,84px)}
+body.fs #s-fx .kgrid{gap:14px 6px}
+}

@@ -35,16 +35,12 @@ const PRESETS=[
   p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[4],[2,6,10,14],{vel:.75});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.32,micro:1});pset(p[1],[7,15],{vel:.5});pset(p[5],3,{vel:.9});pset(p[5],10,{vel:.7});pset(p[6],0,{len:3,vel:.9});pset(p[6],8,{len:2,vel:.8})},
   p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[4],[2,6,10,14],{vel:.75});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.35,micro:1});pset(p[2],[4,12],{vel:.8});pset(p[5],3,{vel:.9});pset(p[5],10,{vel:.75,note:3});pset(p[5],14,{vel:.55,note:3});pset(p[6],0,{len:3,vel:.9});pset(p[6],10,{len:3,vel:.8,note:3});pset(p[7],0,{len:16,vel:.5})},
   p=>{pset(p[5],0,{vel:.9});pset(p[5],6,{vel:.75,note:3});pset(p[5],12,{vel:.7,note:5});pset(p[6],0,{len:6,vel:.8});pset(p[6],12,{len:4,vel:.7,note:5});pset(p[4],[4,12],{vel:.5});pset(p[7],0,{len:16,vel:.6})}]},
- {name:'DEEP MINIMAL',bpm:124,kit:['SOFT','WOOD','TIGHT SN','HAT TICK','HAT OP 1','CLAV','PLUCK BS','AIR'],dly:[3,.55,.5],rev:[.7,.5,.4],pats:[
+ {name:'DEEP MINIMAL',bpm:124,dly:[3,.55,.5],rev:[.7,.5,.4],pats:[
   p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[3],[2,6,10,14],{vel:.5});pset(p[1],[4,12],{vel:.6});pset(p[5],6,{vel:.65});pset(p[5],11,{vel:.5,note:5});pset(p[6],0,{len:4,vel:.85});pset(p[6],8,{len:4,vel:.8,note:3})},
   p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[3],[2,6,10,14],{vel:.55});pset(p[4],14,{vel:.6});pset(p[2],12,{vel:.7});pset(p[1],[4],{vel:.55});pset(p[5],6,{vel:.7});pset(p[5],9,{vel:.5,note:3});pset(p[5],11,{vel:.6,note:5});pset(p[6],0,{len:4,vel:.85});pset(p[6],8,{len:4,vel:.8,note:5});pset(p[7],0,{len:16,vel:.35})}]},
  {name:'ECHO SPACE',bpm:118,dly:[5,.72,.62],rev:[.9,.5,.55],pats:[
   p=>{pset(p[0],[0,8],{vel:1});pset(p[0],11,{vel:.5});pset(p[4],[4,12],{vel:.7});pset(p[3],[2,6,10,14],{vel:.35});pset(p[2],12,{vel:.75});pset(p[5],2,{vel:.9});pset(p[5],7,{vel:.7,note:3});pset(p[5],14,{vel:.7,note:5});pset(p[6],0,{len:6,vel:.85});pset(p[6],10,{len:4,vel:.8,note:3});pset(p[7],0,{len:16,vel:.45})},
   p=>{pset(p[5],2,{vel:.9});pset(p[5],10,{vel:.7,note:5});pset(p[6],0,{len:8,vel:.8});pset(p[7],0,{len:16,vel:.7});pset(p[1],[6,14],{vel:.4})}]},
- {name:'WAREHOUSE',bpm:126,kit:['DIST','COWBELL','CLAP 2','HAT CL 1','HAT OP 1','RAVE','ACID','RUMBLE'],dly:[4,.5,.35],rev:[.6,.5,.3],pats:[
-  p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[4],[2,6,10,14],{vel:.7});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.28,micro:1});pset(p[2],[4,12],{vel:.8});pset(p[6],[2,6,10,14],{vel:.8});pset(p[5],3,{vel:.85});pset(p[5],10,{vel:.65,note:3})},
-  p=>{pset(p[0],[0,4,8,12],{vel:1});pset(p[4],[2,6,10,14],{vel:.7});pset(p[3],[1,3,5,7,9,11,13,15],{vel:.3,micro:1});pset(p[2],[4,12],{vel:.85});pset(p[1],[7,15],{vel:.5});pset(p[6],[2,6,10],{vel:.8});pset(p[6],14,{vel:.7,note:3});pset(p[5],3,{vel:.85,note:5});pset(p[5],11,{vel:.7,note:3});pset(p[7],0,{len:16,vel:.35})},
-  p=>{pset(p[5],0,{vel:.85});pset(p[5],8,{vel:.7,note:5});pset(p[6],0,{len:8,vel:.8});pset(p[6],8,{len:8,vel:.75,note:5});pset(p[3],[4,12],{vel:.3});pset(p[7],0,{len:16,vel:.6})}]},
  {name:'BROKEN DUB',bpm:112,kit:['808','CONGA','SNAP','HAT TICK','HAT OP 2','ORGAN','SUB 808','DARK'],dly:[5,.62,.55],rev:[.8,.5,.45],pats:[
   p=>{pset(p[0],[0,7,10],{vel:1});pset(p[2],[4,12],{vel:.8});pset(p[1],14,{vel:.6});pset(p[3],[2,5,6,10,13,14],{vel:.32});pset(p[6],0,{len:5,vel:.9});pset(p[6],10,{len:4,vel:.8,note:3});pset(p[5],3,{vel:.8});pset(p[5],11,{vel:.65,note:5})},
   p=>{pset(p[0],[0,7,10,15],{vel:1});pset(p[2],[4,12],{vel:.85});pset(p[1],[6,14],{vel:.55});pset(p[4],[2,9],{vel:.55});pset(p[3],[1,3,5,8,11,13],{vel:.3});pset(p[6],0,{len:5,vel:.9});pset(p[6],10,{len:6,vel:.8,note:5});pset(p[5],3,{vel:.8,note:3});pset(p[5],9,{vel:.7});pset(p[7],0,{len:16,vel:.4})}]},
@@ -82,16 +78,9 @@ const MEL={
   p=>{MN(p[5],[[3,0,1,.9],[11,0,1,.7]]);MN(p[6],[[0,0,4,.9],[8,0,3,.85]])},
   p=>{MN(p[5],[[3,5,1,.9],[6,5,1,.5],[11,5,1,.7]]);MN(p[6],[[0,5,4,.9],[8,5,3,.85],[12,7,2,.7]])},
   p=>{MN(p[5],[[0,0,1,.9],[8,-2,1,.8]]);MN(p[6],[[0,0,8,.85]]);MN(p[7],[[0,0,16,.55]])}],
- 'DEEP MINIMAL':[ /* one hypnotic dorian cell, tight staccato bass */
-  p=>{MN(p[5],[[6,0,1,.65],[11,-2,1,.5]]);MN(p[6],[[0,0,1,.9],[3,0,1,.6],[6,12,1,.5],[8,0,1,.85],[11,7,1,.55],[14,0,1,.6]])},
-  p=>{MN(p[5],[[4,0,1,.6],[9,-2,1,.55],[14,5,1,.5]]);MN(p[6],[[0,0,1,.9],[2,0,1,.5],[5,12,1,.5],[8,-2,1,.85],[10,-2,1,.5],[13,7,1,.55]])}],
  'ECHO SPACE':[ /* open aeolian, descending bass, lots of air */
   p=>{MN(p[5],[[2,0,1,.9],[7,7,1,.7],[14,10,1,.65]]);MN(p[6],[[0,0,6,.85],[10,-5,6,.8]])},
   p=>{MN(p[5],[[2,10,1,.85],[10,12,1,.6]]);MN(p[6],[[0,-2,8,.8],[8,-5,8,.8]]);MN(p[7],[[0,0,16,.6]])}],
- 'WAREHOUSE':[ /* phrygian, rolling off-beat bass, tense minor-second stabs */
-  p=>{MN(p[5],[[3,1,1,.75],[11,0,1,.65]]);MN(p[6],[[2,0,1,.9],[3,0,1,.5],[6,1,1,.85],[7,0,1,.5],[10,0,1,.9],[11,12,1,.5],[14,1,1,.85]])},
-  p=>{MN(p[5],[[3,1,1,.75],[7,0,1,.55],[11,-1,1,.65]]);MN(p[6],[[2,0,1,.9],[6,1,1,.85],[10,0,1,.9],[13,-2,1,.8],[14,0,1,.7]])},
-  p=>{MN(p[5],[[0,1,1,.85],[8,7,1,.7]]);MN(p[6],[[0,0,8,.8],[8,1,8,.75]])}],
  'BROKEN DUB':[ /* syncopated chromatic walk down */
   p=>{MN(p[5],[[3,3,1,.8],[11,7,1,.65]]);MN(p[6],[[0,0,3,.9],[6,0,1,.7],[10,-2,3,.85],[14,-5,1,.7]])},
   p=>{MN(p[5],[[3,5,1,.8],[9,3,1,.7],[12,7,1,.6]]);MN(p[6],[[0,0,2,.9],[3,0,1,.7],[7,-2,2,.85],[10,-5,4,.85]]);MN(p[7],[[0,0,16,.4]])}],

@@ -171,6 +171,7 @@ R.sound=function(){U.ghost=null;U.gShow=false;U.hot=null;U.gAct=0;
   const PG=pagesFor(t.engine);if(U.page>=PG.length)U.page=0
   const pn=pageNo(t.engine,U.page),defs=pageDefs(t.engine,pn);
   const pv=i=>{const L=lockObj(false);return L&&L[i]!=null?L[i]:t.params[i]};
+  const ns0=[1,2,4,8,16][dval(pv(6),5)];
   const vizOn=pn===0||pn===1||pn===4;
   const cv=vizOn?h('canvas',{class:'viz'+(pn===0?' wv':'')}):null;
   if(cv){U.viz=()=>{if(cv.isConnected)drawViz(cv,t,pn,pv)};requestAnimationFrame(()=>U.viz&&U.viz());if(pn===0)wireViz(cv,t,pv)}
@@ -180,6 +181,7 @@ R.sound=function(){U.ghost=null;U.gShow=false;U.hot=null;U.gAct=0;
       h('div',{class:'sbar'},
         h('b',{class:'stt',text:'T'+(U.tr+1)+'  '+trackLabel(U.tr)}),
         h('span',{class:'snav'},
+          t.engine==='SAMP'?h('button',{class:'chip xs'+(ns0>1?' slon':''),text:'SLICE','aria-label':'Slice mode '+(ns0>1?'on':'off'),onclick:()=>{const L=lkIdx()>=0?lockObj(true):t.params,cur=dval(L[6]!=null?L[6]:t.params[6],5),mem=U.sliceMem||(U.sliceMem={});if(cur>0){mem[t.slot]=cur;L[6]=0}else{const k=mem[t.slot]||3;L[6]=(k+.5)/5;L[7]=.5/[1,2,4,8,16][k]}dirty();vib(6);R.sound()}}):null,
           h('button',{class:'chip xs'+(t.cmp&&t.cmp.on?' on':''),text:'COMP',onclick:openCompSheet}),
           h('button',{class:'chip xs',text:'<','aria-label':'Previous track',onclick:()=>{U.tr=(U.tr+15)%16;U.step=-1;U.lockStep=-1;R.sound()}}),
           h('button',{class:'chip xs',text:'>','aria-label':'Next track',onclick:()=>{U.tr=(U.tr+1)%16;U.step=-1;U.lockStep=-1;R.sound()}})),
