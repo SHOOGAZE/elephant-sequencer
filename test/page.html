@@ -1048,6 +1048,50 @@ body.fs #s-fx .knob .cap{width:clamp(56px,11vh,84px);height:clamp(56px,11vh,84px
 body.fs #s-fx .kgrid{gap:14px 6px}
 }
 
+/* tablet and desktop held sideways: the tabs stay in a permanent left rail; the menu button keeps the rarely used controls (BPM, pattern, undo) */
+body.fs.fsrail #app{padding-left:calc(max(6px,env(safe-area-inset-left,0px)) + 116px)}
+body.fs.fsrail .nav, body.fs.fsrail.fsopen .nav{display:flex;flex-direction:column;gap:2px;position:fixed;z-index:30;left:max(6px,env(safe-area-inset-left,0px));top:62px;bottom:auto;width:104px;padding:4px 0;background:transparent;border:0;border-right:1px solid var(--line)}
+body.fs.fsrail .nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em}
+body.fs.fsrail .nav button.on{background:#151515}
+body.fs.fsrail .nav button.on::before{left:0;right:auto;top:8px;bottom:8px;width:2px;height:auto}
+body.fs.fsrail.fsopen .top{padding-left:calc(max(8px,env(safe-area-inset-left,0px)) + 56px)}
+body.fsrail.fsseq:not(.fspanel){--sq:min(calc((100vw - 250px)/8 - 5px),calc((100vh - 150px)/2 - 4px))}
+
+/* ≡ menu button replaces the SYS word (phone landscape drawer keeps the word) */
+.brandrow .tsys{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:44px;padding:0 12px}
+.brandrow .tsys i{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
+.brandrow .tsys span{display:none}
+body.fs:not(.fsrail) .brandrow .tsys{flex-direction:row}
+body.fs:not(.fsrail) .brandrow .tsys i{display:none}
+body.fs:not(.fsrail) .brandrow .tsys span{display:inline}
+
+/* MIX on tablets: more, slimmer channels instead of a few tall ones */
+@media (orientation:portrait) and (min-width:700px){
+  #s-mix .mix{grid-template-columns:repeat(8,minmax(0,1fr));gap:5px}
+  #s-mix .strip{padding:6px 2px;gap:6px}
+  #s-mix .strip .fader{height:96px;width:30px}
+  #s-mix .strip .ms{gap:3px}
+  #s-mix .strip .ms button{width:34px;min-height:32px}
+  #s-mix .strip .sl{display:none}
+}
+body.fs.fsrail.fsmix #s-mix .mix{grid-template-columns:repeat(8,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr));gap:6px;overflow:hidden;scroll-snap-type:none}
+body.fs.fsrail.fsmix #s-mix .strip{padding:6px 4px}
+body.fs.fsrail.fsmix #s-mix .strip .sn{font-size:16px;padding-left:6px}
+body.fs.fsrail.fsmix #s-mix .strip .lvl{font-size:12px;padding-right:6px}
+body.fs.fsrail.fsmix #s-mix .strip .fader{width:30px}
+body.fs.fsrail.fsmix #s-mix .strip .ms{gap:4px}
+body.fs.fsrail.fsmix #s-mix .strip .ms button{width:36px;min-height:30px;font-size:12px}
+body.fs.fsrail.fsmix #s-mix .strip .scb{min-height:26px}
+body.fs.fsrail.fsmix #s-mix .strip .sl{display:none}
+body.fs.fsrail.fsmix #s-mix .mastplate{width:176px}
+@media (orientation:portrait) and (min-width:700px){
+  #s-mix .mastplate{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;align-items:center;padding-top:8px;padding-bottom:8px;margin-bottom:6px}
+  #s-mix .mastplate>*:first-child{grid-column:1/-1}
+  #s-mix .mastplate .mrow,#s-mix .mastplate .mcomp{margin:3px 0}
+  #s-mix .mastplate .mcomp{grid-column:1/-1}
+  #s-mix .trkplate{padding-top:8px;padding-bottom:6px}
+}
+
 </style>
 <div id="app"></div>
 <script>
@@ -2174,7 +2218,7 @@ function buildShell(){
   bpmNum.addEventListener('pointerup',()=>{bd=false});bpmNum.addEventListener('pointercancel',()=>{bd=false});
   scope=h('canvas');sc2=scope.getContext('2d');
   const top=h('div',{class:'top'},
-    h('div',{class:'brandrow'},h('div',{class:'logo',text:'ELEPHANT'}),h('button',{class:'btn tsys','aria-label':'System settings',text:'SYS',onclick:()=>go('sys')})),
+    h('div',{class:'brandrow'},h('div',{class:'logo',text:'ELEPHANT'}),h('button',{class:'btn tsys','aria-label':'System settings',onclick:()=>go('sys')},h('i'),h('i'),h('i'),h('span',{text:'SYS'}))),
     h('div',{class:'oled'},h('div',{},h('div',{class:'l1',id:'ol1'}),h('div',{class:'l2',id:'ol2'}),h('div',{class:'l3',id:'ol3'})),scope),
     h('div',{class:'tr'},btnPlay,btnRec,btnFill,btnMet,h('div',{class:'bpm'},h('button',{text:'-',onclick:()=>setBpm(P().bpm-BPM_STEP),'aria-label':'Slower'}),bpmNum,h('button',{text:'+',onclick:()=>setBpm(P().bpm+BPM_STEP),'aria-label':'Faster'}))),
     h('div',{class:'pr'},btnPat=h('button',{class:'btn patb','aria-label':'Patterns',onclick:openPatSheet}),h('button',{class:'btn tmore','aria-label':'More controls',text:'\u22EF',onclick:e=>{const tp=e.currentTarget.closest('.top');tp.classList.toggle('more');vib(6)}}),mvol=h('div',{class:'mvol'},h('span',{text:'VOL'}),HFader(()=>P().vol==null?1:P().vol,v=>{P().vol=v;fxChanged();oled('VOL '+Math.round(v*100)+'%','MASTER');dirty()})),h('button',{class:'chip hist tx','aria-label':'Undo',text:'UNDO',onclick:undo}),h('button',{class:'chip hist tx','aria-label':'Redo',text:'REDO',onclick:redo})));
@@ -2212,7 +2256,7 @@ function syncTransport(){
 }
 /* a phone held sideways: SEQ and MIX take the whole screen; a MENU button opens the header and the tabs over it */
 function fsWant(){return isLandPhone()}
-function fsApply(){const on=fsWant();document.body.classList.toggle('fs',on);document.body.classList.toggle('fsmix',on&&U.tab==='mix');document.body.classList.toggle('fsseq',on&&U.tab==='seq');document.body.dataset.fst=on?U.tab:'';if(!(on&&U.tab==='seq'))document.body.classList.remove('fspanel');if(!on)document.body.classList.remove('fsopen')}
+function fsApply(){const on=fsWant();document.body.classList.toggle('fs',on);document.body.classList.toggle('fsrail',on&&isTabLand());document.body.classList.toggle('fsmix',on&&U.tab==='mix');document.body.classList.toggle('fsseq',on&&U.tab==='seq');document.body.dataset.fst=on?U.tab:'';if(!(on&&U.tab==='seq'))document.body.classList.remove('fspanel');if(!on)document.body.classList.remove('fsopen')}
 function fsPanelToggle(){document.body.classList.toggle('fspanel');vib(6);if(U.fitPads)U.fitPads()}
 function fsToggle(v){const o=v==null?!document.body.classList.contains('fsopen'):v;document.body.classList.toggle('fsopen',o);vib(6)}
 function go(tab){killStepPops();{const cur=document.querySelector('.screen.on');if(cur){U.scr=U.scr||{};U.scr[cur.id]=cur.scrollTop}}
@@ -2323,6 +2367,7 @@ R.play=function(){
 };
 const isLand=()=>window.innerWidth>window.innerHeight&&window.innerWidth>560;
 const isLandPhone=()=>isLand();
+const isTabPort=()=>window.innerWidth>=700&&window.innerHeight>window.innerWidth;
 const isTabLand=()=>window.innerWidth>=900&&window.innerHeight>=600&&window.innerWidth>window.innerHeight;
 addEventListener('resize',()=>{if(U.tab==='play'&&U.fitPads)U.fitPads()});
 /* ---------- SEQ ---------- */
@@ -2955,7 +3000,7 @@ R.fx=function(){
 /* ---------- MIX ---------- */
 R.mix=function(){
   const root=$('#s-mix');root.replaceChildren();
-  const wide=isTabLand()||fsWant(),mp=wide?0:(U.mixPage||0),strips=h('div',{class:'mix'+(wide?' wide':'')},P().tracks.map((t,i)=>({t,i})).slice(mp*8,wide?16:mp*8+8).map(({t,i})=>{
+  const wide=isTabLand()||isTabPort()||fsWant(),mp=wide?0:(U.mixPage||0),strips=h('div',{class:'mix'+(wide?' wide':'')},P().tracks.map((t,i)=>({t,i})).slice(mp*8,wide?16:mp*8+8).map(({t,i})=>{
     const m=h('button',{class:'m'+(t.mute?' on':''),text:'M'}),s=h('button',{class:(t.solo?'on':''),text:'S'});
     m.addEventListener('click',()=>{t.mute=!t.mute;dirty();vib(6);R.mix()});
     s.addEventListener('click',()=>{t.solo=!t.solo;dirty();vib(6);R.mix()});
@@ -3510,7 +3555,7 @@ function uiZoom(){
   document.documentElement.style.setProperty('--z',z);return z;
 }
 uiZoom();addEventListener('resize',uiZoom);addEventListener('resize',()=>{U.scW=0});
-let rzT=0;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{fsApply();const tl=isTabLand()||fsWant();if(tl!==U.tabL){U.tabL=tl;renderTab();return}if(U.tab==='play'&&U.kb)R.play();else if(U.tab==='sound'&&(isLandPhone()!==U.sndLand))R.sound();else if(U.tab==='seq'&&(isLandPhone()!==!!$('#s-seq.qfs')))R.seq()},150)});
+let rzT=0;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{fsApply();const tl=isTabLand()||isTabPort()||fsWant();if(tl!==U.tabL){U.tabL=tl;renderTab();return}if(U.tab==='play'&&U.kb)R.play();else if(U.tab==='sound'&&(isLandPhone()!==U.sndLand))R.sound();else if(U.tab==='seq'&&(isLandPhone()!==!!$('#s-seq.qfs')))R.seq()},150)});
 document.documentElement.lang=LANG;
 /* the first five cards are the core tour (play, pads, steps, sound, keys); MORE TIPS continues with the rest */
 const TOUR=[

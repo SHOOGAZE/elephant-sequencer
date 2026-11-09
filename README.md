@@ -1,6 +1,6 @@
 # ELEPHANT
 
-A pocket sampler groovebox that runs in the browser: 16 pads, a step sequencer with parameter locks, a sampler (record, import, slice), a modulation matrix and an FX section. One HTML file, no dependencies, built for touch screens (phones and tablets). Works with a computer keyboard and MIDI pads too, and installs as an app that runs offline. Member of a design family with [GRAINS](https://shoogaze.github.io/grains-synth/) and [BEHEMOTH](https://shoogaze.github.io/behemoth-synth/).
+A pocket sampler groovebox that runs in the browser: 16 pads, a step sequencer with parameter locks, a sampler (record, import, slice), a modulation matrix and an FX section. One HTML file, no dependencies, built for touch screens (phones and tablets). Works with a computer keyboard and MIDI pads too, and installs as an app that runs offline. Member of a design family with [GRAINS](https://shoogaze.github.io/grains-synth/) and [BEHEMOTH](https://shoogaze.github.io/behemoth-synth-/).
 
 **Try it:** open [ELEPHANT](https://shoogaze.github.io/elephant-sequencer/) on your phone and tap the screen to start audio. On an iPhone or iPad use *Share → Add to Home Screen* for a full-screen app.
 
@@ -14,14 +14,14 @@ Phone held sideways (the main way to play): PADS, SEQ, SAMPLE and MIX, the menu 
 </p>
 <p>
   <img src="screenshots/03-sample-wave-landscape.png" width="49%" alt="Sample: detailed wave with ruler, pinch to zoom, and knobs">
-  <img src="screenshots/04-mixer-landscape.png" width="49%" alt="Mixer: master on the left, big faders you swipe sideways">
+  <img src="screenshots/04-mixer-landscape.png" width="49%" alt="Mixer on a tablet: all 16 channels in two rows, master on the left">
 </p>
 <p>
   <img src="screenshots/07-menu-landscape.png" width="49%" alt="Menu drawer: BPM, pattern, undo and the tabs">
   <img src="screenshots/06-sequencer-tablet.png" width="49%" alt="Sequencer on a tablet">
 </p>
 
-Phone upright: PADS, SEQ, SAMPLE with its filter page, the wave pool, MIX, FX and SYS. Transport and tab bar stay in place, the screen scrolls.
+Phone upright: PADS, SEQ, SAMPLE with its filter page, the wave pool, MIX, FX and the ≡ system page. Transport and tab bar stay in place, the screen scrolls.
 
 <p>
   <img src="screenshots/05-pads-portrait.png" width="24%" alt="Pads, portrait">
@@ -59,8 +59,8 @@ The screenshots are made with Chromium at 2x (`python3 tools/shots.py`), without
 - 71 built-in sounds (kicks, snares, hats, percussion, basses, chord stabs, pads, FX) and 10 starter presets with their own kits and chord sounds
 - Computer keyboard: pads 1-16 on `7 8 9 0 / U I O P / J K L ; / M , . /`, SPACE starts and stops
 - MIDI in: drum pads on channel 10 (notes 36-51) play the selected track, pitch bend and mod wheel are supported
-- Tabs: PADS, SEQ, SAMPLE (SOUND and WAVE pages), MIX, FX; SYS lives in the header
-- Step-by-step tutorial and tips (replay it in SYS)
+- Tabs: PADS, SEQ, SAMPLE (SOUND and WAVE pages), MIX, FX; the ≡ button (top right) opens SYS: settings, tutorial, backup
+- Step-by-step tutorial and tips (replay it from ≡)
 
 **Phones and tablets**
 - Landscape (phone and tablet): full-screen layout with one button row on top of every tab, big pads, a 32-step grid (tap a dim step to extend the pattern to it), an encoder column on the right, a swipeable mixer; zoom adapts to the tablet size
@@ -131,7 +131,7 @@ Three instruments in one black-and-white design, each a single HTML file that ru
 | App | What it is | Open | Source |
 | --- | --- | --- | --- |
 | **ELEPHANT** | Pocket sampler groovebox: 16 pads, p-lock sequencer, sampler, FX | [shoogaze.github.io/elephant-sequencer](https://shoogaze.github.io/elephant-sequencer/) | [SHOOGAZE/elephant-sequencer](https://github.com/SHOOGAZE/elephant-sequencer) |
-| **BEHEMOTH** | Wavetable bass synthesizer with a modulation matrix | [shoogaze.github.io/behemoth-synth](https://shoogaze.github.io/behemoth-synth/) | [SHOOGAZE/behemoth-synth](https://github.com/SHOOGAZE/behemoth-synth) |
+| **BEHEMOTH** | Wavetable bass synthesizer with a modulation matrix | [shoogaze.github.io/behemoth-synth-](https://shoogaze.github.io/behemoth-synth-/) | [SHOOGAZE/behemoth-synth-](https://github.com/SHOOGAZE/behemoth-synth-) |
 | **GRAINS** | Granular sampler and playable instrument | [shoogaze.github.io/grains-synth](https://shoogaze.github.io/grains-synth/) | [SHOOGAZE/grains-synth](https://github.com/SHOOGAZE/grains-synth) |
 
 ## License

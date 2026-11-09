@@ -1,7 +1,7 @@
 /* ---------- MIX ---------- */
 R.mix=function(){
   const root=$('#s-mix');root.replaceChildren();
-  const wide=isTabLand()||fsWant(),mp=wide?0:(U.mixPage||0),strips=h('div',{class:'mix'+(wide?' wide':'')},P().tracks.map((t,i)=>({t,i})).slice(mp*8,wide?16:mp*8+8).map(({t,i})=>{
+  const wide=isTabLand()||isTabPort()||fsWant(),mp=wide?0:(U.mixPage||0),strips=h('div',{class:'mix'+(wide?' wide':'')},P().tracks.map((t,i)=>({t,i})).slice(mp*8,wide?16:mp*8+8).map(({t,i})=>{
     const m=h('button',{class:'m'+(t.mute?' on':''),text:'M'}),s=h('button',{class:(t.solo?'on':''),text:'S'});
     m.addEventListener('click',()=>{t.mute=!t.mute;dirty();vib(6);R.mix()});
     s.addEventListener('click',()=>{t.solo=!t.solo;dirty();vib(6);R.mix()});

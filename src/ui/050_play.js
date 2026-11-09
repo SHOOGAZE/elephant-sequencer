@@ -95,5 +95,6 @@ R.play=function(){
 };
 const isLand=()=>window.innerWidth>window.innerHeight&&window.innerWidth>560;
 const isLandPhone=()=>isLand();
+const isTabPort=()=>window.innerWidth>=700&&window.innerHeight>window.innerWidth;
 const isTabLand=()=>window.innerWidth>=900&&window.innerHeight>=600&&window.innerWidth>window.innerHeight;
 addEventListener('resize',()=>{if(U.tab==='play'&&U.fitPads)U.fitPads()});

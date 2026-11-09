@@ -76,7 +76,7 @@ function uiZoom(){
   document.documentElement.style.setProperty('--z',z);return z;
 }
 uiZoom();addEventListener('resize',uiZoom);addEventListener('resize',()=>{U.scW=0});
-let rzT=0;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{fsApply();const tl=isTabLand()||fsWant();if(tl!==U.tabL){U.tabL=tl;renderTab();return}if(U.tab==='play'&&U.kb)R.play();else if(U.tab==='sound'&&(isLandPhone()!==U.sndLand))R.sound();else if(U.tab==='seq'&&(isLandPhone()!==!!$('#s-seq.qfs')))R.seq()},150)});
+let rzT=0;window.addEventListener('resize',()=>{clearTimeout(rzT);rzT=setTimeout(()=>{fsApply();const tl=isTabLand()||isTabPort()||fsWant();if(tl!==U.tabL){U.tabL=tl;renderTab();return}if(U.tab==='play'&&U.kb)R.play();else if(U.tab==='sound'&&(isLandPhone()!==U.sndLand))R.sound();else if(U.tab==='seq'&&(isLandPhone()!==!!$('#s-seq.qfs')))R.seq()},150)});
 document.documentElement.lang=LANG;
 /* the first five cards are the core tour (play, pads, steps, sound, keys); MORE TIPS continues with the rest */
 const TOUR=[

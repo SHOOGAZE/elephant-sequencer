@@ -1043,3 +1043,47 @@ body.fs #s-fx .fxviz{height:clamp(96px,28vh,220px)}
 body.fs #s-fx .knob .cap{width:clamp(56px,11vh,84px);height:clamp(56px,11vh,84px)}
 body.fs #s-fx .kgrid{gap:14px 6px}
 }
+
+/* tablet and desktop held sideways: the tabs stay in a permanent left rail; the menu button keeps the rarely used controls (BPM, pattern, undo) */
+body.fs.fsrail #app{padding-left:calc(max(6px,env(safe-area-inset-left,0px)) + 116px)}
+body.fs.fsrail .nav, body.fs.fsrail.fsopen .nav{display:flex;flex-direction:column;gap:2px;position:fixed;z-index:30;left:max(6px,env(safe-area-inset-left,0px));top:62px;bottom:auto;width:104px;padding:4px 0;background:transparent;border:0;border-right:1px solid var(--line)}
+body.fs.fsrail .nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em}
+body.fs.fsrail .nav button.on{background:#151515}
+body.fs.fsrail .nav button.on::before{left:0;right:auto;top:8px;bottom:8px;width:2px;height:auto}
+body.fs.fsrail.fsopen .top{padding-left:calc(max(8px,env(safe-area-inset-left,0px)) + 56px)}
+body.fsrail.fsseq:not(.fspanel){--sq:min(calc((100vw - 250px)/8 - 5px),calc((100vh - 150px)/2 - 4px))}
+
+/* ≡ menu button replaces the SYS word (phone landscape drawer keeps the word) */
+.brandrow .tsys{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:44px;padding:0 12px}
+.brandrow .tsys i{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
+.brandrow .tsys span{display:none}
+body.fs:not(.fsrail) .brandrow .tsys{flex-direction:row}
+body.fs:not(.fsrail) .brandrow .tsys i{display:none}
+body.fs:not(.fsrail) .brandrow .tsys span{display:inline}
+
+/* MIX on tablets: more, slimmer channels instead of a few tall ones */
+@media (orientation:portrait) and (min-width:700px){
+  #s-mix .mix{grid-template-columns:repeat(8,minmax(0,1fr));gap:5px}
+  #s-mix .strip{padding:6px 2px;gap:6px}
+  #s-mix .strip .fader{height:96px;width:30px}
+  #s-mix .strip .ms{gap:3px}
+  #s-mix .strip .ms button{width:34px;min-height:32px}
+  #s-mix .strip .sl{display:none}
+}
+body.fs.fsrail.fsmix #s-mix .mix{grid-template-columns:repeat(8,minmax(0,1fr))!important;grid-template-rows:repeat(2,minmax(0,1fr));gap:6px;overflow:hidden;scroll-snap-type:none}
+body.fs.fsrail.fsmix #s-mix .strip{padding:6px 4px}
+body.fs.fsrail.fsmix #s-mix .strip .sn{font-size:16px;padding-left:6px}
+body.fs.fsrail.fsmix #s-mix .strip .lvl{font-size:12px;padding-right:6px}
+body.fs.fsrail.fsmix #s-mix .strip .fader{width:30px}
+body.fs.fsrail.fsmix #s-mix .strip .ms{gap:4px}
+body.fs.fsrail.fsmix #s-mix .strip .ms button{width:36px;min-height:30px;font-size:12px}
+body.fs.fsrail.fsmix #s-mix .strip .scb{min-height:26px}
+body.fs.fsrail.fsmix #s-mix .strip .sl{display:none}
+body.fs.fsrail.fsmix #s-mix .mastplate{width:176px}
+@media (orientation:portrait) and (min-width:700px){
+  #s-mix .mastplate{display:grid;grid-template-columns:1fr 1fr;column-gap:24px;align-items:center;padding-top:8px;padding-bottom:8px;margin-bottom:6px}
+  #s-mix .mastplate>*:first-child{grid-column:1/-1}
+  #s-mix .mastplate .mrow,#s-mix .mastplate .mcomp{margin:3px 0}
+  #s-mix .mastplate .mcomp{grid-column:1/-1}
+  #s-mix .trkplate{padding-top:8px;padding-bottom:6px}
+}

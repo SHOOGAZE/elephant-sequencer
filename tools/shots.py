@@ -7,7 +7,7 @@ os.makedirs(D+'screenshots',exist_ok=True)
 S=[('01-pads-landscape',874,402,'play',3,''),
    ('02-sequencer-landscape',874,402,'seq',3,"GRUI.U.tr=0"),
    ('03-sample-wave-landscape',874,402,'sound',3,"GRUI.U.tr=5;GRUI.renderTab()"),
-   ('04-mixer-landscape',874,402,'mix',3,''),
+   ('04-mixer-landscape',1180,820,'mix',3,''),
    ('05-pads-portrait',390,844,'play',3,''),
    ('06-sequencer-tablet',1366,1024,'seq',3,''),
    ('08-sequencer-portrait',390,844,'seq',3,''),

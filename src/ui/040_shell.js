@@ -17,7 +17,7 @@ function buildShell(){
   bpmNum.addEventListener('pointerup',()=>{bd=false});bpmNum.addEventListener('pointercancel',()=>{bd=false});
   scope=h('canvas');sc2=scope.getContext('2d');
   const top=h('div',{class:'top'},
-    h('div',{class:'brandrow'},h('div',{class:'logo',text:'ELEPHANT'}),h('button',{class:'btn tsys','aria-label':'System settings',text:'SYS',onclick:()=>go('sys')})),
+    h('div',{class:'brandrow'},h('div',{class:'logo',text:'ELEPHANT'}),h('button',{class:'btn tsys','aria-label':'System settings',onclick:()=>go('sys')},h('i'),h('i'),h('i'),h('span',{text:'SYS'}))),
     h('div',{class:'oled'},h('div',{},h('div',{class:'l1',id:'ol1'}),h('div',{class:'l2',id:'ol2'}),h('div',{class:'l3',id:'ol3'})),scope),
     h('div',{class:'tr'},btnPlay,btnRec,btnFill,btnMet,h('div',{class:'bpm'},h('button',{text:'-',onclick:()=>setBpm(P().bpm-BPM_STEP),'aria-label':'Slower'}),bpmNum,h('button',{text:'+',onclick:()=>setBpm(P().bpm+BPM_STEP),'aria-label':'Faster'}))),
     h('div',{class:'pr'},btnPat=h('button',{class:'btn patb','aria-label':'Patterns',onclick:openPatSheet}),h('button',{class:'btn tmore','aria-label':'More controls',text:'\u22EF',onclick:e=>{const tp=e.currentTarget.closest('.top');tp.classList.toggle('more');vib(6)}}),mvol=h('div',{class:'mvol'},h('span',{text:'VOL'}),HFader(()=>P().vol==null?1:P().vol,v=>{P().vol=v;fxChanged();oled('VOL '+Math.round(v*100)+'%','MASTER');dirty()})),h('button',{class:'chip hist tx','aria-label':'Undo',text:'UNDO',onclick:undo}),h('button',{class:'chip hist tx','aria-label':'Redo',text:'REDO',onclick:redo})));
@@ -55,7 +55,7 @@ function syncTransport(){
 }
 /* a phone held sideways: SEQ and MIX take the whole screen; a MENU button opens the header and the tabs over it */
 function fsWant(){return isLandPhone()}
-function fsApply(){const on=fsWant();document.body.classList.toggle('fs',on);document.body.classList.toggle('fsmix',on&&U.tab==='mix');document.body.classList.toggle('fsseq',on&&U.tab==='seq');document.body.dataset.fst=on?U.tab:'';if(!(on&&U.tab==='seq'))document.body.classList.remove('fspanel');if(!on)document.body.classList.remove('fsopen')}
+function fsApply(){const on=fsWant();document.body.classList.toggle('fs',on);document.body.classList.toggle('fsrail',on&&isTabLand());document.body.classList.toggle('fsmix',on&&U.tab==='mix');document.body.classList.toggle('fsseq',on&&U.tab==='seq');document.body.dataset.fst=on?U.tab:'';if(!(on&&U.tab==='seq'))document.body.classList.remove('fspanel');if(!on)document.body.classList.remove('fsopen')}
 function fsPanelToggle(){document.body.classList.toggle('fspanel');vib(6);if(U.fitPads)U.fitPads()}
 function fsToggle(v){const o=v==null?!document.body.classList.contains('fsopen'):v;document.body.classList.toggle('fsopen',o);vib(6)}
 function go(tab){killStepPops();{const cur=document.querySelector('.screen.on');if(cur){U.scr=U.scr||{};U.scr[cur.id]=cur.scrollTop}}
