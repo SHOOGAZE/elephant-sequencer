@@ -527,7 +527,7 @@ body{background:var(--body);font-variant-numeric:tabular-nums}
 .trigs .gc{aspect-ratio:1/1;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:4px 5px;text-align:left}
 .trigs .gc i{font:700 10px var(--font-ui);font-style:normal;color:var(--dim);letter-spacing:.04em}
 .trigs .gc.on i{color:#0a0a0a99}
-.trigs .gc small{font:700 9px var(--font-ui);align-self:flex-end;color:#0a0a0a}
+.trigs .gc small{position:static;font:700 9px var(--font-ui);align-self:flex-end;color:#0a0a0a}
 .trigs .gc.out{opacity:.25}
 .trigs .gc.alt::after{content:"";position:absolute;right:4px;top:4px;width:4px;height:4px;background:#0a0a0a}
 .trigs .gc.lk::before{content:"";position:absolute;left:4px;right:4px;bottom:3px;height:2px;background:#0a0a0a}
@@ -1045,21 +1045,24 @@ body.fs #s-fx .kgrid{gap:14px 6px}
 }
 
 /* tablet and desktop held sideways: the tabs stay in a permanent left rail; the menu button keeps the rarely used controls (BPM, pattern, undo) */
-body.fs.fsrail #app{padding-left:calc(max(6px,env(safe-area-inset-left,0px)) + 116px)}
-body.fs.fsrail .nav, body.fs.fsrail.fsopen .nav{display:flex;flex-direction:column;gap:2px;position:fixed;z-index:30;left:max(6px,env(safe-area-inset-left,0px));top:62px;bottom:auto;width:104px;padding:4px 0;background:transparent;border:0;border-right:1px solid var(--line)}
-body.fs.fsrail .nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em}
-body.fs.fsrail .nav button.on{background:#151515}
-body.fs.fsrail .nav button.on::before{left:0;right:auto;top:8px;bottom:8px;width:2px;height:auto}
-body.fs.fsrail.fsopen .top{padding-left:calc(max(8px,env(safe-area-inset-left,0px)) + 56px)}
+body.fs.fsrail #app{padding-left:calc(max(6px,env(safe-area-inset-left,0px)) + 120px)}
+body.fs.fsrail .nav, body.fs.fsrail.fsopen .nav{display:flex;flex-direction:column;gap:4px;position:fixed;z-index:30;left:max(6px,env(safe-area-inset-left,0px));top:62px;bottom:auto;width:108px;padding:0;background:transparent;border:0}
+body.fs.fsrail .nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em;border:1px solid #1c1c1c;border-radius:3px}
+body.fs.fsrail .nav button.on{background:#121212;border-color:#2c2c2c}
+body.fs.fsrail .nav button.on::before{display:none}
+body.fs.fsrail.fsopen .nav{z-index:65}
+body.fs.fsrail.fsopen .top{left:auto;right:0;border-right:0;border-left:1px solid var(--line);padding-left:12px}
+body.fs.fsrail .fsmenu{position:fixed;right:max(8px,env(safe-area-inset-right,0px));top:10px}
+body.fs.fsrail.fsopen .fsmenu{z-index:80}
 body.fsrail.fsseq:not(.fspanel){--sq:min(calc((100vw - 250px)/8 - 5px),calc((100vh - 150px)/2 - 4px))}
 
 /* ≡ menu button replaces the SYS word (phone landscape drawer keeps the word) */
 .brandrow .tsys{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:44px;padding:0 12px}
 .brandrow .tsys i{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
 .brandrow .tsys span{display:none}
-body.fs:not(.fsrail) .brandrow .tsys{flex-direction:row}
-body.fs:not(.fsrail) .brandrow .tsys i{display:none}
-body.fs:not(.fsrail) .brandrow .tsys span{display:inline}
+body.fs .brandrow .tsys{flex-direction:row}
+body.fs .brandrow .tsys i{display:none}
+body.fs .brandrow .tsys span{display:inline}
 
 /* MIX on tablets: more, slimmer channels instead of a few tall ones */
 @media (orientation:portrait) and (min-width:700px){
@@ -1087,3 +1090,10 @@ body.fs.fsrail.fsmix #s-mix .mastplate{width:176px}
   #s-mix .mastplate .mcomp{grid-column:1/-1}
   #s-mix .trkplate{padding-top:8px;padding-bottom:6px}
 }
+
+.chip.hist svg{display:block;margin:auto}
+
+/* SYS lives at the bottom of the side rail on tablets, so the drawer needs no second menu button */
+.nav .navsys{display:none}
+body.fs.fsrail .nav .navsys{display:block;margin-top:14px}
+body.fs.fsrail .brandrow .tsys{display:none}

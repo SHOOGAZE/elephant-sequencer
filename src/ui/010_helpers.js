@@ -8,6 +8,7 @@ function h(tag,props){
     (Array.isArray(c)?c:[c]).forEach(x=>{if(x==null||x===false)return;e.append(x.nodeType?x:document.createTextNode(T(x)))})}
   return e;
 }
+function icoBtn(cls,label,fn,svg){const b=h('button',{class:cls,'aria-label':label,onclick:fn});b.innerHTML=svg;return b}
 let VIB_OFF=false;try{VIB_OFF=localStorage.getItem('elephant-vib')==='0'}catch(e){}
 const setVib=off=>{VIB_OFF=off;try{localStorage.setItem('elephant-vib',off?'0':'1')}catch(e){}};
 const vib=ms=>{if(VIB_OFF)return;try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};

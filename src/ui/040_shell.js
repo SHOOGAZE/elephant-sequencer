@@ -20,13 +20,13 @@ function buildShell(){
     h('div',{class:'brandrow'},h('div',{class:'logo',text:'ELEPHANT'}),h('button',{class:'btn tsys','aria-label':'System settings',onclick:()=>go('sys')},h('i'),h('i'),h('i'),h('span',{text:'SYS'}))),
     h('div',{class:'oled'},h('div',{},h('div',{class:'l1',id:'ol1'}),h('div',{class:'l2',id:'ol2'}),h('div',{class:'l3',id:'ol3'})),scope),
     h('div',{class:'tr'},btnPlay,btnRec,btnFill,btnMet,h('div',{class:'bpm'},h('button',{text:'-',onclick:()=>setBpm(P().bpm-BPM_STEP),'aria-label':'Slower'}),bpmNum,h('button',{text:'+',onclick:()=>setBpm(P().bpm+BPM_STEP),'aria-label':'Faster'}))),
-    h('div',{class:'pr'},btnPat=h('button',{class:'btn patb','aria-label':'Patterns',onclick:openPatSheet}),h('button',{class:'btn tmore','aria-label':'More controls',text:'\u22EF',onclick:e=>{const tp=e.currentTarget.closest('.top');tp.classList.toggle('more');vib(6)}}),mvol=h('div',{class:'mvol'},h('span',{text:'VOL'}),HFader(()=>P().vol==null?1:P().vol,v=>{P().vol=v;fxChanged();oled('VOL '+Math.round(v*100)+'%','MASTER');dirty()})),h('button',{class:'chip hist tx','aria-label':'Undo',text:'UNDO',onclick:undo}),h('button',{class:'chip hist tx','aria-label':'Redo',text:'REDO',onclick:redo})));
+    h('div',{class:'pr'},btnPat=h('button',{class:'btn patb','aria-label':'Patterns',onclick:openPatSheet}),h('button',{class:'btn tmore','aria-label':'More controls',text:'\u22EF',onclick:e=>{const tp=e.currentTarget.closest('.top');tp.classList.toggle('more');vib(6)}}),mvol=h('div',{class:'mvol'},h('span',{text:'VOL'}),HFader(()=>P().vol==null?1:P().vol,v=>{P().vol=v;fxChanged();oled('VOL '+Math.round(v*100)+'%','MASTER');dirty()})),icoBtn('chip hist tx','Undo',undo,'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></svg>'),icoBtn('chip hist tx','Redo',redo,'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h3"/></svg>')));
   const screens=h('div',{class:'screens'},TABS.map(t=>h('div',{class:'screen',id:'s-'+t[0]})));
 const nav=h('nav',{class:'nav'},TABS.filter(t=>t[0]!=='smpl'&&t[0]!=='sys').map(t=>{
   const b=h('button',{'data-tab':t[0],'aria-label':t[1],onclick:()=>go(t[0])});
   b.textContent=T(t[1]);
   return b;
-}));
+}).concat([h('button',{class:'navsys','data-tab':'sys','aria-label':'System settings',text:'SYS',onclick:()=>go('sys')})]));
   const fsMenu=h('button',{class:'fsb fsmenu','aria-label':'Menu',onclick:()=>fsToggle()},h('i'),h('i'),h('i'));
   U.fsRec=h('button',{class:'fsb fsrec','aria-label':'Record',onclick:()=>btnRec.click()});U.fsRec.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="6.5" fill="currentColor"/></svg>';
   U.fsPlay=h('button',{class:'fsb fsplay','aria-label':'Play or stop',onclick:playToggle});U.fsPlay.innerHTML=FS_PLAY;

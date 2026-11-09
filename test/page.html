@@ -531,7 +531,7 @@ body{background:var(--body);font-variant-numeric:tabular-nums}
 .trigs .gc{aspect-ratio:1/1;min-height:0;position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:4px 5px;text-align:left}
 .trigs .gc i{font:700 10px var(--font-ui);font-style:normal;color:var(--dim);letter-spacing:.04em}
 .trigs .gc.on i{color:#0a0a0a99}
-.trigs .gc small{font:700 9px var(--font-ui);align-self:flex-end;color:#0a0a0a}
+.trigs .gc small{position:static;font:700 9px var(--font-ui);align-self:flex-end;color:#0a0a0a}
 .trigs .gc.out{opacity:.25}
 .trigs .gc.alt::after{content:"";position:absolute;right:4px;top:4px;width:4px;height:4px;background:#0a0a0a}
 .trigs .gc.lk::before{content:"";position:absolute;left:4px;right:4px;bottom:3px;height:2px;background:#0a0a0a}
@@ -1049,21 +1049,24 @@ body.fs #s-fx .kgrid{gap:14px 6px}
 }
 
 /* tablet and desktop held sideways: the tabs stay in a permanent left rail; the menu button keeps the rarely used controls (BPM, pattern, undo) */
-body.fs.fsrail #app{padding-left:calc(max(6px,env(safe-area-inset-left,0px)) + 116px)}
-body.fs.fsrail .nav, body.fs.fsrail.fsopen .nav{display:flex;flex-direction:column;gap:2px;position:fixed;z-index:30;left:max(6px,env(safe-area-inset-left,0px));top:62px;bottom:auto;width:104px;padding:4px 0;background:transparent;border:0;border-right:1px solid var(--line)}
-body.fs.fsrail .nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em}
-body.fs.fsrail .nav button.on{background:#151515}
-body.fs.fsrail .nav button.on::before{left:0;right:auto;top:8px;bottom:8px;width:2px;height:auto}
-body.fs.fsrail.fsopen .top{padding-left:calc(max(8px,env(safe-area-inset-left,0px)) + 56px)}
+body.fs.fsrail #app{padding-left:calc(max(6px,env(safe-area-inset-left,0px)) + 120px)}
+body.fs.fsrail .nav, body.fs.fsrail.fsopen .nav{display:flex;flex-direction:column;gap:4px;position:fixed;z-index:30;left:max(6px,env(safe-area-inset-left,0px));top:62px;bottom:auto;width:108px;padding:0;background:transparent;border:0}
+body.fs.fsrail .nav button{min-height:46px;text-align:left;padding:0 14px;font-size:11px;letter-spacing:.18em;border:1px solid #1c1c1c;border-radius:3px}
+body.fs.fsrail .nav button.on{background:#121212;border-color:#2c2c2c}
+body.fs.fsrail .nav button.on::before{display:none}
+body.fs.fsrail.fsopen .nav{z-index:65}
+body.fs.fsrail.fsopen .top{left:auto;right:0;border-right:0;border-left:1px solid var(--line);padding-left:12px}
+body.fs.fsrail .fsmenu{position:fixed;right:max(8px,env(safe-area-inset-right,0px));top:10px}
+body.fs.fsrail.fsopen .fsmenu{z-index:80}
 body.fsrail.fsseq:not(.fspanel){--sq:min(calc((100vw - 250px)/8 - 5px),calc((100vh - 150px)/2 - 4px))}
 
 /* ≡ menu button replaces the SYS word (phone landscape drawer keeps the word) */
 .brandrow .tsys{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-width:44px;padding:0 12px}
 .brandrow .tsys i{display:block;width:18px;height:2px;background:currentColor;border-radius:1px}
 .brandrow .tsys span{display:none}
-body.fs:not(.fsrail) .brandrow .tsys{flex-direction:row}
-body.fs:not(.fsrail) .brandrow .tsys i{display:none}
-body.fs:not(.fsrail) .brandrow .tsys span{display:inline}
+body.fs .brandrow .tsys{flex-direction:row}
+body.fs .brandrow .tsys i{display:none}
+body.fs .brandrow .tsys span{display:inline}
 
 /* MIX on tablets: more, slimmer channels instead of a few tall ones */
 @media (orientation:portrait) and (min-width:700px){
@@ -1091,6 +1094,13 @@ body.fs.fsrail.fsmix #s-mix .mastplate{width:176px}
   #s-mix .mastplate .mcomp{grid-column:1/-1}
   #s-mix .trkplate{padding-top:8px;padding-bottom:6px}
 }
+
+.chip.hist svg{display:block;margin:auto}
+
+/* SYS lives at the bottom of the side rail on tablets, so the drawer needs no second menu button */
+.nav .navsys{display:none}
+body.fs.fsrail .nav .navsys{display:block;margin-top:14px}
+body.fs.fsrail .brandrow .tsys{display:none}
 
 </style>
 <div id="app"></div>
@@ -1954,6 +1964,7 @@ function h(tag,props){
     (Array.isArray(c)?c:[c]).forEach(x=>{if(x==null||x===false)return;e.append(x.nodeType?x:document.createTextNode(T(x)))})}
   return e;
 }
+function icoBtn(cls,label,fn,svg){const b=h('button',{class:cls,'aria-label':label,onclick:fn});b.innerHTML=svg;return b}
 let VIB_OFF=false;try{VIB_OFF=localStorage.getItem('elephant-vib')==='0'}catch(e){}
 const setVib=off=>{VIB_OFF=off;try{localStorage.setItem('elephant-vib',off?'0':'1')}catch(e){}};
 const vib=ms=>{if(VIB_OFF)return;try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};
@@ -2221,13 +2232,13 @@ function buildShell(){
     h('div',{class:'brandrow'},h('div',{class:'logo',text:'ELEPHANT'}),h('button',{class:'btn tsys','aria-label':'System settings',onclick:()=>go('sys')},h('i'),h('i'),h('i'),h('span',{text:'SYS'}))),
     h('div',{class:'oled'},h('div',{},h('div',{class:'l1',id:'ol1'}),h('div',{class:'l2',id:'ol2'}),h('div',{class:'l3',id:'ol3'})),scope),
     h('div',{class:'tr'},btnPlay,btnRec,btnFill,btnMet,h('div',{class:'bpm'},h('button',{text:'-',onclick:()=>setBpm(P().bpm-BPM_STEP),'aria-label':'Slower'}),bpmNum,h('button',{text:'+',onclick:()=>setBpm(P().bpm+BPM_STEP),'aria-label':'Faster'}))),
-    h('div',{class:'pr'},btnPat=h('button',{class:'btn patb','aria-label':'Patterns',onclick:openPatSheet}),h('button',{class:'btn tmore','aria-label':'More controls',text:'\u22EF',onclick:e=>{const tp=e.currentTarget.closest('.top');tp.classList.toggle('more');vib(6)}}),mvol=h('div',{class:'mvol'},h('span',{text:'VOL'}),HFader(()=>P().vol==null?1:P().vol,v=>{P().vol=v;fxChanged();oled('VOL '+Math.round(v*100)+'%','MASTER');dirty()})),h('button',{class:'chip hist tx','aria-label':'Undo',text:'UNDO',onclick:undo}),h('button',{class:'chip hist tx','aria-label':'Redo',text:'REDO',onclick:redo})));
+    h('div',{class:'pr'},btnPat=h('button',{class:'btn patb','aria-label':'Patterns',onclick:openPatSheet}),h('button',{class:'btn tmore','aria-label':'More controls',text:'\u22EF',onclick:e=>{const tp=e.currentTarget.closest('.top');tp.classList.toggle('more');vib(6)}}),mvol=h('div',{class:'mvol'},h('span',{text:'VOL'}),HFader(()=>P().vol==null?1:P().vol,v=>{P().vol=v;fxChanged();oled('VOL '+Math.round(v*100)+'%','MASTER');dirty()})),icoBtn('chip hist tx','Undo',undo,'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 010 12h-3"/></svg>'),icoBtn('chip hist tx','Redo',redo,'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 000 12h3"/></svg>')));
   const screens=h('div',{class:'screens'},TABS.map(t=>h('div',{class:'screen',id:'s-'+t[0]})));
 const nav=h('nav',{class:'nav'},TABS.filter(t=>t[0]!=='smpl'&&t[0]!=='sys').map(t=>{
   const b=h('button',{'data-tab':t[0],'aria-label':t[1],onclick:()=>go(t[0])});
   b.textContent=T(t[1]);
   return b;
-}));
+}).concat([h('button',{class:'navsys','data-tab':'sys','aria-label':'System settings',text:'SYS',onclick:()=>go('sys')})]));
   const fsMenu=h('button',{class:'fsb fsmenu','aria-label':'Menu',onclick:()=>fsToggle()},h('i'),h('i'),h('i'));
   U.fsRec=h('button',{class:'fsb fsrec','aria-label':'Record',onclick:()=>btnRec.click()});U.fsRec.innerHTML='<svg viewBox="0 0 24 24" width="26" height="26"><circle cx="12" cy="12" r="6.5" fill="currentColor"/></svg>';
   U.fsPlay=h('button',{class:'fsb fsplay','aria-label':'Play or stop',onclick:playToggle});U.fsPlay.innerHTML=FS_PLAY;
