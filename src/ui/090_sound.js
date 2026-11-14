@@ -183,8 +183,8 @@ R.sound=function(){U.ghost=null;U.gShow=false;U.hot=null;U.gAct=0;
         h('span',{class:'snav'},
           t.engine==='SAMP'?h('button',{class:'chip xs'+(ns0>1?' slon':''),text:'SLICE','aria-label':'Slice mode '+(ns0>1?'on':'off'),onclick:()=>{const L=lkIdx()>=0?lockObj(true):t.params,cur=dval(L[6]!=null?L[6]:t.params[6],5),mem=U.sliceMem||(U.sliceMem={});if(cur>0){mem[t.slot]=cur;L[6]=0}else{const k=mem[t.slot]||3;L[6]=(k+.5)/5;L[7]=.5/[1,2,4,8,16][k]}dirty();vib(6);R.sound()}}):null,
           h('button',{class:'chip xs'+(t.cmp&&t.cmp.on?' on':''),text:'COMP',onclick:openCompSheet}),
-          h('button',{class:'chip xs',text:'<','aria-label':'Previous track',onclick:()=>{U.tr=(U.tr+15)%16;U.step=-1;U.lockStep=-1;R.sound()}}),
-          h('button',{class:'chip xs',text:'>','aria-label':'Next track',onclick:()=>{U.tr=(U.tr+1)%16;U.step=-1;U.lockStep=-1;R.sound()}})),
+          icoBtn('chip xs','Previous track',()=>{U.tr=(U.tr+15)%16;U.step=-1;U.lockStep=-1;R.sound()},'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>'),
+          icoBtn('chip xs','Next track',()=>{U.tr=(U.tr+1)%16;U.step=-1;U.lockStep=-1;R.sound()},'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>')),
         sampSeg('sound'),
         h('button',{class:'chip or sndpick',text:'SOUND ▾',onclick:()=>openSndSheet(U.tr)})),
       modTray(),h('div',{class:'stabs'},
@@ -209,7 +209,7 @@ function renderCompSheet(){
   cmpSheet.replaceChildren(h('div',{class:'pcard'},
     h('h3',{},h('span',{text:'COMP  T'+(U.tr+1)+' '+trackLabel(U.tr)}),h('span',{},
       h('button',{class:'chip xs'+(c.on?' on':''),text:c.on?'ON':'OFF',onclick:()=>{c.on=c.on?0:1;apply();vib(8);renderCompSheet();if(U.tab==='sound')R.sound()}}),' ',
-      h('button',{class:'chip xs',text:'DONE',onclick:closeCompSheet}))),
+      icoBtn('chip xs','Close',closeCompSheet,'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>'))),
     h('div',{class:'kgrid',style:'margin-top:10px;grid-template-columns:repeat(5,1fr)'},CMPD.map((d,i)=>Knob({label:d[0],small:true,get:()=>c.v[i],set:v=>{c.v[i]=v;apply()},fmt:d[2],reset:()=>{c.v[i]=d[1];apply()}}))),
     h('div',{class:'note',text:'Compresses this track only, before its level and sends. Try it on the kick for more punch.'})));
 }

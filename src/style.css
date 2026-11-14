@@ -52,7 +52,7 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 .knob{display:flex;flex-direction:column;align-items:center;gap:3px;touch-action:none;outline:none;min-width:0}
 .knob .cap{transform:none}
 .knob:focus-visible .cap{box-shadow:0 3px 0 #0d0e0f,0 0 0 3px var(--blue)}
-.kl{font:700 9.5px var(--font-ui);letter-spacing:.1em;text-transform:uppercase;color:var(--ink2);text-align:center;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.kl{font:700 10px var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);text-align:center;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .kv{font:500 11px var(--font-mono);background:var(--oled);color:var(--amber);padding:1px 6px;border-radius:3px;min-width:46px;text-align:center;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 /* sequencer */
 /* sound */
@@ -427,7 +427,7 @@ html{--z:1}
   .tr, .pr{display:contents}
   #btnplay{grid-column:span 4}
   .tr>.btn:nth-child(2){grid-column:span 4}
-  .tr>.bpm{grid-column:span 8;min-height:40px;grid-template-columns:28px 1fr 28px}
+  .tr>.bpm{grid-column:span 8;min-height:40px;grid-template-columns:38px 1fr 38px}
   .pr>.patb{grid-column:span 4;padding:0;font-size:11px;letter-spacing:.06em;min-height:40px}
   .pr>.tmore{display:block;grid-column:span 4;padding:0;min-height:40px;font-size:18px;line-height:1}
   .top.more .tmore{background:var(--orange);color:#fff}
@@ -1097,3 +1097,54 @@ body.fs.fsrail.fsmix #s-mix .mastplate{width:176px}
 .nav .navsys{display:none}
 body.fs.fsrail .nav .navsys{display:block;margin-top:14px}
 body.fs.fsrail .brandrow .tsys{display:none}
+
+/* glass: a lens over the displays (gradients only, cheap on iPhone) */
+@property --gx{syntax:'<percentage>';inherits:true;initial-value:30%}
+@property --gy{syntax:'<percentage>';inherits:true;initial-value:-8%}
+.glass{position:relative;--gx:30%;--gy:-8%;transition:--gx .3s ease-out,--gy .3s ease-out}
+div.glass:not(.glass-flat){border-radius:6px;box-shadow:0 0 0 3px #0c0c0c,0 0 0 4px #000,0 1px 0 4px rgba(255,255,255,.07)}
+.glass::after{content:"";position:absolute;inset:1px;border-radius:inherit;pointer-events:none;z-index:2;
+  border:1px solid rgba(255,255,255,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 0 22px rgba(255,255,255,.03);
+  background:radial-gradient(60% 90% at var(--gx) var(--gy),rgba(255,255,255,.13),rgba(255,255,255,0) 70%),
+    linear-gradient(112deg,rgba(255,255,255,.07) 0,rgba(255,255,255,.02) 34%,rgba(255,255,255,0) 35%,rgba(255,255,255,0) 62%,rgba(255,255,255,.03) 63%,rgba(255,255,255,0) 80%)}
+.glass::before{content:"";position:absolute;left:8px;right:8px;top:2px;height:1px;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4) var(--gx),transparent 90%)}
+@media (prefers-reduced-motion:reduce){.glass{transition:none}}
+
+/* interface levels: simple hides the FX tab, p-locks, the mod strip and extra sound pages; seq only also hides the pads */
+body.simple .nav button[data-tab="fx"], body.simple .plk, body.simple .lkstrip, body.simple .lkinfo, body.simple .modtray, body.simple .eplk,
+body.simple .ptabs .chip:nth-child(n+3), body.simple .stpop .spp:last-child{display:none!important}
+body.seqonly .nav button[data-tab="play"]{display:none!important}
+body.simple .nav{grid-template-columns:repeat(4,1fr)}
+body.seqonly .nav{grid-template-columns:repeat(3,1fr)}
+body.simple.fs.fsrail .nav, body.simple .nav.rail{grid-template-columns:none}
+.mixfx{margin-top:10px}
+
+/* seating: displays sit in a double rim, main buttons catch a thin light on top */
+.oled{box-shadow:inset 0 2px 6px #000c,0 0 0 3px #0c0c0c,0 0 0 4px #000,0 1px 0 4px rgba(255,255,255,.07)}
+.btn,.pad,.nav button{box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.btn.on,.pad.on{box-shadow:none}
+
+/* page switch: compact chips, the current page is marked by an underline instead of a white fill */
+.pager .chip.xs.grow{flex:0 0 auto;min-width:40px;padding-left:12px;padding-right:12px}
+.pager .chip.xs.on{background:#171717;color:#fff;box-shadow:inset 0 -2px 0 #e8e8e8,inset 0 1px 0 rgba(255,255,255,.07)}
+
+
+/* folded phones: keep both tempo buttons on screen */
+@media(max-width:330px){.bpm{grid-template-columns:24px minmax(0,1fr) 24px!important}}
+
+/* DOT TEXT: the source element stays in the page for readers and tests but takes no room; a canvas shows the dots */
+.dotsrc{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;white-space:nowrap!important;margin:0!important;padding:0!important;border:0!important}
+.dotcv{display:block;flex:none;max-width:100%}
+.oled .dotcv{align-self:flex-start;margin-left:0;margin-right:auto}
+
+/* unified OLED panel (same box in GRAINS, ELEPHANT, BEHEMOTH): caption, dot name, scope on the right */
+body:not(.fsopen) .top .oled{height:56px;min-height:0;padding:0 10px;grid-template-columns:minmax(0,1fr) 112px;align-items:center;background:#050505 radial-gradient(rgba(255,255,255,.05) 1px,transparent 1.2px) 0 0/4px 4px}
+body:not(.fsopen) .top .oled>div:first-child{display:flex;flex-direction:column;gap:3px;justify-content:center;align-items:flex-start;text-align:left}
+body:not(.fsopen) .top .oled .l1{font-size:9.5px;line-height:12px;letter-spacing:.1em}
+body:not(.fsopen) .top .oled .l2{line-height:0;margin:0}
+body:not(.fsopen) .top .oled .l3{display:none}
+body:not(.fsopen) .top .oled canvas{width:112px;height:40px;margin:0;align-self:center}
+@media (min-width:820px){body:not(.fsopen) .top .oled{height:64px;grid-template-columns:minmax(0,1fr) 140px}body:not(.fsopen) .top .oled canvas{width:140px;height:44px}}
+@media (max-width:360px){body:not(.fsopen) .top .oled{grid-template-columns:minmax(0,1fr) 72px}body:not(.fsopen) .top .oled canvas{width:72px}}
+.oled .dotcv{align-self:flex-start!important;margin:0!important}

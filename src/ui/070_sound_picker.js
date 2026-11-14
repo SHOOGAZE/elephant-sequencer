@@ -55,7 +55,7 @@ function renderSndSheet(){
     await catLoad();U.pickCat='mine';toast(n?n+' added to My files':'Could not read this file. Try wav, mp3 or m4a.');renderSndSheet();
   }});
   sndSheet.replaceChildren(h('div',{class:'pcard'},
-    h('h3',{},h('span',{text:'SOUND  T'+(ti+1)+'  '+(cur?cur.name:'EMPTY')}),h('button',{class:'chip xs',text:'DONE',onclick:closeSndSheet})),
+    h('h3',{},h('span',{text:'SOUND  T'+(ti+1)+'  '+(cur?cur.name:'EMPTY')}),icoBtn('chip xs','Close',closeSndSheet,'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>')),
     h('div',{class:'row nw cats'},cats.map(c=>h('button',{class:'chip grow xs'+(U.pickCat===c[0]?' on':''),text:c[1],onclick:()=>{U.pickCat=c[0];renderSndSheet()}}))),
     roles,body,
     U.pickCat==='mine'?h('button',{class:'chip or on',text:'ADD FROM PHONE',onclick:()=>{inp.value='';inp.click()}}):null,

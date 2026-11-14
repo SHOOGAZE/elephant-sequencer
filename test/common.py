@@ -2,7 +2,7 @@
 import os,sys
 from playwright.sync_api import sync_playwright
 D=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))+'/'
-INIT="sessionStorage.setItem('elephant-boot','1');localStorage.setItem('elephant-tour','1');localStorage.setItem('elephant-coach','all')"
+INIT="localStorage.setItem('elephant-ui','full');sessionStorage.setItem('elephant-boot','1');localStorage.setItem('elephant-tour','1');localStorage.setItem('elephant-coach','all')"
 class Run:
     def __init__(s,w=390,h=844,touch=False):
         s.p=sync_playwright().start()

@@ -7,7 +7,7 @@ function openPatSheet(){if(patSheet){closePatSheet();return}patSheet=h('div',{cl
 function renderPatSheet(){
   const Pj=P(),filled=i=>Pj.patterns[i].some(t=>t.some(s=>s.on));
   patSheet.replaceChildren(h('div',{class:'pcard'},
-    h('h3',{},h('span',{text:'PATTERNS'}),h('button',{class:'chip xs',text:'DONE',onclick:closePatSheet})),
+    h('h3',{},h('span',{text:'PATTERNS'}),icoBtn('chip xs','Close',closePatSheet,'<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>')),
     h('div',{class:'pgrid'},PATL.split('').map((l,i)=>h('button',{class:'pbtn'+(Pj.pat===i?' on':'')+(Pj.nextPat===i?' nx':'')+(filled(i)?' full':''),onclick:()=>pickPat(i)},h('b',{text:l}),h('small',{text:filled(i)?'':'EMPTY'})))),
     h('div',{class:'row nw'},
       h('button',{class:'chip grow or'+(Pj.song?' on':''),text:Pj.song?'SONG ON':'SONG OFF',onclick:()=>{

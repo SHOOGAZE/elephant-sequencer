@@ -12,11 +12,11 @@ function Knob(o){
   const trk=svg.querySelector('.trk'),val=svg.querySelector('.val'),ind=svg.querySelector('.ind');
   trk.setAttribute('d',karc(-135,135,24));
   const vv=h('div',{class:'kv'}),mg=svg.querySelector('.mods');
-  const el=h('div',{class:'knob'+(o.small?' sm':''),'data-dest':o.dest||null,role:'slider','aria-label':o.label,tabindex:'0'},svg,h('div',{class:'kl',text:o.label}),vv);
+  const el=h('div',{class:'knob'+(o.small?' sm':''),'data-dest':o.dest||null,role:'slider','aria-label':o.label,'aria-valuemin':'0','aria-valuemax':'100',tabindex:'0'},svg,h('div',{class:'kl',text:o.label}),vv);
   const draw=()=>{const v=o.get(),a=-135+v*270,z=o.bi?-135+135:-135;
     val.setAttribute('d',a>=z?karc(z,a,24):karc(a,z,24));
     const t=a*Math.PI/180;ind.setAttribute('x2',(32+13*Math.sin(t)).toFixed(2));ind.setAttribute('y2',(32-13*Math.cos(t)).toFixed(2));
-    modRings(mg,o.dest,v,o.bi);vv.textContent=T(o.fmt(v));el.classList.toggle('locked',!!(o.locked&&o.locked()))};
+    modRings(mg,o.dest,v,o.bi);vv.textContent=T(o.fmt(v));el.setAttribute('aria-valuenow',Math.round(v*100));el.setAttribute('aria-valuetext',vv.textContent);el.classList.toggle('locked',!!(o.locked&&o.locked()))};
   let sy=0,sx=0,sv=0,drag=false,last=0,rt=false,ra=0;
   el.addEventListener('pointerdown',e=>{
     e.preventDefault();try{el.setPointerCapture(e.pointerId)}catch(x){}

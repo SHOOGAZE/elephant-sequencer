@@ -36,12 +36,12 @@ Phone upright: PADS, SEQ, SAMPLE with its filter page, the wave pool, MIX, FX an
   <img src="screenshots/14-system-portrait.png" width="24%" alt="System, portrait">
 </p>
 
-The screenshots are made with Chromium at 2x (`python3 tools/shots.py`), without the web fonts, so the real app looks slightly different on a device that loads Hanken Grotesk and DM Mono.
+The screenshots are made with Chromium at 2x (`python3 tools/shots.py`). The app uses system fonts only and makes no network requests.
 
 ## Features
 
 **Sound**
-- 16 pads, each one a sampler track. The project starts empty: tap a pad to load a sample (LOADED, MY FILES, or ADD FROM PHONE), record from the microphone, or grab the master output
+- 16 pads, each one a sampler track. The project starts empty, with nine starter grooves one tap away (START FROM): tap a pad to load a sample (LOADED, MY FILES, or ADD FROM PHONE), record from the microphone, or grab the master output
 - Sampler: start and end, tune, loop, reverse, eight filter types (LP12, LP24, HP, BAND, NOTCH, LADDER, COMB, FORMANT), amp and filter envelopes, two LFOs
 - Slicing is a switch: SLICE is off by default (the wave is one region you trim with your fingers); turn it on to cut the sample into 2 to 16 slices and tap a slice to play it
 - Wave editor gestures: drag the two edges to trim, swipe to draw a region, pinch to zoom, drag to pan, double tap to reset
@@ -61,6 +61,8 @@ The screenshots are made with Chromium at 2x (`python3 tools/shots.py`), without
 - MIDI in: drum pads on channel 10 (notes 36-51) play the selected track, pitch bend and mod wheel are supported
 - Tabs: PADS, SEQ, SAMPLE (SOUND and WAVE pages), MIX, FX; the ≡ button (top right) opens SYS: settings, tutorial, backup
 - Step-by-step tutorial and tips (replay it from ≡)
+- Interface languages: English (default) and Russian; choose it on the SYS page (LANGUAGE)
+- Interface levels (SYS, INTERFACE): SIMPLE (default) shows PADS, SEQ, SAMPLE and MIX only, with SRC and FLT on the sample page and the master FX under the mixer; ADVANCED adds the FX tab, p-locks, the modulation strip and every sound page; SEQ ONLY is simple without the pads tab
 
 **Phones and tablets**
 - Landscape (phone and tablet): full-screen layout with one button row on top of every tab, big pads, a 32-step grid (tap a dim step to extend the pattern to it), an encoder column on the right, a swipeable mixer; zoom adapts to the tablet size

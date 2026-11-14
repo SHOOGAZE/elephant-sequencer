@@ -15,7 +15,7 @@ async function init(){
     if(hasClaudeDl()||!/^https?:$/.test(location.protocol))return;
     const url='__ICON192__',url512='__ICON512__';
     const m=document.createElement('link');m.rel='manifest';
-    m.href=URL.createObjectURL(new Blob([JSON.stringify({name:'ELEPHANT',short_name:'ELEPHANT',start_url:location.pathname,scope:location.pathname.replace(/[^/]*$/,''),display:'standalone',background_color:'#16181a',theme_color:'#16181a',icons:[{src:url,sizes:'192x192',type:'image/png',purpose:'any'},{src:url512,sizes:'512x512',type:'image/png',purpose:'any'}]})],{type:'application/manifest+json'}));
+    m.href=URL.createObjectURL(new Blob([JSON.stringify({name:'ELEPHANT',short_name:'ELEPHANT',description:'Sampler groovebox: 16 tracks, step sequencer and mixer',start_url:location.origin+location.pathname,scope:location.origin+location.pathname.replace(/[^/]*$/,''),display:'standalone',orientation:'any',background_color:'#0a0a0a',theme_color:'#0a0a0a',icons:[{src:url,sizes:'192x192',type:'image/png',purpose:'any'},{src:url512,sizes:'512x512',type:'image/png',purpose:'any'},{src:url512,sizes:'512x512',type:'image/png',purpose:'maskable'}]})],{type:'application/manifest+json'}));
     document.head.append(m);
     if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
   }catch(e){}

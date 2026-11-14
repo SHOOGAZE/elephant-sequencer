@@ -1,5 +1,5 @@
 /* ---------- hold a step: popup editor, swipe up/down = value, left/right = function ---------- */
-const SFN=[
+const SFN_ALL=[
  {n:'VEL',get:s=>s.vel,set:(s,v)=>{s.vel=Math.max(.02,v)},fmt:v=>Math.round(v*127)},
  {n:'NOTE',get:s=>(s.note+24)/48,set:(s,v)=>{s.note=Math.round(v*48-24)},fmt:v=>noteLabel(U.tr,Math.round(v*48-24))||'0'},
  {n:'MICRO',get:s=>(s.micro+12)/24,set:(s,v)=>{s.micro=Math.round(v*24-12)},fmt:v=>{const m=Math.round(v*24-12);return (m>0?'+':'')+m}},
@@ -8,6 +8,7 @@ const SFN=[
  {n:'RETRIG',get:s=>dnorm((s.rtg||1)-1,8),set:(s,v)=>{s.rtg=dval(v,8)+1},fmt:v=>'x'+(dval(v,8)+1)},
  {n:'P-LOCKS',lock:true}
 ];
+let SFN=U.ui==='full'?SFN_ALL:SFN_ALL.slice(0,6);
 function openStepPop(st,el,hd){
   if(!U.holdSeen){U.holdSeen=true;try{localStorage.setItem('elephant-hold','1')}catch(e){}}
   const r=el.getBoundingClientRect(),W=250,vw=window.innerWidth;
@@ -147,7 +148,7 @@ function seqEditor(pat){
       Knob({label:'RETRIG',small:isLandPhone(),disc:8,get:()=>dnorm((st.rtg||1)-1,8),set:v=>{st.rtg=dval(v,8)+1;dirty()},fmt:v=>'x'+(dval(v,8)+1),reset:()=>{st.rtg=1},end:()=>R.seq()})),
     h('div',{class:'row nw'},
       h('button',{class:'chip grow',text:'PREVIEW',onclick:()=>playNow(U.tr,st.note,st.vel,st.len)}),
-      h('button',{class:'chip grow or on',text:'EDIT P-LOCKS',onclick:()=>{U.lockStep=U.step;U.page=0;go('sound')}}),
+      h('button',{class:'chip grow or on eplk',text:'EDIT P-LOCKS',onclick:()=>{U.lockStep=U.step;U.page=0;go('sound')}}),
       h('button',{class:'chip grow',text:'CLEAR LOCKS',onclick:()=>{st.lock=null;dirty();R.seq()}})),
     h('div',{class:'row nw'},
       h('button',{class:'chip grow',text:'COPY STEP',onclick:()=>{U.stepClip=JSON.stringify(st);toast('Step '+(U.step+1)+' copied')}}),

@@ -32,6 +32,7 @@ R.mix=function(){
     h('div',{class:'mrow'},h('span',{class:'mcl',text:'OUT'}),mm),cmp);
   root.append(mast,h('div',{class:'plate trkplate'},h('h3',{},h('span',{text:'TRACK LEVELS'}),h('span',{text:T('TRACK ')+(U.tr+1)+' '+T('SELECTED')})),wide?null:h('div',{class:'row nw',style:'gap:6px'},chipRow(['1 - 8','9 - 16'],i=>mp===i,i=>{U.mixPage=i;R.mix()},'grow')),strips,acts,
     h('div',{class:'note',text:'M mutes a track, S solos it. SC sets how much the track ducks when the kick hits. Pan, sends, drive and crush are on the MIX page of SOUND.'})));
+  U.fxRoot=null;if(U.ui!=='full'){const fr=h('div',{class:'mixfx'});root.append(fr);U.fxRoot=fr;R.fx()}
   if(fsWant()){strips.addEventListener('scroll',()=>{U.mixSX=strips.scrollLeft},{passive:true});const sx=U.mixSX||0;strips.scrollLeft=sx;requestAnimationFrame(()=>{strips.scrollLeft=sx})}
 };
 

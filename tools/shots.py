@@ -24,7 +24,7 @@ async def main():
         for name,W,H,tab,pre,js in S:
             c=await b.new_context(viewport={'width':W,'height':H},device_scale_factor=2)
             pg=await c.new_page();await pg.route('**/fonts.g*/**',lambda r:r.abort())
-            await pg.add_init_script("sessionStorage.setItem('elephant-boot','1');localStorage.setItem('elephant-tour','1');localStorage.setItem('elephant-coach','all')")
+            await pg.add_init_script("sessionStorage.setItem('elephant-boot','1');localStorage.setItem('elephant-ui','full');localStorage.setItem('elephant-tour','1');localStorage.setItem('elephant-coach','all')")
             await pg.goto('file://'+D+'index.html');await pg.wait_for_timeout(700)
             await pg.evaluate("GR.loadPreset(%d);GRUI.renderTab();GRUI.A.playing=false"%pre)
             await pg.evaluate(f"GRUI.go('{tab}')");await pg.wait_for_timeout(300)

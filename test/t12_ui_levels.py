@@ -1,0 +1,18 @@
+"""Interface levels: simple hides FX tab, p-locks and the mod strip and puts FX under the mixer; seq hides the pads; full restores all."""
+from common import *
+r=Run(touch=True)
+vis=lambda sel:r.ev("(()=>{const e=document.querySelector(%r);return !!e&&e.offsetParent!==null})()"%sel)
+check('full: FX tab visible',vis('.nav button[data-tab="fx"]'))
+r.ev("GRUI.setUi('simple')");r.go('sound')
+check('simple: FX tab hidden',not vis('.nav button[data-tab="fx"]'))
+check('simple: P-LOCKS button hidden',not vis('.plk'))
+check('simple: mod strip hidden',not vis('.modtray'))
+check('simple: only two sound pages shown',r.ev("[...document.querySelectorAll('.ptabs .chip')].filter(e=>e.offsetParent).length")==2)
+r.go('mix')
+check('simple: master FX sit under the mixer',r.ev("!!document.querySelector('#s-mix .mixfx .fxtabs')"))
+r.ev("GRUI.setUi('seq')")
+check('seq only: pads tab hidden',not vis('.nav button[data-tab="play"]'))
+r.ev("GRUI.setUi('full')");r.go('fx')
+check('full: FX tab works again',vis('.nav button[data-tab="fx"]') and r.ev("!!document.querySelector('#s-fx .fxtabs')"))
+check('full: mixer has no embedded FX',r.ev("(GRUI.go('mix'),!document.querySelector('#s-mix .mixfx'))"))
+r.close();done()

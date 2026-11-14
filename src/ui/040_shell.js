@@ -1,8 +1,17 @@
 /* ---------- shell ---------- */
 const TABS=[['play','PADS'],['seq','SEQ'],['sound','SAMPLE'],['mix','MIX'],['fx','FX'],['smpl','WAVE'],['sys','SYS']];
+/* interface level: simple (no FX tab, p-locks, mod strip), full, or seq (simple without the pads tab) */
+U.ui=(()=>{try{const v=localStorage.getItem('elephant-ui');return v==='full'||v==='seq'?v:'simple'}catch(e){return 'simple'}})();
+function applyUi(){document.body.classList.toggle('simple',U.ui!=='full');document.body.classList.toggle('seqonly',U.ui==='seq')}
+function setUi(v){
+  U.ui=v;try{localStorage.setItem('elephant-ui',v)}catch(e){}
+  applyUi();SFN=v==='full'?SFN_ALL:SFN_ALL.slice(0,6);
+  if(v!=='full'){U.page=Math.min(U.page||0,1);U.lockStep=-1;U.lockOpen=false}
+  if(v!=='full'&&U.tab==='fx')go('mix');else if(v==='seq'&&U.tab==='play')go('seq');else renderTab();
+}
 let btnPlay,btnRec,btnFill,btnMet,bpmNum,scope,sc2,anBuf;
 function buildShell(){
-  const app=$('#app');app.replaceChildren();
+  applyUi();const app=$('#app');app.replaceChildren();
   btnPlay=h('button',{class:'btn',id:'btnplay',text:'PLAY',onclick:playToggle});
   btnRec=h('button',{class:'btn',text:'REC',onclick:()=>{A.rec=!A.rec;syncTransport();vib(10)}});
   btnFill=h('button',{class:'btn tx',text:'FILL'});
@@ -33,7 +42,7 @@ const nav=h('nav',{class:'nav'},TABS.filter(t=>t[0]!=='smpl'&&t[0]!=='sys').map(
   U.fsPanelBtn=h('button',{class:'fsb fspanelbtn','aria-label':'Sound and step panel',onclick:()=>fsPanelToggle()});
   U.fsPanelBtn.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h9M17 7h3M4 17h3M11 17h9M4 12h16"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>';
   app.append(top,screens,nav,h('div',{class:'fsstrip'},fsMenu,U.fsPlay,U.fsRec,U.fsPanelBtn,U.fsInfo=h('span',{class:'fsinfo'})),h('div',{class:'fsscrim',onclick:()=>fsToggle(false)}),h('div',{class:'brand-l'},h('span',{text:'elephant'}),h('i'),h('small',{text:'16 PAD SAMPLER'})));
-  if(!$('#toast'))document.body.append(h('div',{class:'toast',id:'toast',hidden:true}));
+  if(!$('#toast'))document.body.append(h('div',{class:'toast',id:'toast',role:'status',hidden:true}));
   U.fileEl=h('input',{type:'file',accept:'audio/*,.wav,.mp3,.m4a,.aif,.aiff,.flac,.ogg',multiple:true,style:'display:none',onchange:onFile});
   document.body.append(U.fileEl);
   U.projEl=h('input',{type:'file',accept:'.json,.elephant,application/json',style:'display:none',onchange:async()=>{
@@ -61,7 +70,7 @@ function fsToggle(v){const o=v==null?!document.body.classList.contains('fsopen')
 function go(tab){killStepPops();{const cur=document.querySelector('.screen.on');if(cur){U.scr=U.scr||{};U.scr[cur.id]=cur.scrollTop}}
   /* arriving on PLAY from another tab: synth and FM tracks open the keys, drums and samples the pads (not on a phone held sideways, where keys fill the screen) */
   U.tab=tab;fsApply();document.body.classList.remove('fsopen');
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===(tab==='smpl'?'sound':tab)));
+  document.querySelectorAll('.nav button').forEach(b=>{const on=b.dataset.tab===(tab==='smpl'?'sound':tab);b.classList.toggle('on',on);b.setAttribute('role','tab');b.setAttribute('aria-selected',on?'true':'false')});
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id==='s-'+tab));
   renderTab();
   {const s=document.getElementById('s-'+tab),y=(U.scr||{})[s.id]||0;if(y){s.scrollTop=y;requestAnimationFrame(()=>{s.scrollTop=y})}}

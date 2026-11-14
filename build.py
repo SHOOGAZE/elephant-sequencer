@@ -12,8 +12,11 @@ ui="'use strict';\n/* ELEPHANT UI */\n(function(){\n"+parts('ui')+"})();\n"
 css=open(d+'src/style.css').read();i18n=open(d+'src/i18n.js').read()
 ui=ui.replace('__ICON192__',icon(192)).replace('__ICON512__',icon(512)).replace('__ICON180__',icon(180))
 body=f'''<title>ELEPHANT</title>
+<meta name="description" content="Sampler groovebox for the browser: 16 tracks, step sequencer and mixer. One HTML file, works offline.">
+<meta property="og:title" content="ELEPHANT">
+<meta property="og:description" content="Sampler groovebox for the browser: 16 tracks, step sequencer and mixer. One HTML file, works offline.">
+<meta property="og:type" content="website">
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" media="print" onload="this.media='all'" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap">
 <style>
 {css}
 </style>

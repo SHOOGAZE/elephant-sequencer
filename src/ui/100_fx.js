@@ -4,7 +4,7 @@ function fxViz(cv,name,v){
   const r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1,w=Math.max(40,Math.floor(r.width*d)),hh=Math.max(40,Math.floor(r.height*d));
   if(cv.width!==w||cv.height!==hh){cv.width=w;cv.height=hh}
   const c=cv.getContext('2d'),fg=getComputedStyle(cv).color||'#888',OR='#dcd8d1',on=!(P().fx.off&&P().fx.off[name]);
-  c.clearRect(0,0,w,hh);c.lineWidth=1.5*d;c.font=(9*d)+'px "DM Mono",monospace';c.textBaseline='top';
+  c.clearRect(0,0,w,hh);c.lineWidth=1.5*d;c.font=(9*d)+'px ui-monospace,Menlo,Consolas,monospace';c.textBaseline='top';
   const pad=6*d,X=t=>pad+t*(w-2*pad),Y=t=>hh-pad-t*(hh-2*pad-10*d);
   const grid=(n)=>{c.save();c.globalAlpha=.16;c.strokeStyle=fg;c.lineWidth=d;for(let i=0;i<=n;i++){c.beginPath();c.moveTo(X(i/n),Y(0));c.lineTo(X(i/n),Y(1));c.stroke()}c.restore()};
   const txt=(s,x,y,al)=>{c.save();c.fillStyle=fg;c.globalAlpha=.7;c.textAlign=al||'left';c.fillText(s,x,y);c.restore()};
@@ -48,7 +48,7 @@ function fxViz(cv,name,v){
   c.globalAlpha=1;
 }
 R.fx=function(){
-  const root=$('#s-fx');root.replaceChildren();const name=U.fxTab,defs=FXD.FXDEF[name],vals=P().fx[name],dflt=FXD.defaultFx()[name];
+  const root=U.fxRoot&&U.fxRoot.isConnected?U.fxRoot:$('#s-fx');root.replaceChildren();const name=U.fxTab,defs=FXD.FXDEF[name],vals=P().fx[name],dflt=FXD.defaultFx()[name];
   const cv=h('canvas',{class:'fxviz'}),draw=()=>{if(cv.isConnected)fxViz(cv,name,vals)};U.fxDraw=draw;U.fxLive=name==='comp'?draw:null;const fxOff=P().fx.off||(P().fx.off={});requestAnimationFrame(draw);
   const tabs=h('div',{class:'fxtabs'},FXD.FX_ORDER.map(n=>h('button',{class:'chip'+(n===name?' on':'')+(fxOff[n]?' fxo':''),text:FXD.FX_TITLE[n],onclick:()=>{U.fxTab=n;vib(6);R.fx()}})));
   const knobs=h('div',{class:'kgrid'},defs.map((d,i)=>Knob({
